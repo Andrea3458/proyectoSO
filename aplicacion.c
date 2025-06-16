@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <syslog.h>
+#include "leerLogs.h"
 
 void verificar_archivo() {
 	if (access("./proy1.ini", F_OK) != 0) {
@@ -38,12 +39,20 @@ void crear_daemon() {
 		close(STDIN_FILENO); 
 		close(STDOUT_FILENO);
 		close(STDERR_FILENO);
+
+		// Logica principal del demonio
+		while(1) {
+			Leerlogs();
+			sleep(30);
+		}
 }
+
 
 int main() {
 
 	verificar_archivo();
 	crear_daemon();
+
 
 	return 0;
 }

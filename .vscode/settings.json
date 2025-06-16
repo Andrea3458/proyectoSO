@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "leerlogs.h": "c",
+        "verificarlogs.h": "c",
+        "string.h": "c"
+    }
+}
