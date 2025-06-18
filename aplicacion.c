@@ -1,9 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
 #include <syslog.h>
-#include "leerLogs.h"
+#include "./leer_archivo.h"
 
 void verificar_archivo() {
 	if (access("./proy1.ini", F_OK) != 0) {
@@ -40,19 +36,40 @@ void crear_daemon() {
 		close(STDOUT_FILENO);
 		close(STDERR_FILENO);
 
-		// Logica principal del demonio
-		while(1) {
-			Leerlogs();
-			sleep(30);
-		}
+		// // Logica principal del demonio
+		// while(1) {
+		// 	Leerlogs();
+		// 	sleep(30);
+		// }
 }
 
 
 int main() {
 
-	verificar_archivo();
-	crear_daemon();
+	openlog("PP", LOG_PID | LOG_CONS, LOG_DAEMON);
+	syslog(LOG_INFO, "Si funciona el log");
+	closelog();
 
+	char log_tag[128];
+    int intervalo;
 
-	return 0;
+    leer_archivo(log_tag, &intervalo);
+    crear_daemon();
+    openlog(log_tag, LOG_PID | LOG_CONS, LOG_DAEMON);
+
+    syslog(LOG_INFO, "Demonio iniciado correctamente con etiqueta de log: %s", log_tag);
+    syslog(LOG_INFO, "El intervalo de revisión es de %d segundos.", intervalo); 
+
+    while(1){
+        syslog(LOG_INFO, "Realizando revisión del directorio /var/log...");
+
+        
+        //Resto de la implementacion
+
+        sleep(intervalo);
+    }
+
+    closelog();    
+    
+    return 0;
 }

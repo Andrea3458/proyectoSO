@@ -2,6 +2,7 @@
     "files.associations": {
         "leerlogs.h": "c",
         "verificarlogs.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "manipular_logs.h": "c"
     }
 }
