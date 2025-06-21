@@ -9,7 +9,7 @@
 ### END INIT INFO
 
 # Sustituya "proy1" por el nombre del ejecutable de su proyecto.
-SERVNAME=proy1
+SERVNAME=aplicacion
 
 start() {
     PID=`pidof $SERVNAME`
