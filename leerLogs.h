@@ -23,8 +23,11 @@ void Leerlogs() {
         // AGREGAR COMPROBACION POR SI STRRCHR RETORNA NULL
         if(archivo->d_type == DT_REG  && strcmp(strrchr(archivo->d_name, '.'), ".gz") == 0) {
 
-            pid_t pid = fork();
+            
             int pipe_message[2];
+            pipe(pipe_message);
+            
+            pid_t pid = fork();
             
             if (pid == 0) {
                 close(pipe_message[0]); // 0 es el extremo de lectura

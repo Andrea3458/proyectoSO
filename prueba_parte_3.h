@@ -53,7 +53,6 @@ int main(){
     int intervalo;
 
     leer_archivo(log_tag, &intervalo);
-    crear_daemon();
     openlog(log_tag, LOG_PID | LOG_CONS, LOG_DAEMON);
 
     syslog(LOG_INFO, "Demonio iniciado correctamente con etiqueta de log: %s", log_tag);

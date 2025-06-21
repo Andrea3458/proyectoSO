@@ -1,5 +1,9 @@
 //Codigo
 
-void ayuda(){
-    Pakheader header;
+void cabecera() {
+
+}
+
+void empaquetar() {
+    
 }

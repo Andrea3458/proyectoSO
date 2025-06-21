@@ -3,6 +3,7 @@
         "leerlogs.h": "c",
         "verificarlogs.h": "c",
         "string.h": "c",
-        "manipular_logs.h": "c"
+        "manipular_logs.h": "c",
+        "dirent.h": "c"
     }
 }
