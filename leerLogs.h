@@ -21,12 +21,12 @@ void Leerlogs() {
     while((archivo = readdir(dir)) != NULL) {
 
         // AGREGAR COMPROBACION POR SI STRRCHR RETORNA NULL
-        if(archivo->d_type == DT_REG  && strcmp(strrchr(archivo->d_name, '.'), ".gz") == 0) {
+        if(archivo->d_type == DT_REG  && strcmp(strrchr(archivo->d_name, '.'), ".gz") != 0) {
 
             
             int pipe_message[2];
             pipe(pipe_message);
-            
+
             pid_t pid = fork();
             
             if (pid == 0) {
