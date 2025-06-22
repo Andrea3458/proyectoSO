@@ -24,7 +24,7 @@ start() {
     echo "Starting $SERVNAME"
     runuser -l daemon_user -c "$SERVNAME &"
 
-    if [$? -eq 0]; then
+    if [ $? -eq 0 ]; then
         echo $! > /var/run/$SERVNAME.pid
         logger -t $SERVNAME "Starting (PID $!)."
         return 0
@@ -35,7 +35,7 @@ start() {
 }
 
 stop() {
-    [ -f /var/run/$SERVNAME.pid] || {echo "FAILED: $SERVNAME is not running"; return 1;}
+    [ -f /var/run/$SERVNAME.pid ] || {echo "FAILED: $SERVNAME is not running"; return 1;}
 
     PID=`pidof $SERVNAME`
     echo "Stopping $SERVNAME. (PID $PID)..."
@@ -43,7 +43,7 @@ stop() {
     kill -TERM $PID
     for i in {1..5}; 
     do
-        [ ! -d /proc/$PID] && break
+        [ ! -d /proc/$PID ] && break
         sleep 2
     done
 
