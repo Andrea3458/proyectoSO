@@ -1,30 +1,4 @@
-#include <time.h>
-#include <stdlib.h>
-#include <syslog.h>
-#include <stdio.h>   
-#include <dirent.h>
-#include <sys/stat.h> 
-#include <sys/wait.h>
-#include <unistd.h>  
-#include <string.h> 
-#include "stdint.h"
-#include <errno.h>
-
-#define BUFFER_SIZE 512
-
-typedef struct {
-
-    char nombre[BUFFER_SIZE];
-    char resultadoMd5[33];
-
-} archivoHash;
-
-
-typedef struct {
-    char nombre[32];
-    int64_t bytes;
-} pak_cabecera;
-
+#include "./empaquetarArchivos.h"
 
 
 // obtener fecha y hora
@@ -41,7 +15,7 @@ void tiempo(char* fecha_hora) {
 // recibe la lista de archivos modificados
 void empaquetar(const archivoHash** archivos, int num_archivos, char* nombre_pak) {
        
-    char fecha_hora[20];
+    char fecha_hora[30];
     tiempo(fecha_hora);
     
     // crear el nombre del archivo en la ruta especificada y el formato de fecha-hora
@@ -109,48 +83,15 @@ void comprimir_pak(const char* nombre) {
         waitpid(pid, &status, 0);
         
         if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
+            syslog(LOG_INFO, "Paquete comprimido correctamente.");
             // comprimido correctamente
         } else {
+            syslog(LOG_ERR, "Error: No se pudo comprimir el paquete correctamente.");
             // error comprimir
         }
 
     } else if (pid < 0) {
+        syslog(LOG_ERR, "Error: No se pudo crear proceso hijo.");
         // error creando hijo
     }
-}
-
-int main(){
-
-    char fecha_hora[30];
-    char nombre_pak[100];
-    char* directorio = "/var/log/PROYECTO SO 1";
-
-    if(mkdir(directorio, 0755) == 0){
-		syslog(LOG_INFO, "Se creo exitosamente el directorio PROYECTO SO 1.");
-	}
-	else{
-		if(errno == EEXIST){
-			syslog(LOG_ERR, "Error: el directorio PROYECTO SO 1 ya existe.");
-		}
-		else{
-			syslog(LOG_ERR, "Error: error desconocido al intentar crear directorio PROYECTO SO 1.");
-		}
-	}
-
-    archivoHash* hasesh = NULL;
-    hasesh = (archivoHash*)realloc(hasesh, (1)*sizeof(archivoHash));
-    hasesh = (archivoHash*)realloc(hasesh, (2)*sizeof(archivoHash));
-    hasesh = (archivoHash*)realloc(hasesh, (3)*sizeof(archivoHash));
-    hasesh = (archivoHash*)realloc(hasesh, (4)*sizeof(archivoHash));
-    sprintf(hasesh[0].nombre, "syslog.1");
-    sprintf(hasesh[1].nombre, "btmp.1");
-    sprintf(hasesh[2].nombre, "auth.log");
-    sprintf(hasesh[3].nombre, "kern.log");
-    
-    tiempo(fecha_hora);
-    printf("%s", fecha_hora);
-    empaquetar(&hasesh, 4, nombre_pak);
-    comprimir_pak(nombre_pak);
-
-    return 0;
 }

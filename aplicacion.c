@@ -50,6 +50,7 @@ int main() {
 	char* directorio = "./var/log/PROYECTO SO 1";
 	char log_tag[128];
     int intervalo;
+	char nombre_pak[100];
 	archivoHash* hashes_revisados = NULL;
 	
 	int hashes_contados = 0;
@@ -79,6 +80,9 @@ int main() {
 		int contador = 0;
 		Leerlogs(&hashes_revisados, &contador);
 		hashes_contados = contador;
+		
+		empaquetar(&hashes_revisados, hashes_contados, nombre_pak);
+		comprimir_pak(nombre_pak);
         
         //Resto de la implementacion
 

@@ -8,7 +8,7 @@
 TARGET = aplicacion
 # Coloque aqui los nombres de todos los archivos compilados con extension .o
 # necesarios para su proyecto.
-OBJECTS = aplicacion.o leer_archivo.o manipular_logs.o
+OBJECTS = aplicacion.o leer_archivo.o manipular_logs.o empaquetarArchivos.o
 CFLAGS = -O3 -Wall 
 LDLIBS = -pthread
 
@@ -30,6 +30,9 @@ manipular_logs.o: manipular_logs.c manipular_logs.h
 
 leer_archivo.o: leer_archivo.c leer_archivo.h manipular_logs.h
 	gcc -c leer_archivo.c -o leer_archivo.o
+
+empaquetarArchivos.o: empaquetarArchivos.c empaquetarArchivos.h manipular_logs.h
+	gcc -c empaquetarArchivos.c -o empaquetarArchivos.o
 
 aplicacion.o: aplicacion.c leer_archivo.h
 	gcc -c aplicacion.c -o aplicacion.o
