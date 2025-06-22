@@ -21,6 +21,7 @@ void empaquetar(const archivoHash** archivos, int num_archivos, char* nombre_pak
     // crear el nombre del archivo en la ruta especificada y el formato de fecha-hora
     snprintf(nombre_pak, 100, "/var/log/PROYECTO SO 1/logs%s.pak", fecha_hora);
     pak_cabecera cabecera;
+    syslog(LOG_INFO, "Nombre del paquete establecido %s.", nombre_pak);
     
 
     FILE *archivo_pak = fopen(nombre_pak, "wb");
