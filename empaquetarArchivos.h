@@ -77,6 +77,7 @@ void comprimir_pak(const char* nombre) {
         execlp("gzip", "gzip", "-f", nombre, NULL);
 
         // si se llega a esta linea, hubo un error
+        // log error
         exit(EXIT_FAILURE);
 
     } else if (pid > 0) {
