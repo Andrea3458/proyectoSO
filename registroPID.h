@@ -48,7 +48,7 @@ void registrarPID(pid_t pid){
         fprintf(archivo, "PID Hijo: %d\n", pid);
     }
     
-    fflush(archivo);
+    fflush(archivo); // controlar buffer de escritura
 
     fclose(archivo);
 }
