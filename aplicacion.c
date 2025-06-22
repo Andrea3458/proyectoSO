@@ -1,5 +1,6 @@
-#include <syslog.h>
 #include "./leer_archivo.h"
+#include "./empaquetarArchivos.h"
+#include <errno.h>
 
 void verificar_archivo() {
 	if (access("./proy1.ini", F_OK) != 0) {
@@ -46,23 +47,38 @@ void crear_daemon() {
 
 int main() {
 
-	openlog("PP", LOG_PID | LOG_CONS, LOG_DAEMON);
-	syslog(LOG_INFO, "Si funciona el log");
-	closelog();
-
+	char* directorio = "./var/log/PROYECTO SO 1";
 	char log_tag[128];
     int intervalo;
+	archivoHash* hashes_revisados = NULL;
+	
+	int hashes_contados = 0;
 
     leer_archivo(log_tag, &intervalo);
+	log_tag[127] = '\0';
     crear_daemon();
     openlog(log_tag, LOG_PID | LOG_CONS, LOG_DAEMON);
 
-    syslog(LOG_INFO, "Demonio iniciado correctamente con etiqueta de log: %s", log_tag);
-    syslog(LOG_INFO, "El intervalo de revisión es de %d segundos.", intervalo); 
+	if(mkdir(directorio, 0755) == 0){
+		syslog(LOG_INFO, "Se creo exitosamente el directorio PROYECTO SO 1.");
+	}
+	else{
+		if(errno == EEXIST){
+			syslog(LOG_ERR, "Error: el directorio PROYECTO SO 1 ya existe.");
+		}
+		else{
+			syslog(LOG_ERR, "Error: error desconocido al intentar crear directorio PROYECTO SO 1.");
+		}
+	}
+	
+    syslog(LOG_INFO, "Daemon iniciando con etiqueta %s.", log_tag);
+    syslog(LOG_INFO, "Cantidad de tiempo de intervalos %d.", intervalo); 
 
     while(1){
-        syslog(LOG_INFO, "Realizando revisión del directorio /var/log...");
-
+        syslog(LOG_INFO, "Revisando el directorio var/log..");
+		int contador = 0;
+		Leerlogs(&hashes_revisados, &contador);
+		hashes_contados = contador;
         
         //Resto de la implementacion
 

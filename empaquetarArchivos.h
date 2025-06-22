@@ -1,22 +1,16 @@
-//Codigo
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "./manipular_logs.h"
 #include <time.h>
-#include <stdint.h>
-#include <unistd.h>
-#include <sys/wait.h>
-
+#include "stdint.h"
 // cabecera
 typedef struct {
     char nombre[32];
     int64_t bytes;
 } pak_cabecera;
 
-char fecha_hora[20];
+
 
 // obtener fecha y hora
-void tiempo() {
+void tiempo(char *fecha_hora) {
     time_t tiempo;
     struct tm *info_tiempo;
     
@@ -26,8 +20,9 @@ void tiempo() {
 }
 
 // recibe la lista de archivos modificados
-void empaquetar(const char** archivos, int num_archivos) {
-
+void empaquetar(const archivoHash** archivos, int num_archivos) {
+    char fecha_hora[20];
+    tiempo(fecha_hora);
     // crear el nombre del archivo en la ruta especificada y el formato de fecha-hora
     char nombre_pak[100];
     snprintf(nombre_pak, sizeof(nombre_pak), "/var/log/PROYECTO SO 1/logs %s.pak", fecha_hora);
@@ -38,14 +33,14 @@ void empaquetar(const char** archivos, int num_archivos) {
     // Por cada archivo en la lista
     for (int i = 0; i < num_archivos; i++) {
 
-        FILE* archivo = fopen(archivos[i], "rb");
+        FILE* archivo = fopen(archivos[i]->nombre, "rb");
 
         fseek(archivo, 0, SEEK_END); // ir hasta el final del archivo
         int64_t tamano = ftell(archivo);
         fseek(archivo, 0, SEEK_SET); // volver al inicio
 
         // crear cabecera para el archivo actual
-        strncpy(cabecera.nombre, archivos[i], 31);
+        strncpy(cabecera.nombre, archivos[i]->nombre, 31);
         cabecera.nombre[31] = '\0';
         cabecera.bytes = tamano;
 

@@ -5,26 +5,34 @@
 # GDSO 2-2014
 
 # Coloque aqui el nombre del archivo ejecutable de su proyecto.
-TARGET = 
+TARGET = aplicacion
 # Coloque aqui los nombres de todos los archivos compilados con extension .o
 # necesarios para su proyecto.
-OBJECTS = 
+OBJECTS = aplicacion.o leer_archivo.o manipular_logs.o
 CFLAGS = -O3 -Wall 
 LDLIBS = -pthread
 
 # Punto de entrada para make si se ejecuta sin parametros.
-all: $(TARGET)
+all: TARGET
 
 # Esta regla compila el proyecto completo una vez que todos los archivos objeto
 # ya han sido compilados.
 TARGET: $(OBJECTS)
-        gcc -o $(TARGET) $(OBJECTS) $(CFLAGS) $(LDLIBS)
+	gcc -o $(TARGET) $(OBJECTS) $(CFLAGS) $(LDLIBS)
 
 # Coloque aqui las lineas necesarias para compilar los archivos objeto que
 # definio en $(OBJECTS)
 # Ejemplo: Si definio arriba "OBJECTS = main.o" debe entonces agregar una linea
 # como la siguiente:
 # main.o: main.c
+manipular_logs.o: manipular_logs.c manipular_logs.h
+	gcc -c manipular_logs.c -o manipular_logs.o
+
+leer_archivo.o: leer_archivo.c leer_archivo.h manipular_logs.h
+	gcc -c leer_archivo.c -o leer_archivo.o
+
+aplicacion.o: aplicacion.c leer_archivo.h
+	gcc -c aplicacion.c -o aplicacion.o
 
 # Esta regla sustituye las banderas que se pasan al compilador por banderas
 # utiles para depuracion.
