@@ -34,7 +34,7 @@ start() {
 }
 
 stop() {
-    [ -f /var/run/$SERVNAME.pid ] || { echo "FAILED: $SERVNAME is not running"; return 1; }
+    [ -f /var/run/$SERVNAME.pid] || { echo "FAILED: $SERVNAME is not running"; return 1; }
 
     PID=`pidof $SERVNAME`
     echo "Stopping $SERVNAME. (PID $PID)..."

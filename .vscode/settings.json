@@ -9,6 +9,8 @@
         "wait.h": "c",
         "time.h": "c",
         "leer_archivo.h": "c",
-        "compare": "c"
+        "compare": "c",
+        "cstdlib": "cpp",
+        "unistd.h": "c"
     }
 }
