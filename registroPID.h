@@ -9,7 +9,6 @@ void registrarPID(pid_t pid);
 
 #endif
 
-#include <cstdlib>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>

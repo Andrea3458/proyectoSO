@@ -12,44 +12,28 @@
 SERVNAME=aplicacion
 
 start() {
-    check_dependencies || exit 1
-
     PID=`pidof $SERVNAME`
-    if [ $? -eq 0 ];
-        then
-        echo "$SERVNAME already started."
-	    return 1
-    fi
-
-    echo "Starting $SERVNAME"
-    runuser -l daemon_user -c "$SERVNAME &"
-
-    if [ $? -eq 0 ]; then
-        echo $! > /var/run/$SERVNAME.pid
-        logger -t $SERVNAME "Starting (PID $!)."
-        return 0
+    if [ $? -eq 0 ]
+    then
+	echo "$SERVNAME already started."
+	return
     else
-        logger -t $SERVNAME "Fail init"
-        return 1
+	echo "Starting $SERVNAME."
+	$SERVNAME &
+	echo "Done."
     fi
 }
 
 stop() {
-    [ -f /var/run/$SERVNAME.pid ] || {echo "FAILED: $SERVNAME is not running"; return 1;}
-
     PID=`pidof $SERVNAME`
-    echo "Stopping $SERVNAME. (PID $PID)..."
-
-    kill -TERM $PID
-    for i in {1..5}; 
-    do
-        [ ! -d /proc/$PID ] && break
-        sleep 2
-    done
-
-    [ -d /proc/$PID ] && kill -KILL $PID
-    rm -f /var/run/$SERVNAME.pid
-	logger -t $SERVNAME "already stopped."
+    if [ $? -eq 0 ]
+    then
+	echo "Stopping $SERVNAME."
+        kill -2 `pidof $SERVNAME`
+        echo "Done."
+    else
+	echo "$SERVNAME already stopped."
+    fi
 }
 
 case "$1" in
