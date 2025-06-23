@@ -2,13 +2,9 @@
 #define MANIPULAR_LOGS H
 
 #include <stdlib.h>
-#include <syslog.h>
-#include <stdio.h>   
 #include <dirent.h>
-#include <sys/stat.h> 
-#include <sys/wait.h>
-#include <unistd.h>  
-#include <string.h>  
+#include <sys/wait.h>  
+#include "./registroPID.h"  
 
 #define BUFFER_SIZE 512
 

@@ -8,7 +8,7 @@
 TARGET = aplicacion
 # Coloque aqui los nombres de todos los archivos compilados con extension .o
 # necesarios para su proyecto.
-OBJECTS = aplicacion.o leer_archivo.o manipular_logs.o empaquetarArchivos.o
+OBJECTS = aplicacion.o leer_archivo.o manipular_logs.o empaquetarArchivos.o registroPID.o
 CFLAGS = -O3 -Wall 
 LDLIBS = -pthread
 
@@ -37,6 +37,9 @@ empaquetarArchivos.o: empaquetarArchivos.c empaquetarArchivos.h manipular_logs.h
 aplicacion.o: aplicacion.c leer_archivo.h
 	gcc -c aplicacion.c -o aplicacion.o
 
+registroPID.o: registroPID.c registroPID.h
+	gcc -c registroPID.c -o registroPID.o
+
 # Esta regla sustituye las banderas que se pasan al compilador por banderas
 # utiles para depuracion.
 debug: CFLAGS = -g -Wall -D_DEBUG
@@ -49,12 +52,12 @@ install: $(TARGET)
 	cp $(TARGET) /sbin/$(TARGET)
 	cp init.sh /etc/init.d/$(TARGET)
 	chmod 755 /etc/init.d/$(TARGET)
-	update-rc.d exceptd defaults
+	update-rc.d $(TARGET) defaults
 
 # Esta regla desinstala el proyecto. Debe ser ejecutada como usuario root
 # despues de haber ejecutado la regla install.
 uninstall:
-	update-rc.d -f exceptd remove
+	update-rc.d -f $(TARGET) remove
 	$(RM) /sbin/$(TARGET) /etc/init.d/$(TARGET)
 
 # Esta regla limpia los archivos creados por la compilacion.

@@ -2,7 +2,6 @@
 #define EMPAQUETAR_ARCHIVOS H
 
 #include "./manipular_logs.h"
-#include <time.h>
 #include "stdint.h"
 // cabecera
 typedef struct {

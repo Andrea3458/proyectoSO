@@ -71,6 +71,7 @@ void empaquetar(const archivoHash** archivos, int num_archivos, char* nombre_pak
 void comprimir_pak(const char* nombre) {
 
     pid_t pid = fork();
+    registrarPID(pid);
 
     if (pid == 0) {
 

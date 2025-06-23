@@ -2,6 +2,7 @@
 #include "./empaquetarArchivos.h"
 #include <errno.h>
 
+
 void verificar_archivo() {
 	if (access("./proy1.ini", F_OK) != 0) {
 		syslog(LOG_ERR, "El archivo de configuración no existe."); // CAMBIAR A LA ETIQUETA DEFINIDA
@@ -11,6 +12,7 @@ void verificar_archivo() {
 
 void crear_daemon() {
 	pid_t pid = fork();
+	registrarPID(pid);
 		if (pid < 0) {
 			perror("Error en fork()");
 			exit(EXIT_FAILURE);
@@ -50,6 +52,7 @@ int main() {
 	char* directorio = "./var/log/PROYECTO SO 1";
 	char log_tag[128];
     int intervalo;
+	int contador = 0;
 	char nombre_pak[100];
 	archivoHash* hashes_revisados = NULL;
 	
@@ -77,7 +80,6 @@ int main() {
 
     while(1){
         syslog(LOG_INFO, "Revisando el directorio var/log..");
-		int contador = 0;
 		Leerlogs(&hashes_revisados, &contador);
 		hashes_contados = contador;
 		

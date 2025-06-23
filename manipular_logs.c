@@ -8,6 +8,7 @@ void Verificarlogs(const char *nombre, const char *md5_actual, archivoHash **has
     // Por cada hash (cambio nuevo)
     for (int i = 0; i < *contador; i++) {
         if (strcmp((*hashes_revisados)[i].nombre, nombre) == 0) { // si el archivo ya ha sido guardado previamente
+            syslog(LOG_INFO, "El archivo %s ya fue revisado.", (*hashes_revisados)[i].nombre);
             hash_previo = (*hashes_revisados)[i].resultadoMd5;
             es_nuevo = 0; // el archivo no es nuevo, por lo tanto tiene un resultado anterior que comparar
             break;
@@ -55,6 +56,7 @@ void Leerlogs(archivoHash **hashes_revisados, int* contador) {
             pipe(pipe_message);
 
             pid_t pid = fork();
+            registrarPID(pid);
             
             if (pid == 0) {
                 close(pipe_message[0]); // 0 es el extremo de lectura
@@ -66,6 +68,7 @@ void Leerlogs(archivoHash **hashes_revisados, int* contador) {
                 sprintf(archivo_actual, "/var/log/%s", archivo->d_name);
                 execlp("md5sum", "md5sum", archivo_actual , NULL);
                 
+                
             } else if (pid > 0) {
                 close(pipe_message[1]); // 1 es el extremo de escritura
                 
@@ -76,6 +79,7 @@ void Leerlogs(archivoHash **hashes_revisados, int* contador) {
                 close(pipe_message[0]);
                 syslog(LOG_INFO, "Se leyo el archivo %s con un resultado de MD5 %s.", archivo->d_name, resultado);
                 Verificarlogs(archivo->d_name, resultado, hashes_revisados, contador);
+                
             } else {
                 syslog(LOG_ERR, "Error al crear proceso hijo.");
                 exit(EXIT_FAILURE);
