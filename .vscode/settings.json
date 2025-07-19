@@ -11,6 +11,8 @@
         "leer_archivo.h": "c",
         "compare": "c",
         "cstdlib": "cpp",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "stdio.h": "c",
+        "procesos.h": "c"
     }
 }
