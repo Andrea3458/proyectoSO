@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "leerlogs.h": "c",
+        "verificarlogs.h": "c",
+        "string.h": "c",
+        "manipular_logs.h": "c",
+        "dirent.h": "c",
+        "syslog.h": "c",
+        "wait.h": "c",
+        "time.h": "c",
+        "leer_archivo.h": "c",
+        "compare": "c",
+        "cstdlib": "cpp",
+        "unistd.h": "c",
+        "stdio.h": "c",
+        "procesos.h": "c"
+    }
+}
