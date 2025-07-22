@@ -27,8 +27,6 @@ void ejecutar_proceso() {
 
     for(int i = 0; i < 20; i++){
 
-        if()
-
         sleep(1);
     }
 
