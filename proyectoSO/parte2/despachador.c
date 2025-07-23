@@ -72,19 +72,19 @@ int main (int argc, char *argv[]) {
         }
 
 
-        if(!is_empty(&tiempo_real)){
+        if(!is_emptyH(&tiempo_real)){
 
             
 
-        } else if(!is_empty(&usuario)){
+        } else if(!is_emptyH(&usuario)){
 
             //ASIGNA POR PRIORIDAD 
             
-            if(!is_empty(&prioridad[0])){
+            if(!is_emptyH(&prioridad[0])){
 
-            } else if(!is_empty(&prioridad[1])){
+            } else if(!is_emptyH(&prioridad[1])){
 
-            } else if(!is_empty(&prioridad[2])){
+            } else if(!is_emptyH(&prioridad[2])){
 
             } else {
                 return 0;
