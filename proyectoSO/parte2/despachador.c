@@ -42,6 +42,7 @@ int main (int argc, char *argv[]) {
 
         leer_archivo_ini(lista_procesos_nombre, cont);
         cont++;
+        printf("Test %d \n", seg);
 
     }
     Proceso proc_temp = eliminar_proceso(&lista_procesos);
@@ -51,8 +52,6 @@ int main (int argc, char *argv[]) {
 
     //PUEDE OCURRIR ERROR SI SOLO QUEDA UN PROCESO EN LA LISTA O SOLO HAY UN PROCESO EN LISTA
     while(!is_empty(&lista_procesos)){
-
-        printf("Test %d \n", seg);
         
         while(proc_temp.tiempo_llegada == seg){
 
