@@ -36,15 +36,11 @@ int main (int argc, char *argv[]) {
     sem_init(&scanner, 0, 1);
     sem_init(&modem, 0, 1);
     sem_init(&lectoresDVD, 0, 2);
-    int seg = 1, cont = 0;
+    int seg = 1;
+
+    //Crea la lista de Procesos
+    leer_archivo_ini(lista_procesos_nombre);
     
-    while(!feof(lista_procesos_nombre)){
-
-        leer_archivo_ini(lista_procesos_nombre, cont);
-        cont++;
-        pause();
-
-    }
     Proceso proc_temp = eliminar_proceso(&lista_procesos);
     MensajeProceso msg;
 

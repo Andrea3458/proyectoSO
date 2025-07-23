@@ -31,8 +31,9 @@ void guardar_proceso(char *arg, int num){
 }
 
 
-void leer_archivo_ini(const char *arg, int num){
+void leer_archivo_ini(const char *arg){
     char linea[256];
+    int cont = 0;
     FILE *archivo = fopen(arg, "r");
 
     if(archivo == NULL){
@@ -41,7 +42,8 @@ void leer_archivo_ini(const char *arg, int num){
     }
 
     while(fgets(linea, sizeof(linea), archivo) != NULL){
-        guardar_proceso(linea, num);
+        guardar_proceso(linea, cont);
+        cont++;
     }
 
     if(fclose(archivo) != 0){
