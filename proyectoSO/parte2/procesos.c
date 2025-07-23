@@ -20,17 +20,19 @@ void registrar_mensajes (int segundo, int id_proceso, const char *estado) {
     fclose(archivo);
 }
 
-void crear_procesos () {
+void crear_proceso (void *arg) {
+    Proceso proceso = *(Proceso*)arg;
 
+    for(int i = 0; i < 20; i++){
+
+        sleep(1);
+    }
 }
 
 void ejecutar_proceso() {
 
     //pide_recursos();
 
-    for(int i = 0; i < 20; i++){
-
-        sleep(1);
-    }
+    
 
 }
