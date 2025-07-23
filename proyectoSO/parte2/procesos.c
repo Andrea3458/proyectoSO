@@ -23,7 +23,7 @@ void registrar_mensajes (int segundo, int id_proceso, const char *estado) {
     fclose(archivo);
 }
 
-void crear_proceso (void *arg) {
+void *crear_proceso (void *arg) {
     MensajeProceso info = *(MensajeProceso*)arg;
     char buffer[256];
     ssize_t bytes_leidos;

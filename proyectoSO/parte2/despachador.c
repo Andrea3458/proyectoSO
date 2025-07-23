@@ -56,9 +56,9 @@ int main (int argc, char *argv[]) {
 
             //Asignar procesos a la cola correspondiente
             if(proc_temp.prioridad == 0){
-                agregar_proceso(&tiempo_real, hilo_de_proceso);
+                agregar_proceso(&tiempo_real, lista_procesos);
             } else {
-                agregar_proceso(&usuario, hilo_de_proceso);
+                agregar_proceso(&usuario, lista_procesos);
             }
 
             //Crear Proceso || Contador en tiempo del proceso en SO
