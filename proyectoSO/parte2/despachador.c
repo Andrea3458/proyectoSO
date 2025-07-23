@@ -47,8 +47,7 @@ int main (int argc, char *argv[]) {
     Proceso proc_temp = eliminar_proceso(&lista_procesos);
     MensajeProceso msg;
 
-    char mensaje[256];
-    mensaje = "Hola te amo";
+    char mensaje[256] = "Hola te amo";
 
     //PUEDE OCURRIR ERROR SI SOLO QUEDA UN PROCESO EN LA LISTA O SOLO HAY UN PROCESO EN LISTA
     while(!is_empty(&lista_procesos)){
