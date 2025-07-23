@@ -60,7 +60,7 @@ void agregar_proceso(Cola *q, Proceso p) {
 // Eliminar y devolver el proceso al frente de la cola
 Proceso eliminar_proceso(Cola *q) {
     if (is_empty(q)) {
-        fprintf(stderr, "Error: Cola vacía\n");
+        //fprintf(stderr, "Error: Cola vacía\n");
         Proceso empty = {0};
         return empty;
     }

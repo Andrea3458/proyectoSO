@@ -62,7 +62,7 @@ int main (int argc, char *argv[]) {
             pthread_t hilo_de_proceso;
             msg.proceso = proc_temp;  
             pthread_create(&hilo_de_proceso, NULL, crear_proceso, &msg);
-            pthread_join(hilo_de_proceso, NULL);
+            pthread_detach(hilo_de_proceso);
             
             Proceso proc_temp = eliminar_proceso(&lista_procesos);
         }
