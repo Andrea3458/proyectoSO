@@ -42,7 +42,7 @@ int main (int argc, char *argv[]) {
     leer_archivo_ini(lista_procesos_nombre);
     
     //Proceso proc_temp = eliminar_proceso(&lista_procesos);
-    proc_temp = lista_procesos[0];
+    Proceso proc_temp = lista_procesos[0];
     MensajeProceso msg;
 
     char mensaje[256] = "Hola te amo";
