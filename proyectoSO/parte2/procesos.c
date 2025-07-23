@@ -30,6 +30,7 @@ void crear_proceso (void *arg) {
 
     for(int i = 0; i < 20; i++){
         bytes_leidos = read(info.pipe_fd[0], buffer, sizeof(buffer) - 1);
+        printf("Hola soy %d como tas?\n", info.proceso.id);
 
         if(bytes_leidos > 0){
             printf("Hola soy %d Recibi el mensaje: %s \n", info.proceso.id, buffer);
