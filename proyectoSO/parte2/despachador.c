@@ -95,6 +95,8 @@ int main (int argc, char *argv[]) {
         seg++;
     }
 
+    printf("no Entre %d %d\n",proc_temp.id, seg);
+
     // HOLA, SOY EL DESPACHADOR Y HE ELEGIDO ESTE PROCESO EN LA COLA DE MAYOR PRIORIDAD
     // HOLA, SOY EL DESPACHADOR Y LLAME A LA FUNCION EJECUTAR
     // HOLA, SOY EL DESPACHADOR Y SI ELEGI LA PRIORIDAD 0, DEBO ESPERAR A QUE TERMINE
