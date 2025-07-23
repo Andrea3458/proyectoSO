@@ -40,20 +40,16 @@ int main (int argc, char *argv[]) {
 
     //Crea la lista de Procesos
     int cap = leer_archivo_ini(lista_procesos_nombre);
-    
-    //Proceso proc_temp = eliminar_proceso(&lista_procesos);
+
     Proceso proc_temp = lista_procesos[0];
     MensajeProceso msg;
 
     char mensaje[256] = "Hola te amo";
 
     //PUEDE OCURRIR ERROR SI SOLO QUEDA UN PROCESO EN LA LISTA O SOLO HAY UN PROCESO EN LISTA
-    //while(!is_empty(&lista_procesos)){
     while(cont <= cap){
         
         while(proc_temp.tiempo_llegada == seg){
-
-            printf("Entre %d %d\n",proc_temp.id, seg);
 
             //Asignar procesos a la cola correspondiente
             if(proc_temp.prioridad == 0){
@@ -69,7 +65,6 @@ int main (int argc, char *argv[]) {
             pthread_detach(hilo_de_proceso);
             
             cont++;
-            //Proceso proc_temp = eliminar_proceso(&lista_procesos);
             Proceso proc_temp = lista_procesos[cont];
         }
 
@@ -98,8 +93,6 @@ int main (int argc, char *argv[]) {
         sleep(1);
         seg++;
     }
-
-    printf("no Entre %d %d\n",proc_temp.id, seg);
 
     // HOLA, SOY EL DESPACHADOR Y HE ELEGIDO ESTE PROCESO EN LA COLA DE MAYOR PRIORIDAD
     // HOLA, SOY EL DESPACHADOR Y LLAME A LA FUNCION EJECUTAR
