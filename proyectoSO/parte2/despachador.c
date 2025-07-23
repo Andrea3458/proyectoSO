@@ -16,11 +16,11 @@ sem_t impresora, scanner, modem, lectoresDVD;
 
 int main (int argc, char *argv[]) {
 
-    /*tiempo_real.capacidad_max = 1000;
+    tiempo_real.capacidad_max = 1000;
     usuario.capacidad_max = 1000;
     for(int i = 0; i < 3; i++){
         prioridad[i].capacidad_max = 1000;
-    }*/
+    }
     
 
     // Leer archivo de entrada
@@ -51,6 +51,8 @@ int main (int argc, char *argv[]) {
 
     //PUEDE OCURRIR ERROR SI SOLO QUEDA UN PROCESO EN LA LISTA O SOLO HAY UN PROCESO EN LISTA
     while(!is_empty(&lista_procesos)){
+
+        printf("Test %d \n", seg);
         
         while(proc_temp.tiempo_llegada == seg){
 
