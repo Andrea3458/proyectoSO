@@ -36,18 +36,20 @@ int main (int argc, char *argv[]) {
     sem_init(&scanner, 0, 1);
     sem_init(&modem, 0, 1);
     sem_init(&lectoresDVD, 0, 2);
-    int seg = 1;
+    int seg = 1, cont = 0;
 
     //Crea la lista de Procesos
     leer_archivo_ini(lista_procesos_nombre);
     
-    Proceso proc_temp = eliminar_proceso(&lista_procesos);
+    //Proceso proc_temp = eliminar_proceso(&lista_procesos);
+    proc_temp = lista_procesos[0];
     MensajeProceso msg;
 
     char mensaje[256] = "Hola te amo";
 
     //PUEDE OCURRIR ERROR SI SOLO QUEDA UN PROCESO EN LA LISTA O SOLO HAY UN PROCESO EN LISTA
-    while(!is_empty(&lista_procesos)){
+    //while(!is_empty(&lista_procesos)){
+    while(lista_procesos[cont] != NULL){
         
         while(proc_temp.tiempo_llegada == seg){
 
@@ -66,7 +68,9 @@ int main (int argc, char *argv[]) {
             pthread_create(&hilo_de_proceso, NULL, crear_proceso, &msg);
             pthread_detach(hilo_de_proceso);
             
-            Proceso proc_temp = eliminar_proceso(&lista_procesos);
+            cont++;
+            //Proceso proc_temp = eliminar_proceso(&lista_procesos);
+            Proceso proc_temp = lista_procesos[cont];
         }
 
 
