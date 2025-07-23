@@ -37,7 +37,7 @@ void *crear_proceso (void *arg) {
         } else if (bytes_leidos == 0){
             printf("Hola soy %d. En espera o terminado \n", info.proceso.id);
         } else {
-            printf("Hola soy %d ERROR", info.proceso.id);
+            printf("Hola soy %d ERROR\n", info.proceso.id);
         }       
 
         sleep(1);

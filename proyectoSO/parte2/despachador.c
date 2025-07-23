@@ -16,11 +16,11 @@ sem_t impresora, scanner, modem, lectoresDVD;
 
 int main (int argc, char *argv[]) {
 
-    /*tiempo_real.capacidad_max = 1000;
-    usuario.capacidad_max = 1000;
+    tiempo_real.capacidad_max = 100;
+    usuario.capacidad_max = 100;
     for(int i = 0; i < 3; i++){
-        prioridad[i].capacidad_max = 1000;
-    }*/
+        prioridad[i].capacidad_max = 100;
+    }
     
 
     // Leer archivo de entrada
