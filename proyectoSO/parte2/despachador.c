@@ -42,7 +42,7 @@ int main (int argc, char *argv[]) {
 
         leer_archivo_ini(lista_procesos_nombre, cont);
         cont++;
-        printf("Test %d \n", seg);
+        pause();
 
     }
     Proceso proc_temp = eliminar_proceso(&lista_procesos);
