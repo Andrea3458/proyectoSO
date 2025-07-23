@@ -4,7 +4,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include "cola.h"
-#include "comunicaciondespachadorproceso"
+#include "comunicaciondespachadorproceso.h"
 #include "./leerarchivoentrada.h"
 
 Cola tiempo_real;
