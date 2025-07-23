@@ -39,7 +39,7 @@ int main (int argc, char *argv[]) {
     int seg = 1, cont = 0;
 
     //Crea la lista de Procesos
-    leer_archivo_ini(lista_procesos_nombre);
+    int cap = leer_archivo_ini(lista_procesos_nombre);
     
     //Proceso proc_temp = eliminar_proceso(&lista_procesos);
     Proceso proc_temp = lista_procesos[0];
@@ -49,7 +49,7 @@ int main (int argc, char *argv[]) {
 
     //PUEDE OCURRIR ERROR SI SOLO QUEDA UN PROCESO EN LA LISTA O SOLO HAY UN PROCESO EN LISTA
     //while(!is_empty(&lista_procesos)){
-    while(lista_procesos[cont] != NULL){
+    while(cont <= cap){
         
         while(proc_temp.tiempo_llegada == seg){
 

@@ -31,7 +31,7 @@ void guardar_proceso(char *arg, int num){
 }
 
 
-void leer_archivo_ini(const char *arg){
+int leer_archivo_ini(const char *arg){
     char linea[256];
     int cont = 0;
     FILE *archivo = fopen(arg, "r");
