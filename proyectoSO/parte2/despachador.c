@@ -51,6 +51,8 @@ int main (int argc, char *argv[]) {
         
         while(proc_temp.tiempo_llegada == seg){
 
+            printf("Entre %d %d\n",proc_temp.id, seg);
+
             //Asignar procesos a la cola correspondiente
             if(proc_temp.prioridad == 0){
                 agregar_proceso(&tiempo_real, proc_temp);
