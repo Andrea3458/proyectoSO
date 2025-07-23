@@ -6,8 +6,9 @@
 Proceso *lista_procesos;
 int capacidad = 1;
 
-void guardar_proceso(char *arg){
+void guardar_proceso(char *arg, int num){
     Proceso temp;
+    temp.id = num; 
     sscanf(arg, "%d, %d, %d, %d, %d, %d, %d", &temp.tiempo_llegada, &temp.prioridad, &temp.tiempo_procesador, &temp.num_impresoras, &temp.num_scanners, &temp.num_modems, &temp.num_DVDs);
 
     if(lista_procesos == NULL){
@@ -30,7 +31,7 @@ void guardar_proceso(char *arg){
 }
 
 
-void leer_archivo_ini(const char *arg){
+void leer_archivo_ini(const char *arg, int num){
     char linea[256];
     FILE *archivo = fopen(arg, "r");
 
@@ -40,7 +41,7 @@ void leer_archivo_ini(const char *arg){
     }
 
     while(fgets(linea, sizeof(linea), archivo) != NULL){
-        guardar_proceso(linea);
+        guardar_proceso(linea, num);
     }
 
     if(fclose(archivo) != 0){

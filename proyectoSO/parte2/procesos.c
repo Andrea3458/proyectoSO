@@ -1,6 +1,9 @@
 #include "procesos.h"
+#include "comunicaciondespachadorproceso.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <time.h>
 
 void registrar_mensajes (int segundo, int id_proceso, const char *estado) {
@@ -21,9 +24,20 @@ void registrar_mensajes (int segundo, int id_proceso, const char *estado) {
 }
 
 void crear_proceso (void *arg) {
-    Proceso proceso = *(Proceso*)arg;
+    MensajeProceso info = *(MensajeProceso*)arg;
+    char buffer[256];
+    ssize_t bytes_leidos;
 
     for(int i = 0; i < 20; i++){
+        bytes_leidos = read(info->pipe_fd[0], buffer, sizeof(buffer) - 1);
+
+        if(bytes_leidos > 0){
+            printf("Hola soy %d Recibi el mensaje: %s \n", info->proceso.id, buffer);
+        } else if (bytes_leidos == 0){
+            printf("Hola soy %d. En espera o terminado \n", info->proceso.id);
+        } else {
+            printf("Hola soy %d ERROR", info->proceso.id);
+        }       
 
         sleep(1);
     }

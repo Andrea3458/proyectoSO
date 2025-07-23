@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <pthread.h>
 #include <semaphore.h>
 #include "cola.h"
-#include "colaHilos.h"
+#include "comunicaciondespachadorproceso"
 #include "./leerarchivoentrada.h"
 
-ColaHilos tiempo_real;
-ColaHilos usuario;
-ColaHilos prioridad[3];
+Cola tiempo_real;
+Cola usuario;
+Cola prioridad[3];
 
 int numImpresoras = 2, numScanner = 1, numModem = 1, numLectoresDVD = 2;
 sem_t impresora, scanner, modem, lectoresDVD;
-
 
 int main (int argc, char *argv[]) {
 
@@ -36,55 +36,55 @@ int main (int argc, char *argv[]) {
     sem_init(&scanner, 0, 1);
     sem_init(&modem, 0, 1);
     sem_init(&lectoresDVD, 0, 2);
-    int seg = 1;
+    int seg = 1, cont = 0;
     
     while(!feof(lista_procesos_nombre)){
 
-        leer_archivo_ini(lista_procesos_nombre);
-        /*for(int i = 0; i < capacidad-1; i++){
-            printf("T.llegada: %d Prioridad: %d T.procesador: %d Impresoras: %d Scanners: %d Modems: %d DVDs: %d.\n", lista_procesos[i].tiempo_llegada, lista_procesos[i].prioridad, lista_procesos[i].tiempo_procesador, lista_procesos[i].num_impresoras, lista_procesos[i].num_scanners, lista_procesos[i].num_modems, lista_procesos[i].num_DVDs);
-        }*/
+        leer_archivo_ini(lista_procesos_nombre, cont);
+        cont++;
+
     }
     Proceso proc_temp = eliminar_proceso(&lista_procesos);
+    MensajeProceso msg;
 
-    while(!is_empty(&lista_procesos) || proc_temp != NULL){
+    char mensaje[256];
+    mensaje = "Hola te amo";
+
+    //PUEDE OCURRIR ERROR SI SOLO QUEDA UN PROCESO EN LA LISTA O SOLO HAY UN PROCESO EN LISTA
+    while(!is_empty(&lista_procesos)){
         
-        while(proc_temp->tiempo_llegada == seg){
-
-            pthread_t hilo_de_proceso;
+        while(proc_temp.tiempo_llegada == seg){
 
             //Asignar procesos a la cola correspondiente
-            if(proc_temp->prioridad == 0){
-                agregar_hilo(&tiempo_real, hilo_de_proceso);
-
-                //Crear Proceso || Contador en tiempo del proceso en SO
-                pthread_create(&tiempo_real->final, NULL, crear_proceso, &proc_temp);
-                pthread_join(tiempo_real->final, NULL);
+            if(proc_temp.prioridad == 0){
+                agregar_proceso(&tiempo_real, hilo_de_proceso);
             } else {
-                agregar_hilo(&usuario, hilo_de_proceso);
-
-                //Crear Proceso || Contador en tiempo del proceso en SO
-                pthread_create(&usuario->final, NULL, crear_proceso, &proc_temp);
-                pthread_join(usuario->final, NULL);
+                agregar_proceso(&usuario, hilo_de_proceso);
             }
+
+            //Crear Proceso || Contador en tiempo del proceso en SO
+            pthread_t hilo_de_proceso;
+            msg.proceso = proc_temp;  
+            pthread_create(&hilo_de_proceso, NULL, crear_proceso, &msg);
+            pthread_join(hilo_de_proceso, NULL);
             
             Proceso proc_temp = eliminar_proceso(&lista_procesos);
         }
 
 
-        if(!is_emptyH(&tiempo_real)){
+        if(!is_empty(&tiempo_real)){
 
-            
+            write(msg.pipe_fd[1], mensaje, strlen(mensaje));
 
-        } else if(!is_emptyH(&usuario)){
+        } else if(!is_empty(&usuario)){
 
             //ASIGNA POR PRIORIDAD 
             
-            if(!is_emptyH(&prioridad[0])){
+            if(!is_empty(&prioridad[0])){
 
-            } else if(!is_emptyH(&prioridad[1])){
+            } else if(!is_empty(&prioridad[1])){
 
-            } else if(!is_emptyH(&prioridad[2])){
+            } else if(!is_empty(&prioridad[2])){
 
             } else {
                 return 0;

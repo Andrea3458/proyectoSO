@@ -2,6 +2,7 @@
 #define PROCESOS_H
 
 typedef struct {
+    int id;
     int tiempo_llegada;
     int prioridad;
     int tiempo_procesador; 
@@ -11,7 +12,7 @@ typedef struct {
     int num_DVDs;
 } Proceso;
 
-void crear_procesos();
+void crear_proceso(void *arg);
 void registrar_mensajes(int segundo, int id_proceso, const char *estado);
 
 #endif
