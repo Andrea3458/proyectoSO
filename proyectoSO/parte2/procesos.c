@@ -29,14 +29,14 @@ void *crear_proceso (void *arg) {
     ssize_t bytes_leidos;
 
     for(int i = 0; i < 20; i++){
-        bytes_leidos = read(info->pipe_fd[0], buffer, sizeof(buffer) - 1);
+        bytes_leidos = read(info.pipe_fd[0], buffer, sizeof(buffer) - 1);
 
         if(bytes_leidos > 0){
-            printf("Hola soy %d Recibi el mensaje: %s \n", info->proceso.id, buffer);
+            printf("Hola soy %d Recibi el mensaje: %s \n", info.proceso.id, buffer);
         } else if (bytes_leidos == 0){
-            printf("Hola soy %d. En espera o terminado \n", info->proceso.id);
+            printf("Hola soy %d. En espera o terminado \n", info.proceso.id);
         } else {
-            printf("Hola soy %d ERROR", info->proceso.id);
+            printf("Hola soy %d ERROR", info.proceso.id);
         }       
 
         sleep(1);
