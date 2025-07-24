@@ -65,7 +65,6 @@ int main (int argc, char *argv[]) {
             
             cont++;
             proc_sig = lista_procesos[cont];
-            free(proc_temp);
         }
 
 

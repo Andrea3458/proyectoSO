@@ -31,6 +31,9 @@ void *crear_proceso (void *arg) {
 
         sleep(1);
     }
+    
+    free(info);
+    return NULL;
 }
 
 void ejecutar_proceso() {
