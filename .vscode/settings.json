@@ -4,6 +4,7 @@
         "stdlib.h": "c",
         "cola.h": "c",
         "procesos.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "controlrecursos.h": "c"
     }
 }

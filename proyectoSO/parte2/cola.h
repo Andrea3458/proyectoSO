@@ -19,5 +19,6 @@ int is_empty(Cola *cola);
 int is_full(Cola *cola);
 void agregar_proceso(Cola *cola, Proceso p);
 Proceso eliminar_proceso(Cola *cola);
+Proceso ver_frente(Cola *q);
 
 #endif

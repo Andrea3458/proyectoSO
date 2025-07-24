@@ -1,4 +1,4 @@
-#include "./leerarchivoentrada.h"
+#include "leerarchivoentrada.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -50,6 +50,8 @@ int leer_archivo_ini(const char *arg){
         printf("Error: error al cerrar el archivo.\n");
         exit(EXIT_FAILURE);
     }
+
+    return cont;
 
 }
 
