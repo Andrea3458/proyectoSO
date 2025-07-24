@@ -46,10 +46,11 @@ int main (int argc, char *argv[]) {
     char mensaje[256] = "Hola te amo";
 
     //PUEDE OCURRIR ERROR SI SOLO QUEDA UN PROCESO EN LA LISTA O SOLO HAY UN PROCESO EN LISTA
-    while(cont <= cap){
+    while(true){
         
-        while(proc_temp.tiempo_llegada == seg){
+        do{
             Proceso proc_temp = lista_procesos[cont];
+            
             //Asignar procesos a la cola correspondiente
             if(proc_temp.prioridad == 0){
                 agregar_proceso(&tiempo_real, proc_temp);
@@ -64,7 +65,7 @@ int main (int argc, char *argv[]) {
             pthread_detach(hilo_de_proceso);
             
             cont++;
-        }
+        }while(proc_temp.tiempo_llegada == seg);
 
 
         if(!is_empty(&tiempo_real)){
@@ -90,6 +91,10 @@ int main (int argc, char *argv[]) {
 
         sleep(1);
         seg++;
+
+        if(seg == 20){
+            break;
+        }
     }
 
     // HOLA, SOY EL DESPACHADOR Y HE ELEGIDO ESTE PROCESO EN LA COLA DE MAYOR PRIORIDAD
