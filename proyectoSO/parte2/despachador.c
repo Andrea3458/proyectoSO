@@ -41,6 +41,7 @@ int main (int argc, char *argv[]) {
     //Crea la lista de Procesos
     int cap = leer_archivo_ini(lista_procesos_nombre);
 
+    MensajeProceso msg;
     Proceso proc_temp = lista_procesos[0];
 
     char mensaje[256] = "Hola te amo";
@@ -60,7 +61,7 @@ int main (int argc, char *argv[]) {
 
             //Crear Proceso || Contador en tiempo del proceso en SO
             pthread_t hilo_de_proceso;
-            msg.proceso = proc_temp;  
+            msg->proceso = proc_temp;  
             pthread_create(&hilo_de_proceso, NULL, crear_proceso, msg);
             pthread_detach(hilo_de_proceso);
             
