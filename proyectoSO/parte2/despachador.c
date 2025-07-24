@@ -41,7 +41,6 @@ int main (int argc, char *argv[]) {
     //Crea la lista de Procesos
     int cap = leer_archivo_ini(lista_procesos_nombre);
 
-    Proceso proc_temp = lista_procesos[0];
     MensajeProceso msg;
 
     char mensaje[256] = "Hola te amo";
@@ -50,7 +49,7 @@ int main (int argc, char *argv[]) {
     while(cont <= cap){
         
         while(proc_temp.tiempo_llegada == seg){
-
+            Proceso proc_temp = lista_procesos[cont];
             //Asignar procesos a la cola correspondiente
             if(proc_temp.prioridad == 0){
                 agregar_proceso(&tiempo_real, proc_temp);
@@ -65,7 +64,6 @@ int main (int argc, char *argv[]) {
             pthread_detach(hilo_de_proceso);
             
             cont++;
-            Proceso proc_temp = lista_procesos[cont];
         }
 
 

@@ -9,7 +9,6 @@ int capacidad = 1;
 void guardar_proceso(char *arg, int num){
     Proceso temp;
     temp.id = num; 
-    printf("%d\n",temp.id);
     sscanf(arg, "%d, %d, %d, %d, %d, %d, %d", &temp.tiempo_llegada, &temp.prioridad, &temp.tiempo_procesador, &temp.num_impresoras, &temp.num_scanners, &temp.num_modems, &temp.num_DVDs);
 
     if(lista_procesos == NULL){
