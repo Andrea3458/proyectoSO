@@ -23,7 +23,7 @@ void registrar_mensajes (int segundo, int id_proceso, const char *estado) {
 }
 
 void *crear_proceso (void *arg) {
-    Proceso info = (Proceso*)arg;
+    Proceso *info = (Proceso*)arg;
 
     for(int i = 0; i < 20; i++){
         
