@@ -23,8 +23,6 @@ void crear_Cola(Cola *q, int capacidad) {
     q->tamano_actual = 0;
     q->inicio = 0;
     q->final = -1;
-    
-    return q;
 }
 
 // Liberar memoria de la cola
