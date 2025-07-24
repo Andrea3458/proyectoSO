@@ -10,6 +10,7 @@
 Cola tiempo_real;
 Cola usuario;
 Cola prioridad[3];
+pthread_t hilos_de_procesos[1000];
 
 int numImpresoras = 2, numScanner = 1, numModem = 1, numLectoresDVD = 2;
 sem_t impresora, scanner, modem, lectoresDVD;
@@ -41,17 +42,17 @@ int main (int argc, char *argv[]) {
     //Crea la lista de Procesos
     int cap = leer_archivo_ini(lista_procesos_nombre);
 
-    MensajeProceso msg;
-    Proceso proc_temp = lista_procesos[0];
+    Proceso *proc_temp;
+    proc_temp = lista_procesos[0];
 
-    char mensaje[256] = "Hola te amo";
+    //char mensaje[256] = "Hola te amo";
 
     //PUEDE OCURRIR ERROR SI SOLO QUEDA UN PROCESO EN LA LISTA O SOLO HAY UN PROCESO EN LISTA
-    while(1 == 1){
+    while(1){
         
         while(proc_temp.tiempo_llegada == seg){
             
-            MensajeProceso *msg = malloc(sizeof(MensajeProceso));
+            //MensajeProceso *msg = malloc(sizeof(MensajeProceso));
             //Asignar procesos a la cola correspondiente
             if(proc_temp.prioridad == 0){
                 agregar_proceso(&tiempo_real, proc_temp);
@@ -60,20 +61,21 @@ int main (int argc, char *argv[]) {
             }
 
             //Crear Proceso || Contador en tiempo del proceso en SO
-            pthread_t hilo_de_proceso;
-            msg->proceso = proc_temp;  
-            pthread_create(&hilo_de_proceso, NULL, crear_proceso, msg);
-            pthread_detach(hilo_de_proceso);
+            /*pthread_t hilos_de_proceso;
+            msg->proceso = proc_temp;  */
+            pthread_create(&hilos_de_procesos[proc_temp->id], NULL, crear_proceso, proc_temp);
+            pthread_detach(hilos_de_procesos[proc_temp->id]);
             
-            proc_temp = lista_procesos[cont];
             cont++;
-            free(msg);
+            free(proc_temp);
+            Proceso *proc_temp = malloc(sizeof(Proceso));
+            proc_temp = lista_procesos[cont];
         }
 
 
         if(!is_empty(&tiempo_real)){
 
-            write(msg.pipe_fd[1], mensaje, strlen(mensaje));
+            //write(msg.pipe_fd[1], mensaje, strlen(mensaje));
 
         } else if(!is_empty(&usuario)){
 
