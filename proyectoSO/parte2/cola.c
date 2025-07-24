@@ -5,12 +5,12 @@
 
 
 // Crear una nueva cola
-Cola* crear_Cola(int capacidad) {
-    Cola *q = (Cola*)malloc(sizeof(Cola));
+void crear_Cola(Cola *q, int capacidad) {
+    /*Cola *q = (Cola*)malloc(sizeof(Cola));
     if (!q) {
         perror("Error al crear la cola");
         exit(EXIT_FAILURE);
-    }
+    }*/
     
     q->procesos = (Proceso*)malloc(capacidad * sizeof(Proceso));
     if (!q->procesos) {

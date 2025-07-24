@@ -16,11 +16,10 @@ sem_t impresora, scanner, modem, lectoresDVD;
 
 int main (int argc, char *argv[]) {
 
-    Cola *cola_aux = crear_Cola(1000);
-    tiempo_real = &cola_aux;
-    usuario = &cola_aux;
+    crear_Cola(&tiempo_real, 1000);
+    crear_Cola(&usuario, 1000);
     for(int i = 0; i < 3; i++){
-        prioridad[i] = &cola_aux;
+        crear_Cola(&prioridad[i], 1000);
     }
     
 

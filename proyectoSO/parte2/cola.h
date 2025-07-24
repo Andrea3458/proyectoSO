@@ -13,7 +13,7 @@ typedef struct {
 } Cola;
 
 // Prototipos de funciones
-Cola* crear_Cola(int capacidad);
+void crear_Cola(Cola *cola, int capacidad);
 void destruir_Cola(Cola *cola);
 int is_empty(Cola *cola);
 int is_full(Cola *cola);
