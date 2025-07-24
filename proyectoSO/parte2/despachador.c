@@ -55,9 +55,9 @@ int main (int argc, char *argv[]) {
             //MensajeProceso *msg = malloc(sizeof(MensajeProceso));
             //Asignar procesos a la cola correspondiente
             if(proc_temp->prioridad == 0){
-                agregar_proceso(&tiempo_real, proc_temp);
+                agregar_proceso(&tiempo_real, &proc_temp);
             } else {
-                agregar_proceso(&usuario, proc_temp);
+                agregar_proceso(&usuario, &proc_temp);
             }
 
             //Crear Proceso || Contador en tiempo del proceso en SO
@@ -69,7 +69,7 @@ int main (int argc, char *argv[]) {
             cont++;
             free(proc_temp);
             Proceso *proc_temp = malloc(sizeof(Proceso));
-            proc_temp = lista_procesos[cont];
+            proc_temp = &lista_procesos[cont];
         }
 
 

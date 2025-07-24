@@ -27,7 +27,7 @@ void *crear_proceso (void *arg) {
 
     for(int i = 0; i < 20; i++){
         
-        printf("Hola soy %d como tas?\n", info->proceso.id);      
+        printf("Hola soy %d como tas?\n", info.id);      
 
         sleep(1);
     }
