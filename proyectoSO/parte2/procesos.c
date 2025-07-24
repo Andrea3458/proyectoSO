@@ -23,11 +23,11 @@ void registrar_mensajes (int segundo, int id_proceso, const char *estado) {
 }
 
 void *crear_proceso (void *arg) {
-    Proceso info = *(Proceso*)arg;
+    Proceso info = (Proceso*)arg;
 
     for(int i = 0; i < 20; i++){
         
-        printf("Hola soy %d como tas?\n", info.id);      
+        printf("Hola soy %d como tas?\n", info->id);      
 
         sleep(1);
     }
