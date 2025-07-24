@@ -42,15 +42,15 @@ int main (int argc, char *argv[]) {
     //Crea la lista de Procesos
     int cap = leer_archivo_ini(lista_procesos_nombre);
 
-    Proceso proc_ant = lista_procesos[0];
+    Proceso proc_sig = lista_procesos[0];
 
     //PUEDE OCURRIR ERROR SI SOLO QUEDA UN PROCESO EN LA LISTA O SOLO HAY UN PROCESO EN LISTA
     while(1){
         
-        while(proc_temp->tiempo_llegada == seg){
+        while(proc_sig.tiempo_llegada == seg){
 
             Proceso *proc_temp = malloc(sizeof(Proceso));
-            proc_temp = &proc_ant;
+            *proc_temp = proc_sig;
             
             //MensajeProceso *msg = malloc(sizeof(MensajeProceso));
             //Asignar procesos a la cola correspondiente
@@ -63,11 +63,11 @@ int main (int argc, char *argv[]) {
             //Crear Proceso || Contador en tiempo del proceso en SO
             /*pthread_t hilos_de_proceso;
             msg->proceso = proc_temp;  */
-            pthread_create(&hilos_de_procesos[proc_temp->id], NULL, crear_proceso, &proc_temp);
+            pthread_create(&hilos_de_procesos[proc_temp->id], NULL, crear_proceso, proc_temp);
             pthread_detach(hilos_de_procesos[proc_temp->id]);
             
             cont++;
-            proc_ant = lista_procesos[cont];
+            proc_sig = lista_procesos[cont];
             free(proc_temp);
         }
 
