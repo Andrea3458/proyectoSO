@@ -6,7 +6,7 @@
 #include <semaphore.h>
 #include "procesos.h"
 
-extern sem_t impresora, scanner, modem, lectoresDVD;
+extern int numImpresoras, numScanner, numModem, numLectoresDVD;
 
 int adquirir_recursos(Proceso* proc);
 void liberar_recursos(Proceso* proc);

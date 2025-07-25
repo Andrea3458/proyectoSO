@@ -2,6 +2,10 @@
 #define PROCESOS_H
 
 #include <pthread.h>
+#include <semaphore.h>
+
+extern int segundo_actual, id_actual, cont_hilos_ejecucion, max_hilos_ejecucion;
+extern sem_t sem_ejecucion, sem_hilos_terminaron;
 
 typedef struct {
     int id;

@@ -44,6 +44,8 @@ void* ejecutar_proceso(void* arg) {
         case 3: quantum = 1; break;
         default: quantum = proc->tiempo_procesador; // Tiempo Real ejecuta completo
     }
+    
+    int tiempo_ejecucion = (tiempo_restante < quantum) ? tiempo_restante : quantum;
 
     for (int i = segundo_actual; i <= segundo_actual+20; i++) {
 
@@ -53,7 +55,7 @@ void* ejecutar_proceso(void* arg) {
         if (id_actual == proc->id && !empezo) {
             // RECUERDA ACTUALIZAR EL SEGFUNDO ACTUAL EN ALGUN MOMENTO
 
-            printf("Segundo %d: #%d BEGIN\n", segundo_actual proc->id);
+            printf("Segundo %d: #%d BEGIN\n", segundo_actual, proc->id);
             // registrar mensaje();
             empezo = 1;
             segundo_actual++;
@@ -62,7 +64,7 @@ void* ejecutar_proceso(void* arg) {
 
         } else if (id_actual == proc->id && empezo && tiempo_restante > 0 && suspendido == 1) {
             // VERIFICAR SI EL PROCESOS SE SUSPENDIO
-            int tiempo_ejecucion = (tiempo_restante < quantum) ? tiempo_restante : quantum;
+            
 
             printf("Segundo %d: #%d EXECUTION\n", proc->tiempo_llegada + proc->tiempo_ejecutado, proc->id);
 
@@ -74,7 +76,7 @@ void* ejecutar_proceso(void* arg) {
         } else if (id_actual != proc->id && tiempo_restante > 0 && proc->prioridad > 0) {
 
             // Si no ha terminado y es proceso de usuario (no tiempo real)
-            printf("#%d SUSPENDED ", proc->tiempo_llegada + proc->tiempo_ejecutado, proc->id); 
+            printf("#%d SUSPENDED ", proc->id); 
                 
             // Bajar prioridad si es posible
             // if(proc->prioridad < 3 && is_full(&prioridad[proc->prioridad-1])) {

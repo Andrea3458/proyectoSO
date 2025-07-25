@@ -40,10 +40,6 @@ int main (int argc, char *argv[]) {
     const char *lista_procesos_nombre = argv[1];
 
     // Inicializar semáforos
-    sem_init(&impresora, 0, 2);
-    sem_init(&scanner, 0, 1);
-    sem_init(&modem, 0, 1);
-    sem_init(&lectoresDVD, 0, 2);
     sem_init(&sem_ejecucion, 0, 0);
     sem_init(&sem_hilos_terminaron, 0, 0);
     int contador_proceso = 0;
@@ -51,10 +47,15 @@ int main (int argc, char *argv[]) {
     //Crea la lista de Procesos
     int cap = leer_archivo_ini(lista_procesos_nombre);
     Proceso proc_sig = lista_procesos[0];
+    Proceso proc_first = lista_procesos[0];
+    //segundo_actual = proc_sig.tiempo_llegada;
 
-    while(1) {
+    while(cap > contador_proceso) {
+
+        printf("UWUUUU\n");
 
         while(proc_sig.tiempo_llegada == segundo_actual) {
+            printf("UWU1\n");
 
             Proceso *proc_temp = malloc(sizeof(Proceso));
             *proc_temp = proc_sig;
@@ -68,11 +69,11 @@ int main (int argc, char *argv[]) {
 
             //Crear Proceso || Contador en tiempo del proceso en SO
             pthread_create(&hilos_de_procesos[proc_temp->id], NULL, ejecutar_proceso, proc_temp);
-            pthread_detach(hilos_de_procesos[proc_temp->id]);
+            //pthread_detach(hilos_de_procesos[proc_temp->id]);
             
-            cont++;
+            contador_proceso++;
             max_hilos_ejecucion++;
-            proc_sig = lista_procesos[cont];
+            proc_sig = lista_procesos[contador_proceso];
         }
 
         //hay proceso en ejecucion = 0 NO HAY
@@ -80,6 +81,7 @@ int main (int argc, char *argv[]) {
         //hay proceso en ejecucion = 2 HAY, PERO ES USUARIO
         // Ejecutar procesos en tiempo real
         if(!is_empty(&tiempo_real) && hay_proceso_en_ejecucion != 1){
+            printf("UWU2\n");
 
             if(hay_proceso_en_ejecucion == 2){
                  printf("Segundo #%d: ",segundo_actual);
@@ -94,6 +96,7 @@ int main (int argc, char *argv[]) {
 
         //  Ejecutar procesos de usuario
         } else if (!is_empty(&usuario) && hay_proceso_en_ejecucion != 1){
+            printf("UWU3\n");
 
             Proceso *proc = malloc(sizeof(Proceso)); // Asignar memoria para el proceso
             hay_proceso_en_ejecucion = 2;
@@ -104,28 +107,28 @@ int main (int argc, char *argv[]) {
                 if(adquirir_recursos(proc)) {
                 
                 *proc = eliminar_proceso(&usuario);
-                agregar_proceso(&prioridad[proc->prioridad-1], &proc);
+                agregar_proceso(&prioridad[proc->prioridad-1], *proc);
 
                 } else {
                     // Si no hay recursos, volver a encolar
-                    agregar_proceso(&usuario *proc);
+                    agregar_proceso(&usuario, *proc);
                 }
 
             }
 
             if(!is_empty(&prioridad[0])){
-                proc = eliminar_proceso(&prioridad[0]);
+               *proc = eliminar_proceso(&prioridad[0]);
             } else if(!is_empty(&prioridad[1])) {
-                proc = eliminar_proceso(&prioridad[1]);
+                *proc = eliminar_proceso(&prioridad[1]);
             } else {
-                proc = eliminar_proceso(&prioridad[2]);
+                *proc = eliminar_proceso(&prioridad[2]);
             }
             
             id_actual = proc->id;
         }
 
         // Verificar si todos los procesos han terminado
-        if(is_empty(&tiempo_real) && hay_proceso_en_ejecucion == 0) {
+        /*if(is_empty(&tiempo_real) && hay_proceso_en_ejecucion == 0 && segundo_actual > 0) {
             int todas_vacias = 1;
             for(int j = 0; j < 3; j++) {
                 if(!is_empty(&prioridad[j])) {
@@ -134,23 +137,24 @@ int main (int argc, char *argv[]) {
                 }
             }
             if(todas_vacias) break;
-        }
+        }*/
 
         for(int i = 0; i < max_hilos_ejecucion; i++){
             sem_post(&sem_ejecucion);
         }
-        
-        sem_wait(&sem_hilos_terminaron);
+
+        if(proc_first.tiempo_llegada <= contador_proceso){
+            sem_wait(&sem_hilos_terminaron);
+        }
         cont_hilos_ejecucion = 0;
 
         segundo_actual++;
+        
     }
 
     // Destruir semaforos
-    sem_destroy(&impresora);
-    sem_destroy(&scanner);
-    sem_destroy(&modem);
-    sem_destroy(&lectoresDVD);
+    sem_destroy(&sem_ejecucion);
+    sem_destroy(&sem_hilos_terminaron);
 
     return 0;
 }

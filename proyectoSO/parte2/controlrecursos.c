@@ -8,25 +8,25 @@ int adquirir_recursos(Proceso* proc) {
     }
     // Intentar adquirir impresoras
     for(int i = 0; i < proc->num_impresoras; i++) {
-        num_impresoras--;
+        numImpresoras--;
     }
     
     // Intentar adquirir scanner
     if(proc->num_scanners > 0) {
-        num_scanners--;
+        numScanner--;
     }
     
     // Intentar adquirir modem
     if(proc->num_modems > 0) {
-        num_modems--;
+        numModem--;
     }
     
     // Intentar adquirir lectores DVD
     for(int i = 0; i < proc->num_DVDs; i++) {
-        num_DVDs--;
+        numLectoresDVD--;
     }
     
-    return numImpresoras >= 0 && num_scanners >= 0 && num_modems >= 0 && num_DVDs >= 0;
+    return numImpresoras >= 0 && numScanner >= 0 && numModem >= 0 && numLectoresDVD >= 0;
 }
 
 // Función para liberar recursos
@@ -34,21 +34,21 @@ void liberar_recursos(Proceso* proc) {
     
     // Liberar impresoras
     for(int i = 0; i < proc->num_impresoras; i++) {
-        num_impresoras++;
+        numImpresoras++;
     }
     
     // Intentar adquirir scanner
     if(proc->num_scanners > 0) {
-        num_scanners++;
+        numScanner++;
     }
     
     // Intentar adquirir modem
     if(proc->num_modems > 0) {
-        num_modems++;
+        numModem++;
     }
     
     // Intentar adquirir lectores DVD
     for(int i = 0; i < proc->num_DVDs; i++) {
-        num_DVDs++;
+        numLectoresDVD++;
     }
 }
