@@ -60,41 +60,30 @@ void* ejecutar_proceso(void* arg) {
             empezo = 1;
             segundo_actual++;
             tiempo_restante -= tiempo_ejecucion;
-            continue; // VERIFICAR
 
         } else if (id_actual == proc->id && empezo && tiempo_restante > 0 && suspendido == 1) {
-            // VERIFICAR SI EL PROCESOS SE SUSPENDIO
-            
-
+            suspendido = 0;
             printf("Segundo %d: #%d EXECUTION\n", proc->tiempo_llegada + proc->tiempo_ejecutado, proc->id);
 
             proc->tiempo_ejecutado++;
             tiempo_restante -= tiempo_ejecucion;
             segundo_actual++;
-            continue;
+
         
         } else if (id_actual != proc->id && tiempo_restante > 0 && proc->prioridad > 0) {
 
             // Si no ha terminado y es proceso de usuario (no tiempo real)
             printf("#%d SUSPENDED ", proc->id); 
-                
-            // Bajar prioridad si es posible
-            // if(proc->prioridad < 3 && is_full(&prioridad[proc->prioridad-1])) {
-            //     // Volver a encolar
-            //     proc->prioridad++;
-            // }
             agregar_proceso(&prioridad[proc->prioridad-1], *proc);
 
             // Liberar recursos temporalmente
             liberar_recursos(proc);
             //pthread_mutex_unlock(&mutex_contador);
-            continue;
 
         } else if (tiempo_restante == 0) {
             // Mensaje de fin
             printf("Segundo %d: #%d END\n", proc->tiempo_llegada + proc->tiempo_ejecutado, proc->id);
             pthread_exit(NULL);
-            break;
         }
         
         //Contandor hilos que esperan su tiempo
