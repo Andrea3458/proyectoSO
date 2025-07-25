@@ -30,7 +30,10 @@ void registrar_mensajes (int segundo, int id_proceso, const char *estado) {
 void* ejecutar_proceso(void* arg) {
 
     Proceso *proc = (Proceso*)arg;
-        
+    
+    int empezo = 0, suspendido = 0;
+
+    // CALCULAR TIEMPO INICIAL
     int tiempo_restante = proc->tiempo_procesador;
     int quantum;
 
@@ -42,45 +45,67 @@ void* ejecutar_proceso(void* arg) {
         default: quantum = proc->tiempo_procesador; // Tiempo Real ejecuta completo
     }
 
-    printf("Segundo %d: #%d BEGIN\n", proc->tiempo_llegada, proc->id);
-    // registrar mensaje();
-    
-    while(tiempo_restante > 0) {
-        int tiempo_ejecucion = (tiempo_restante < quantum) ? tiempo_restante : quantum;
-        
-        // Ejecutar por el tiempo determinado
-        for(int i = 0; i < tiempo_ejecucion; i++) {
+    for (int i = segundo_actual; i <= segundo_actual+20; i++) {
+
+        // REGION CRITICA
+        sem_wait(&sem_ejecucion);
+
+        if (id_actual == proc->id && !empezo) {
+            // RECUERDA ACTUALIZAR EL SEGFUNDO ACTUAL EN ALGUN MOMENTO
+
+            printf("Segundo %d: #%d BEGIN\n", segundo_actual proc->id);
+            // registrar mensaje();
+            empezo = 1;
+            segundo_actual++;
+            tiempo_restante -= tiempo_ejecucion;
+            continue; // VERIFICAR
+
+        } else if (id_actual == proc->id && empezo && tiempo_restante > 0 && suspendido == 1) {
+            // VERIFICAR SI EL PROCESOS SE SUSPENDIO
+            int tiempo_ejecucion = (tiempo_restante < quantum) ? tiempo_restante : quantum;
+
             printf("Segundo %d: #%d EXECUTION\n", proc->tiempo_llegada + proc->tiempo_ejecutado, proc->id);
+
             proc->tiempo_ejecutado++;
-            sleep(1); // Simula 1 segundo de ejecución
-        }
+            tiempo_restante -= tiempo_ejecucion;
+            segundo_actual++;
+            continue;
         
-        tiempo_restante -= tiempo_ejecucion;
-        
-        // Si no ha terminado y es proceso de usuario (no tiempo real)
-        if(tiempo_restante > 0 && proc->prioridad > 0) {
-            printf("Segundo %d: #%d SUSPENDED\n", proc->tiempo_llegada + proc->tiempo_ejecutado, proc->id);
-            
+        } else if (id_actual != proc->id && tiempo_restante > 0 && proc->prioridad > 0) {
+
+            // Si no ha terminado y es proceso de usuario (no tiempo real)
+            printf("#%d SUSPENDED ", proc->tiempo_llegada + proc->tiempo_ejecutado, proc->id); 
+                
             // Bajar prioridad si es posible
-            if(proc->prioridad < 3) {
-                proc->prioridad++;
-            }
-            
-            // Volver a encolar
+            // if(proc->prioridad < 3 && is_full(&prioridad[proc->prioridad-1])) {
+            //     // Volver a encolar
+            //     proc->prioridad++;
+            // }
             agregar_proceso(&prioridad[proc->prioridad-1], *proc);
-            
+
             // Liberar recursos temporalmente
             liberar_recursos(proc);
-            
+            //pthread_mutex_unlock(&mutex_contador);
+            continue;
+
+        } else if (tiempo_restante == 0) {
+            // Mensaje de fin
+            printf("Segundo %d: #%d END\n", proc->tiempo_llegada + proc->tiempo_ejecutado, proc->id);
             pthread_exit(NULL);
+            break;
+        }
+        
+        //Contandor hilos que esperan su tiempo
+        cont_hilos_ejecucion++;
+
+        if(cont_hilos_ejecucion == max_hilos_ejecucion){
+            sem_post(&sem_hilos_terminaron);
         }
     }
-    
-    // Mensaje de fin
-    printf("Segundo %d: #%d END\n", proc->tiempo_llegada + proc->tiempo_ejecutado, proc->id);
-    
+
+    max_hilos_ejecucion--;
+        
     // Liberar recursos definitivamente
     liberar_recursos(proc);
     free(proc);
-
 }

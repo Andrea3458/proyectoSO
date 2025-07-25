@@ -9,18 +9,25 @@
 #include <unistd.h>
 
 Cola tiempo_real;
+Cola usuario;
 Cola prioridad[3];
 pthread_t hilos_de_procesos[1000];
 
 int numImpresoras = 2, numScanner = 1, numModem = 1, numLectoresDVD = 2;
-sem_t impresora, scanner, modem, lectoresDVD;
+//sem_t impresora, scanner, modem, lectoresDVD;
+sem_t sem_ejecucion, sem_hilos_terminaron;
+
+int segundo_actual = 0;
+int max_hilos_ejecucion = 0, cont_hilos_ejecucion = 0;
+int id_actual = 0;
+int hay_proceso_en_ejecucion = 0;
 
 
 int main (int argc, char *argv[]) {
 
     crear_Cola(&tiempo_real, 1000);
 
-    for(int i = 0; i < 3; i++){
+    for(int i = 0; i < 3; i++) {
         crear_Cola(&prioridad[i], 1000);
     }
     
@@ -37,7 +44,9 @@ int main (int argc, char *argv[]) {
     sem_init(&scanner, 0, 1);
     sem_init(&modem, 0, 1);
     sem_init(&lectoresDVD, 0, 2);
-    int contador_proceso = 0, seg = 0;
+    sem_init(&sem_ejecucion, 0, 0);
+    sem_init(&sem_hilos_terminaron, 0, 0);
+    int contador_proceso = 0;
 
     //Crea la lista de Procesos
     int cap = leer_archivo_ini(lista_procesos_nombre);
@@ -45,18 +54,7 @@ int main (int argc, char *argv[]) {
 
     while(1) {
 
-        // asignar procesos a sus respectivas colas
-        while (contador_proceso < cap) {
-            proc_sig = lista_procesos[contador_proceso];
-            proc_sig.tiempo_ejecutado = 0;
-
-            // Esperar hasta que el proceso deba ser asignado
-            // AQUI ESTOY ASUMIENDO QUE EN LA LISTA LOS PROCESOS ESTARAN EN ORDEN,
-            // ES DECIR, QUE UN PROCESO QUE LLEGUE EN EL SEGUNDO 1 NO PUEDE ESTAR EN LA LINEA DESPUES
-            // DE UN PROCESO QUE LLEGUE EN EL SEGUNDO 3, NO SE SI ESTO VAYA A SER ASI SIEMPRE
-            while (seg < proc_sig.tiempo_llegada) {
-                seg++;
-            }
+        while(proc_sig.tiempo_llegada == segundo_actual) {
 
             Proceso *proc_temp = malloc(sizeof(Proceso));
             *proc_temp = proc_sig;
@@ -65,53 +63,69 @@ int main (int argc, char *argv[]) {
             if(proc_temp->prioridad == 0){
                 agregar_proceso(&tiempo_real, *proc_temp);
             } else {
-
-                agregar_proceso(&prioridad[proc_temp->prioridad-1], *proc_temp);
+                agregar_proceso(&usuario, *proc_temp);
             }
-            contador_proceso++;
-            free(proc_temp);
+
+            //Crear Proceso || Contador en tiempo del proceso en SO
+            pthread_create(&hilos_de_procesos[proc_temp->id], NULL, ejecutar_proceso, proc_temp);
+            pthread_detach(hilos_de_procesos[proc_temp->id]);
+            
+            cont++;
+            max_hilos_ejecucion++;
+            proc_sig = lista_procesos[cont];
         }
 
+        //hay proceso en ejecucion = 0 NO HAY
+        //hay proceso en ejecucion = 1 HAY, PERO ES TIEMPO REAL
+        //hay proceso en ejecucion = 2 HAY, PERO ES USUARIO
         // Ejecutar procesos en tiempo real
-        if(!is_empty(&tiempo_real)){
+        if(!is_empty(&tiempo_real) && hay_proceso_en_ejecucion != 1){
+
+            if(hay_proceso_en_ejecucion == 2){
+                 printf("Segundo #%d: ",segundo_actual);
+            }
+
+            hay_proceso_en_ejecucion = 1;
+
             Proceso *proc = malloc(sizeof(Proceso)); // Asignar memoria para el proceso
             *proc = eliminar_proceso(&tiempo_real);
+            id_actual = proc->id;
 
-            if(pthread_create(&hilos_de_procesos[proc->id], NULL, ejecutar_proceso, proc) != 0) {
-                perror("Error al crear hilo");
-                free(proc);
-            } else {
-                pthread_detach(hilos_de_procesos[proc->id]);
-            }
+
         //  Ejecutar procesos de usuario
-        } else {
+        } else if (!is_empty(&usuario) && hay_proceso_en_ejecucion != 1){
 
-            for (int j = 0; j < 3; j++) {
+            Proceso *proc = malloc(sizeof(Proceso)); // Asignar memoria para el proceso
+            hay_proceso_en_ejecucion = 2;
 
-                if(!is_empty(&prioridad[j])){
+            //ASIGNAR PROCESO A SU COLA DE PRIORIDAD
+            while(!is_empty(&usuario)){
 
-                    Proceso *proc = malloc(sizeof(Proceso)); // Asignar memoria para el proceso
-                    *proc = eliminar_proceso(&prioridad[j]);
+                if(adquirir_recursos(proc)) {
+                
+                *proc = eliminar_proceso(&usuario);
+                agregar_proceso(&prioridad[proc->prioridad-1], &proc);
 
-                    if(adquirir_recursos(proc)) {
-                        if(pthread_create(&hilos_de_procesos[proc->id], NULL, ejecutar_proceso, proc) != 0) {
-                            perror("Error al crear hilo");
-                            liberar_recursos(proc);
-                            free(proc);
-                        } else {
-                            pthread_detach(hilos_de_procesos[proc->id]);
-                        }
-                    } else {
-                        // Si no hay recursos, volver a encolar
-                        agregar_proceso(&prioridad[j], *proc);
-                    }
-                    break;
+                } else {
+                    // Si no hay recursos, volver a encolar
+                    agregar_proceso(&usuario *proc);
                 }
+
             }
+
+            if(!is_empty(&prioridad[0])){
+                proc = eliminar_proceso(&prioridad[0]);
+            } else if(!is_empty(&prioridad[1])) {
+                proc = eliminar_proceso(&prioridad[1]);
+            } else {
+                proc = eliminar_proceso(&prioridad[2]);
+            }
+            
+            id_actual = proc->id;
         }
 
         // Verificar si todos los procesos han terminado
-        if(is_empty(&tiempo_real)) {
+        if(is_empty(&tiempo_real) && hay_proceso_en_ejecucion == 0) {
             int todas_vacias = 1;
             for(int j = 0; j < 3; j++) {
                 if(!is_empty(&prioridad[j])) {
@@ -121,7 +135,15 @@ int main (int argc, char *argv[]) {
             }
             if(todas_vacias) break;
         }
-        sleep(1);
+
+        for(int i = 0; i < max_hilos_ejecucion; i++){
+            sem_post(&sem_ejecucion);
+        }
+        
+        sem_wait(&sem_hilos_terminaron);
+        cont_hilos_ejecucion = 0;
+
+        segundo_actual++;
     }
 
     // Destruir semaforos

@@ -2,54 +2,53 @@
 
 // Función para adquirir recursos
 int adquirir_recursos(Proceso* proc) {
-    // Para procesos de tiempo real (no necesitan recursos)
-    if(proc->prioridad == 0) return 1;
     
+    if(proc->num_impresoras > 2 || proc->num_modems > 1 || proc->num_scanners > 1 || proc->num_DVDs > 2){
+        return 0;
+    }
     // Intentar adquirir impresoras
     for(int i = 0; i < proc->num_impresoras; i++) {
-        sem_wait(&impresora);
+        num_impresoras--;
     }
     
     // Intentar adquirir scanner
     if(proc->num_scanners > 0) {
-        sem_wait(&scanner);
+        num_scanners--;
     }
     
     // Intentar adquirir modem
     if(proc->num_modems > 0) {
-        sem_wait(&modem);
+        num_modems--;
     }
     
     // Intentar adquirir lectores DVD
     for(int i = 0; i < proc->num_DVDs; i++) {
-        sem_wait(&lectoresDVD);
+        num_DVDs--;
     }
     
-    return 1;
+    return numImpresoras >= 0 && num_scanners >= 0 && num_modems >= 0 && num_DVDs >= 0;
 }
 
 // Función para liberar recursos
 void liberar_recursos(Proceso* proc) {
-    // Para procesos de tiempo real (no usan recursos)
-    if(proc->prioridad == 0) return;
     
     // Liberar impresoras
     for(int i = 0; i < proc->num_impresoras; i++) {
-        sem_post(&impresora);
+        num_impresoras++;
     }
     
-    // Liberar scanner
+    // Intentar adquirir scanner
     if(proc->num_scanners > 0) {
-        sem_post(&scanner);
+        num_scanners++;
     }
     
-    // Liberar modem
+    // Intentar adquirir modem
     if(proc->num_modems > 0) {
-        sem_post(&modem);
+        num_modems++;
     }
     
-    // Liberar lectores DVD
+    // Intentar adquirir lectores DVD
     for(int i = 0; i < proc->num_DVDs; i++) {
-        sem_post(&lectoresDVD);
+        num_DVDs++;
     }
 }
