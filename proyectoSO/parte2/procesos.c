@@ -56,6 +56,7 @@ void* ejecutar_proceso(void* arg) {
             printf("#%d BEGIN ", proc->id);
             // registrar mensaje();
             empezo = 1;
+            tiempo_restante--;
             suspendido = 1;
 
         //Si ha cambiado el id y todavia le queda tiempo en cpu el proceso muestra que se suspende
@@ -88,11 +89,12 @@ void* ejecutar_proceso(void* arg) {
     sem_wait(&sem_mutex);
 
     cont_hilos_ejecucion++;
-    max_hilos_ejecucion--;
 
     if(cont_hilos_ejecucion == max_hilos_ejecucion){
         sem_post(&sem_hilos_terminaron);
     }
+
+    max_hilos_ejecucion--;
 
     if(estaEnColaDeUsuarios(*proc)){
         liberar_recursos(proc);
