@@ -56,11 +56,11 @@ int main (int argc, char *argv[]) {
 
     while(1) {
 
-        printf("UWUUUU\n");
+        //printf("UWUUUU\n");
 
         //Recibir procesos en el segundo que corresponde y meterlos a sus colas respectivas
         while(proc_sig.tiempo_llegada == segundo_actual) {
-            printf("UWU1\n");
+            //printf("UWU1\n");
 
             Proceso *proc_temp = malloc(sizeof(Proceso));
             *proc_temp = proc_sig;
@@ -89,7 +89,7 @@ int main (int argc, char *argv[]) {
         Proceso *proc = malloc(sizeof(Proceso)); // Asignar memoria para el proceso
         // Si la cola de tiempo real no esta vacia y el proceso en ejecucion no es tiempo real entonces...
         if(!is_empty(&tiempo_real) && hay_proceso_en_ejecucion != 1){
-            printf("UWU2\n");
+            //printf("UWU2\n");
 
             //Si hay un proceso de usuario
             if(hay_proceso_en_ejecucion == 2){
@@ -112,7 +112,7 @@ int main (int argc, char *argv[]) {
         //  Ejecutar procesos de usuario
         // Si la cola de tiempo usuario no esta vacia y el proceso en ejecucion no es tiempo real entonces...
         } else if (!is_empty(&usuario) && hay_proceso_en_ejecucion != 1){
-            printf("UWU3\n");
+            //printf("UWU3\n");
 
             //ASIGNAR PROCESO A SU COLA DE PRIORIDAD
             while(!is_empty(&usuario)){

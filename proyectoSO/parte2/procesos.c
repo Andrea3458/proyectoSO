@@ -40,7 +40,7 @@ void* ejecutar_proceso(void* arg) {
 
         // REGION CRITICA
         sem_wait(&sem_ejecucion);
-        printf("Hola soy %d\n",proc->id);
+        //printf("Hola soy %d\n",proc->id);
 
         //Si el proceso está ejecutanto, no es su primera vez en ejecucion y todavia le queda tiempo en CPU entonces el proceso muestra
         if (id_actual == proc->id && empezo && tiempo_restante > 0 && tiempo_restante > 0) {
