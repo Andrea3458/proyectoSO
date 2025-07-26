@@ -64,6 +64,9 @@ int main (int argc, char *argv[]) {
 
             Proceso *proc_temp = malloc(sizeof(Proceso));
             *proc_temp = proc_sig;
+
+            contador_proceso++;
+            max_hilos_ejecucion++;
             
             //Asignar procesos a la cola correspondiente
             if(proc_temp->prioridad == 0){
@@ -76,8 +79,6 @@ int main (int argc, char *argv[]) {
             pthread_create(&hilos_de_procesos[proc_temp->id], NULL, ejecutar_proceso, proc_temp);
             //pthread_detach(hilos_de_procesos[proc_temp->id]);
             
-            contador_proceso++;
-            max_hilos_ejecucion++;
             proc_sig = lista_procesos[contador_proceso];
         }
 
