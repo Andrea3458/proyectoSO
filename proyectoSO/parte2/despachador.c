@@ -29,7 +29,7 @@ int estaEnColaDeUsuarios(Proceso p){
 int main (int argc, char *argv[]) {
 
     crear_Cola(&tiempo_real, 1000);
-
+    crear_Cola(&usuario, 1000);
     for(int i = 0; i < 3; i++) {
         crear_Cola(&prioridad[i], 1000);
     }
