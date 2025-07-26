@@ -157,7 +157,9 @@ int main (int argc, char *argv[]) {
                 default: quantum = 0; // Tiempo Real ejecuta completo
             }
             hay_proceso_en_ejecucion = 2;
-        } else if()
+        } else if(hay_proceso_en_ejecucion == 0 && is_empty(&tiempo_real) && is_empty(&usuario) && is_empty(&prioridad[0]) && is_empty(&prioridad[1]) && is_empty(&prioridad[2]) && proc_first.tiempo_llegada <= contador_proceso){
+            break;
+        }
 
         //Verificar Quantums
         if(hay_proceso_en_ejecucion == 2){
@@ -176,9 +178,7 @@ int main (int argc, char *argv[]) {
             }
 
             quantum--;
-        } else if(hay_proceso_en_ejecucion == 0 && is_empty(&tiempo_real) && is_empty(&usuario) && is_empty(&prioridad[0]) && is_empty(&prioridad[1]) && is_empty(&prioridad[2]) && proc_first.tiempo_llegada <= contador_proceso){
-            break;
-        }
+        } 
 
         //Registrar mensaje
         printf("Segundo %d: ", segundo_actual);
