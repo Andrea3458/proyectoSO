@@ -78,15 +78,13 @@ void* ejecutar_proceso(void* arg) {
         }
         
         //Contandor hilos que esperan su tiempo
-        sem_wait(&sem_mutex);
+
         cont_hilos_ejecucion++;
         if(cont_hilos_ejecucion == max_hilos_ejecucion){
             sem_post(&sem_hilos_terminaron);
         }
-        sem_post(&sem_mutex);
+        sem_post(&sem_ejecucion);
     }
-
-    sem_wait(&sem_mutex);
 
     cont_hilos_ejecucion++;
 
@@ -100,8 +98,8 @@ void* ejecutar_proceso(void* arg) {
         liberar_recursos(proc);
     }
     
+    sem_post(&sem_ejecucion);
     free(proc);
-    sem_post(&sem_mutex);
         
     // Liberar recursos definitivamente
     pthread_exit(NULL);

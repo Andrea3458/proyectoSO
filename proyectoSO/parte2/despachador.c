@@ -15,7 +15,7 @@ pthread_t hilos_de_procesos[1000];
 
 int numImpresoras = 2, numScanner = 1, numModem = 1, numLectoresDVD = 2;
 //sem_t impresora, scanner, modem, lectoresDVD;
-sem_t sem_ejecucion, sem_hilos_terminaron, sem_mutex;
+sem_t sem_ejecucion, sem_hilos_terminaron;
 
 int segundo_actual = 0, quantum = 0;
 int max_hilos_ejecucion = 0, cont_hilos_ejecucion = 0;
@@ -45,7 +45,6 @@ int main (int argc, char *argv[]) {
     // Inicializar semáforos
     sem_init(&sem_ejecucion, 0, 0);
     sem_init(&sem_hilos_terminaron, 0, 0);
-    sem_init(&sem_mutex, 0, 1);
     int contador_proceso = 0;
 
     //Crea la lista de Procesos
@@ -184,13 +183,11 @@ int main (int argc, char *argv[]) {
             quantum--;
         } 
 
-        //Registrar mensaje
-        printf("Segundo %d: ", segundo_actual);
-        for(int i = 0; i < max_hilos_ejecucion; i++){
-            sem_post(&sem_ejecucion);
-        }
+        sem_post(&sem_ejecucion);
 
         if(proc_first.tiempo_llegada <= contador_proceso){
+            //Registrar mensaje
+            printf("Segundo %d: ", segundo_actual);
             sem_wait(&sem_hilos_terminaron);
         }
 
@@ -204,7 +201,6 @@ int main (int argc, char *argv[]) {
     // Destruir semaforos
     sem_destroy(&sem_ejecucion);
     sem_destroy(&sem_hilos_terminaron);
-    sem_destroy(&sem_mutex);
 
     return 0;
 }
