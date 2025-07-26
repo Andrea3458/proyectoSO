@@ -3,6 +3,7 @@
 
 #include <pthread.h>
 #include <semaphore.h>
+#include "cola.h"
 
 extern Cola usuario;
 extern int segundo_actual, id_actual, cont_hilos_ejecucion, max_hilos_ejecucion, hay_proceso_en_ejecucion;
@@ -20,6 +21,7 @@ typedef struct {
     int tiempo_ejecutado;
 } Proceso;
 
+extern int estaEnColaDeUsuarios(Proceso p);
 void registrar_mensajes(int segundo, int id_proceso, const char *estado);
 void* ejecutar_proceso(void* arg);
 

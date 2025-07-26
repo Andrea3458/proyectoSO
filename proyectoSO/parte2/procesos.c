@@ -93,7 +93,7 @@ void* ejecutar_proceso(void* arg) {
         sem_post(&sem_hilos_terminaron);
     }
 
-    if(!esta_proceso_en_la_cola(&usuario, proc)){
+    if(estaEnColaDeUsuarios(proc)){
         liberar_recursos(proc);
     }
     

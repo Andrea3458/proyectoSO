@@ -22,6 +22,9 @@ int max_hilos_ejecucion = 0, cont_hilos_ejecucion = 0;
 int id_actual = 0;
 int hay_proceso_en_ejecucion = 0;
 
+int estaEnColaDeUsuarios(Proceso p){
+    return !esta_proceso_en_la_cola(&usuario, proc);
+}
 
 int main (int argc, char *argv[]) {
 
@@ -95,7 +98,7 @@ int main (int argc, char *argv[]) {
                 if(lista_procesos[id_actual].prioridad != 3){ 
                     lista_procesos[id_actual].prioridad++;
                 }
-                agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual])
+                agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
 
             }
 
@@ -144,7 +147,7 @@ int main (int argc, char *argv[]) {
                 }
 
                 //Actualiza id
-                agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual])
+                agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
                 id_actual = proc->id;
             } else if(hay_proceso_en_ejecucion == 0){
                 id_actual = proc->id;
