@@ -31,7 +31,7 @@ void* ejecutar_proceso(void* arg) {
 
     Proceso *proc = (Proceso*)arg;
     
-    int empezo = 0, suspendido = 0, seg_temp = segundo_actual;
+    int empezo = 0, suspendido = 0, seg_temp = -1;
 
     // CALCULAR TIEMPO INICIAL
     int tiempo_restante = proc->tiempo_procesador;
