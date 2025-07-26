@@ -40,21 +40,22 @@ void* ejecutar_proceso(void* arg) {
 
         // REGION CRITICA
         sem_wait(&sem_ejecucion);
-
-        //Si el proceso se va a ejecutar y todavia no ha empezado entonces...
-        if (id_actual == proc->id && !empezo) {
-
-            printf("#%d BEGIN ", proc->id);
-            // registrar mensaje();
-            empezo = 1;
-            suspendido = 1;
+        printf("Hola soy %d\n",proc->id);
 
         //Si el proceso está ejecutanto, no es su primera vez en ejecucion y todavia le queda tiempo en CPU entonces el proceso muestra
-        } else if (id_actual == proc->id && empezo && tiempo_restante > 0 && tiempo_restante > 0) {
+        if (id_actual == proc->id && empezo && tiempo_restante > 0 && tiempo_restante > 0) {
             
             printf("#%d EXECUTION ", proc->id);
             //registrar mensaje();
             tiempo_restante--;
+            suspendido = 1;
+        
+        //Si el proceso se va a ejecutar y todavia no ha empezado entonces...
+        } else if (id_actual == proc->id && !empezo) {
+
+            printf("#%d BEGIN ", proc->id);
+            // registrar mensaje();
+            empezo = 1;
             suspendido = 1;
 
         //Si ha cambiado el id y todavia le queda tiempo en cpu el proceso muestra que se suspende
@@ -93,7 +94,7 @@ void* ejecutar_proceso(void* arg) {
         sem_post(&sem_hilos_terminaron);
     }
 
-    if(estaEnColaDeUsuarios(proc)){
+    if(estaEnColaDeUsuarios(*proc)){
         liberar_recursos(proc);
     }
     
