@@ -31,7 +31,7 @@ void* ejecutar_proceso(void* arg) {
 
     Proceso *proc = (Proceso*)arg;
     
-    int empezo = 0;
+    int empezo = 0, suspendido = 0;
 
     // CALCULAR TIEMPO INICIAL
     int tiempo_restante = proc->tiempo_procesador;
@@ -47,6 +47,7 @@ void* ejecutar_proceso(void* arg) {
             printf("#%d BEGIN ", proc->id);
             // registrar mensaje();
             empezo = 1;
+            suspendido = 1;
 
         //Si el proceso está ejecutanto, no es su primera vez en ejecucion y todavia le queda tiempo en CPU entonces el proceso muestra
         } else if (id_actual == proc->id && empezo && tiempo_restante > 0 && tiempo_restante > 0) {
@@ -54,13 +55,15 @@ void* ejecutar_proceso(void* arg) {
             printf("#%d EXECUTION ", proc->id);
             //registrar mensaje();
             tiempo_restante--;
+            suspendido = 1;
 
         //Si ha cambiado el id y todavia le queda tiempo en cpu el proceso muestra que se suspende
-        } else if (id_actual != proc->id && tiempo_restante > 0) {
+        } else if (id_actual != proc->id && tiempo_restante > 0 && suspendido == 1) {
 
             printf("#%d SUSPENDED ", proc->id); 
             //registrar mensaje();
             tiempo_restante--;
+            suspendido = 0;
 
         } else if (tiempo_restante == 0) {
             // Mensaje de fin
