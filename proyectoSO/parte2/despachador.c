@@ -185,7 +185,7 @@ int main (int argc, char *argv[]) {
 
         sem_post(&sem_ejecucion);
 
-        if(proc_first.tiempo_llegada <= contador_proceso){
+        if(proc_first.tiempo_llegada <= segundo_actual){
             //Registrar mensaje
             printf("Segundo %d: ", segundo_actual);
             sem_wait(&sem_hilos_terminaron);
