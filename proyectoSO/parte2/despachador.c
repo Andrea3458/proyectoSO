@@ -215,6 +215,7 @@ int main (int argc, char *argv[]) {
                     default: quantum = 0; // Tiempo Real ejecuta completo
                 }
             }
+            printf("QUANTUM: %d\n",quantum);
 
             quantum--;
         } 
