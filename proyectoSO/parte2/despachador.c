@@ -64,9 +64,7 @@ int main (int argc, char *argv[]) {
 
             Proceso *proc_temp = malloc(sizeof(Proceso));
             *proc_temp = proc_sig;
-
-            contador_proceso++;
-            max_hilos_ejecucion++;
+            if (proc_temp == NULL) { break;}
             
             //Asignar procesos a la cola correspondiente
             if(proc_temp->prioridad == 0){
@@ -79,6 +77,8 @@ int main (int argc, char *argv[]) {
             pthread_create(&hilos_de_procesos[proc_temp->id], NULL, ejecutar_proceso, proc_temp);
             //pthread_detach(hilos_de_procesos[proc_temp->id]);
             
+            contador_proceso++;
+            max_hilos_ejecucion++;
             proc_sig = lista_procesos[contador_proceso];
         }
 
@@ -87,7 +87,7 @@ int main (int argc, char *argv[]) {
         //hay proceso en ejecucion = 2 HAY, PERO ES USUARIO
 
         // Ejecutar procesos en tiempo real
-        Proceso *proc = malloc(sizeof(Proceso)); // Asignar memoria para el proceso
+        Proceso proc; // Asignar memoria para el proceso
         // Si la cola de tiempo real no esta vacia y el proceso en ejecucion no es tiempo real entonces...
         if(!is_empty(&tiempo_real) && hay_proceso_en_ejecucion != 1){
             //printf("UWU2\n");
@@ -105,8 +105,8 @@ int main (int argc, char *argv[]) {
 
             hay_proceso_en_ejecucion = 1;
 
-            *proc = eliminar_proceso(&tiempo_real);
-            id_actual = proc->id;
+            proc = eliminar_proceso(&tiempo_real);
+            id_actual = proc.id;
             quantum = 0;
 
 
@@ -118,29 +118,29 @@ int main (int argc, char *argv[]) {
             //ASIGNAR PROCESO A SU COLA DE PRIORIDAD
             while(!is_empty(&usuario)){
 
-                if(adquirir_recursos(proc)) {
+                if(adquirir_recursos(*proc)) {
                 
-                *proc = eliminar_proceso(&usuario);
-                agregar_proceso(&prioridad[proc->prioridad-1], *proc);
+                proc = eliminar_proceso(&usuario);
+                agregar_proceso(&prioridad[proc.prioridad-1], proc);
 
                 } else {
                     // Si no hay recursos, volver a encolar
-                    liberar_recursos(proc);
-                    agregar_proceso(&usuario, *proc);
+                    liberar_recursos(*proc);
+                    agregar_proceso(&usuario, proc);
                 }
 
             }
 
             if(!is_empty(&prioridad[0])){
-                *proc = eliminar_proceso(&prioridad[0]);
+                proc = eliminar_proceso(&prioridad[0]);
             } else if(!is_empty(&prioridad[1])) {
-                *proc = eliminar_proceso(&prioridad[1]);
+                proc = eliminar_proceso(&prioridad[1]);
             } else {
-                *proc = eliminar_proceso(&prioridad[2]);
+                proc = eliminar_proceso(&prioridad[2]);
             }
 
             //Si hay un proceso de usuario y el proceso en cola es inferior al actual entonces decrementa la prioridad
-            if(hay_proceso_en_ejecucion == 2 && lista_procesos[id_actual].prioridad > proc->prioridad){
+            if(hay_proceso_en_ejecucion == 2 && lista_procesos[id_actual].prioridad > proc.prioridad){
                 
                 //Si la prioridad es menor a 3 aumenta
                 if(lista_procesos[id_actual].prioridad != 3){ 
@@ -149,12 +149,12 @@ int main (int argc, char *argv[]) {
 
                 //Actualiza id
                 agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
-                id_actual = proc->id;
+                id_actual = proc.id;
             } else if(hay_proceso_en_ejecucion == 0){
-                id_actual = proc->id;
+                id_actual = proc.id;
             }
 
-            switch(proc->prioridad) {
+            switch(proc.prioridad) {
                 case 1: quantum = 3; break;
                 case 2: quantum = 2; break;
                 case 3: quantum = 1; break;
@@ -170,10 +170,10 @@ int main (int argc, char *argv[]) {
 
             if(quantum == 0){
                 agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
-                *proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
-                id_actual = proc->id;
+                proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
+                id_actual = proc.id;
 
-                switch(proc->prioridad) {
+                switch(proc.prioridad) {
                     case 1: quantum = 4; break;
                     case 2: quantum = 3; break;
                     case 3: quantum = 2; break;
@@ -184,9 +184,11 @@ int main (int argc, char *argv[]) {
             quantum--;
         } 
 
+        sem_wait(&sem_mutex);
         for(int i = 0; i < max_hilos_ejecucion; i++){
             sem_post(&sem_ejecucion);
         }
+        sem_post(&sem_mutex);
 
         if(proc_first.tiempo_llegada <= segundo_actual){
             //Registrar mensaje
@@ -194,7 +196,9 @@ int main (int argc, char *argv[]) {
             sem_wait(&sem_hilos_terminaron);
         }
 
+        sem_wait(&sem_mutex);
         cont_hilos_ejecucion = 0;
+        sem_post(&sem_mutex);
         printf("\n");
 
         segundo_actual++;
