@@ -183,8 +183,7 @@ int main (int argc, char *argv[]) {
                 //LOS PROCESOS PRIORIDAD 3 NUNCA SUSPENDERAN A OTROS PROCESOS
                 //if(lista_procesos[id_actual].prioridad != 3){ 
                 lista_procesos[id_actual].prioridad++;
-                //}
-                agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-2], lista_procesos[id_actual]);
+                agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
 
                 //Actualiza id
                 
@@ -209,18 +208,18 @@ int main (int argc, char *argv[]) {
             if(quantum == 0){
                 if(!esPrimeraVez){
 
+                    proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
+                    
+                    //Se reduce si se puede
                     if(lista_procesos[id_actual].prioridad != 3){ 
-                        lista_procesos[id_actual].prioridad++;
-                        agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-2], lista_procesos[id_actual]);
-                    } else {
-                        agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
+                        lista_procesos[id_actual].prioridad++; 
                     }
+
                     //printf("Prioridad: %d IDEn: %d TAMANO: %d ",lista_procesos[id_actual].prioridad, id_actual, prioridad[lista_procesos[id_actual].prioridad-1].tamano_actual);
 
                     agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
-                    proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
+                    
                     id_actual = proc.id;
-                    printf("IDMOD: %d\n",id_actual);
                 }
 
                 esPrimeraVez = 0;
