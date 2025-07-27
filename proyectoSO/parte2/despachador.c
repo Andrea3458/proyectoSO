@@ -121,7 +121,7 @@ int main (int argc, char *argv[]) {
             for(int i = 0; i < tamano_temp; i++){
 
                 proc = eliminar_proceso(&usuario);
-                printf("ID PROCESO A ELIMINAR: %d\n"proc.id);
+                printf("ID PROCESO A ELIMINAR: %d\n",proc.id);
                 if(adquirir_recursos(&proc)) {
                 
                 agregar_proceso(&prioridad[proc.prioridad-1], proc);
