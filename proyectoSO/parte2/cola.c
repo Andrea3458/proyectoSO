@@ -39,10 +39,10 @@ int is_full(Cola *q) {
 
 // Añadir un proceso al final de la cola
 void agregar_proceso(Cola *q, Proceso p) {
-    /*if (is_full(q)) {
+    if (is_full(q)) {
         //fprintf(stderr, "Error: Cola llena\n");
         return;
-    }*/
+    }
     
     q->final = (q->final + 1) % q->capacidad_max;
     q->procesos[q->final] = p;
@@ -65,22 +65,16 @@ Proceso eliminar_proceso(Cola *q) {
 }
 
 int esta_proceso_en_la_cola(Cola *q, Proceso p){
-    Cola auxQ;
-    crear_Cola(&auxQ, 1000);
     
-    while(!is_empty(q)){
-        Proceso auxP = eliminar_proceso(q);
-        agregar_proceso(&auxQ, auxP);
-        agregar_proceso(q, auxP);
+    if(is_empty(q)){
+        return 0;
     }
 
-    while(!is_empty(&auxQ)){
-        Proceso auxP = eliminar_proceso(&auxQ);
-
-        if(p.id == auxP.id){
+    for(int i = 0; i < q->tamano_actual; i++){
+        int auxP = (q->inicio + i) % q->capacidad_max;
+        if(q->procesos[auxP].id == p.id){
             return 1;
         }
-
     }
 
     return 0;
@@ -88,14 +82,27 @@ int esta_proceso_en_la_cola(Cola *q, Proceso p){
 
 void eliminar_de_cola_proceso_especifico(Cola *q, Proceso p){
 
-    while(!is_empty(q)){
-        Proceso auxP = eliminar_proceso(q);
-        printf("ID: %d ",auxP.id);
+    if(is_empty(q)){
+        return;
+    }
 
-        if(p.id != auxP.id){
-            agregar_proceso(q, auxP);
+    for(int i = 0; i < q->tamano_actual; i++){
+        int auxP = (q->inicio + i) % q->capacidad_max;
+        if(q->procesos[auxP].id == p.id){
+            Proceso proceso_eliminado = q->procesos[auxP];
+
+            for(int j = i; j < q->tamano_actual - 1; j++){
+                int auxP_actual = (q->inicio + j) % q->capacidad_max;
+                int auxP_sig = (q->inicio + j + 1) % q->capacidad_max;
+                q->procesos[auxP_actual] = q->procesos[auxP_sig];
+            }
+
+            q->tamano_actual--;
+            q->final = (q->final - 1 + q->capacidad_max) % q->capacidad_max;
+
+            return;
         }
     }
-    printf("\n");
 
+    return;
 }

@@ -18,9 +18,9 @@ void destruir_Cola(Cola *cola);
 int is_empty(Cola *cola);
 int is_full(Cola *cola);
 void agregar_proceso(Cola *cola, Proceso p);
-Proceso eliminar_proceso(Cola *cola);
+/*Proceso eliminar_proceso(Cola *cola);
 Proceso ver_frente(Cola *q);
 int esta_proceso_en_la_cola(Cola *q, Proceso p);
-void eliminar_de_cola_proceso_especifico(Cola *q, Proceso p);
+void eliminar_de_cola_proceso_especifico(Cola *q, Proceso p);*/
 
 #endif
