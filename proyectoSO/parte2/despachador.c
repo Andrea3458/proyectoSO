@@ -133,7 +133,10 @@ int main (int argc, char *argv[]) {
                 }
 
             }
-            usuario = usuario_temp;
+            while(!is_empty(&usuario_temp)){
+                Proceso proc_temp2 = eliminar_proceso(&usuario_temp);
+                agregar_proceso(&usuario, proc_temp2);
+            }
 
             if(!is_empty(&prioridad[0])){
                 proc = eliminar_proceso(&prioridad[0]);
