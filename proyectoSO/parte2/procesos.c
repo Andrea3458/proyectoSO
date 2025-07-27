@@ -42,7 +42,7 @@ void* ejecutar_proceso(void* arg) {
         while(seg_temp == segundo_actual){} //POSIBLE ESPERA ACTIVA
         sem_wait(&sem_ejecucion);
 
-        sem_post(&sem_mutex);
+        sem_wait(&sem_mutex);
         
         if(termino){
             sem_post(&sem_mutex);
