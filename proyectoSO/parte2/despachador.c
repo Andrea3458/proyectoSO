@@ -119,7 +119,7 @@ int main (int argc, char *argv[]) {
             while(!is_empty(&usuario)){
 
                 proc = eliminar_proceso(&usuario);
-                //printf("ID: %d PRIORIDAD: %d\n",proc.id, proc.prioridad);
+                printf("ID: %d PRIORIDAD: %d\n",proc.id, proc.prioridad);
                 if(adquirir_recursos(&proc)) {
                 
                 agregar_proceso(&prioridad[proc.prioridad-1], proc);
