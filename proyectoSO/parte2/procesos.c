@@ -29,6 +29,7 @@ void registrar_mensajes (int segundo, int id_proceso, const char *estado) {
 
 void* ejecutar_proceso(void* arg) {
 
+    sem_wait(&sem_mutex);
     Proceso *proc = (Proceso*)arg;
     
     int empezo = 0, suspendido = 0, termino = 0, seg_temp = -1;
@@ -39,6 +40,7 @@ void* ejecutar_proceso(void* arg) {
     for (int i = 0; i < 20; i++) {
 
         // Evitar que el mismo acapare el momento de otro proceso
+        sem_post(&sem_mutex);
         while(seg_temp == segundo_actual) {} //SOLUCIONAR POSIBLE ESPERA ACTIVA
         sem_wait(&sem_ejecucion);
         //printf("Hola soy %d\n",proc->id);
@@ -97,18 +99,18 @@ void* ejecutar_proceso(void* arg) {
         if(termino){
             break;
         }
-        sem_post(&sem_mutex);
+
         if(cont_hilos_ejecucion == max_hilos_ejecucion){
             sem_post(&sem_hilos_terminaron);
         }
     }
 
-    if(termino){
-        sem_post(&sem_mutex);
-    } 
     if(cont_hilos_ejecucion == max_hilos_ejecucion){
         sem_post(&sem_hilos_terminaron);
     }
+    if(termino){
+        sem_post(&sem_mutex);
+    } 
     // Liberar recursos definitivamente
     pthread_exit(NULL);
 }
