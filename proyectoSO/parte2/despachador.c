@@ -188,12 +188,7 @@ int main (int argc, char *argv[]) {
                 id_actual = proc.id;
             }
 
-            /*switch(proc.prioridad) {
-                case 1: quantum = 3; break;
-                case 2: quantum = 2; break;
-                case 3: quantum = 1; break;
-                default: quantum = 0; // Tiempo Real ejecuta completo
-            }*/
+            printf("ID: %d\n",id_actual);
             hay_proceso_en_ejecucion = 2;
         } else if(hay_proceso_en_ejecucion == 0 && is_empty(&tiempo_real) && is_empty(&usuario) && is_empty(&prioridad[0]) && is_empty(&prioridad[1]) && is_empty(&prioridad[2]) && proc_first.tiempo_llegada <= contador_proceso){
             break;
