@@ -141,7 +141,7 @@ int main (int argc, char *argv[]) {
 
         //  Ejecutar procesos de usuario
         // Si las colas de tiempo usuario no estan vacia y el proceso en ejecucion no es tiempo real entonces...
-        } else if ((!is_empty(&usuario) || !is_empty(&prioridad[0]) || !is_empty(&prioridad[1]) || !is_empty(&prioridad[2])) && hay_proceso_en_ejecucion != 1){
+        } else if (!is_empty(&usuario)  && hay_proceso_en_ejecucion != 1){
             //printf("UWU3\n");
             
             int tamano_temp = usuario.tamano_actual;
@@ -209,7 +209,7 @@ int main (int argc, char *argv[]) {
                 if(!esPrimeraVez){
 
                     if(!is_empty(&prioridad[lista_procesos[id_actual].prioridad-1])){
-                        //proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
+                        proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
 
                         //Se reduce si se puede
                         if(lista_procesos[id_actual].prioridad != 3){ 
@@ -218,9 +218,9 @@ int main (int argc, char *argv[]) {
 
                         agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
 
-                    } else {
+                    } /*else {
                         proc = lista_procesos[id_actual];
-                    }
+                    }*/
                     
                     //printf("Prioridad: %d IDEn: %d TAMANO: %d ",lista_procesos[id_actual].prioridad, id_actual, prioridad[lista_procesos[id_actual].prioridad-1].tamano_actual);
 
