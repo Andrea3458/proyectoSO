@@ -118,6 +118,7 @@ int main (int argc, char *argv[]) {
             //ASIGNAR PROCESO A SU COLA DE PRIORIDAD
             while(!is_empty(&usuario)){
 
+                printf("%d\n",adquirir_recursos(&proc));
                 if(adquirir_recursos(&proc)) {
                 
                 proc = eliminar_proceso(&usuario);
