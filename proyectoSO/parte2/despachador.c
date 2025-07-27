@@ -145,7 +145,6 @@ int main (int argc, char *argv[]) {
             //printf("UWU3\n");
             
             int tamano_temp = usuario.tamano_actual;
-            printf("%d\n",tamano_temp);
 
             //ASIGNAR PROCESO A SU COLA DE PRIORIDAD
             for(int i = 0; i < tamano_temp; i++){
@@ -155,12 +154,14 @@ int main (int argc, char *argv[]) {
                 if(adquirir_recursos(&proc)) {
                 
                 agregar_proceso(&prioridad[proc.prioridad-1], proc);
+                
 
                 } else {
                     // Si no hay recursos, volver a encolar
                     liberar_recursos(&proc);
                     agregar_proceso(&usuario, proc);
                 }
+                printf("ID: %d\n",proc.id);
 
             }
 
