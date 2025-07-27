@@ -121,7 +121,7 @@ int main (int argc, char *argv[]) {
             for(int i = 0; i < tamano_temp; i++){
 
                 proc = eliminar_proceso(&usuario);
-                printf("ID PROCESO A ELIMINAR: %d\n",proc.id);
+                //printf("ID PROCESO A ELIMINAR: %d\n",proc.id);
                 if(adquirir_recursos(&proc)) {
                 
                 agregar_proceso(&prioridad[proc.prioridad-1], proc);
@@ -168,7 +168,7 @@ int main (int argc, char *argv[]) {
             break;
         }
 
-        printf("ID ACTUAL: %d, HAY PROCESO EN EJECUCION: %d\n",id_actual, hay_proceso_en_ejecucion);
+        //printf("ID ACTUAL: %d, HAY PROCESO EN EJECUCION: %d\n",id_actual, hay_proceso_en_ejecucion);
 
         //Verificar Quantums
         if(hay_proceso_en_ejecucion == 2){
