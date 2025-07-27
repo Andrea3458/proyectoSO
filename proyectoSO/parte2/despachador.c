@@ -10,7 +10,6 @@
 
 Cola tiempo_real;
 Cola usuario;
-Cola usuario_temp;
 Cola prioridad[3];
 pthread_t hilos_de_procesos[1000];
 
@@ -31,7 +30,6 @@ int main (int argc, char *argv[]) {
 
     crear_Cola(&tiempo_real, 1000);
     crear_Cola(&usuario, 1000);
-    crear_Cola(&usuario_temp, 1000);
     for(int i = 0; i < 3; i++) {
         crear_Cola(&prioridad[i], 1000);
     }
@@ -116,9 +114,11 @@ int main (int argc, char *argv[]) {
         // Si la cola de tiempo usuario no esta vacia y el proceso en ejecucion no es tiempo real entonces...
         } else if ((!is_empty(&usuario) || !is_empty(&prioridad[0]) || !is_empty(&prioridad[1]) || !is_empty(&prioridad[2]))  && hay_proceso_en_ejecucion != 1){
             //printf("UWU3\n");
+            
+            int tamano_temp = usuario.tamano_actual;
 
             //ASIGNAR PROCESO A SU COLA DE PRIORIDAD
-            while(!is_empty(&usuario)){
+            for(int i = 0; i < tamano_temp; i++){
 
                 proc = eliminar_proceso(&usuario);
                 //printf("ID: %d PRIORIDAD: %d\n",proc.id, proc.prioridad);
@@ -129,13 +129,9 @@ int main (int argc, char *argv[]) {
                 } else {
                     // Si no hay recursos, volver a encolar
                     liberar_recursos(&proc);
-                    agregar_proceso(&usuario_temp, proc);
+                    agregar_proceso(&usuario, proc);
                 }
 
-            }
-            while(!is_empty(&usuario_temp)){
-                Proceso proc_temp2 = eliminar_proceso(&usuario_temp);
-                agregar_proceso(&usuario, proc_temp2);
             }
 
             if(!is_empty(&prioridad[0])){
