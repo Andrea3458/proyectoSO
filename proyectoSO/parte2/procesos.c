@@ -92,7 +92,7 @@ void* ejecutar_proceso(void* arg) {
             max_hilos_ejecucion--;
             cont_hilos_ejecucion--;
 
-            printf("ID: %d\n"proc->id);
+            printf("ID: %d\n",proc->id);
             borrarProcesoDeAcuerdoACola(*proc);
 
             termino = 1;
