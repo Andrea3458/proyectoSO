@@ -31,12 +31,16 @@ void* ejecutar_proceso(void* arg) {
 
     Proceso *proc = (Proceso*)arg;
     
-    int empezo = 0, suspendido = 0, seg_temp = -1;
+    int empezo = 0, suspendido = 0, termino = 0, seg_temp = -1;
 
     // CALCULAR TIEMPO INICIAL
     int tiempo_restante = proc->tiempo_procesador;
 
     for (int i = 0; i < 20; i++) {
+
+        if(termino){
+            break;
+        }
 
         // Evitar que el mismo acapare el momento de otro proceso
         while(seg_temp == segundo_actual) {} //SOLUCIONAR POSIBLE ESPERA ACTIVA
@@ -75,7 +79,7 @@ void* ejecutar_proceso(void* arg) {
             }
 
             printf("#%d END ", proc->id);
-            break;
+            termino = 1;
         }
         
         //Contandor hilos que esperan su tiempo
@@ -88,19 +92,12 @@ void* ejecutar_proceso(void* arg) {
         sem_post(&sem_ejecucion);
     }
 
-    cont_hilos_ejecucion++;
-
-    if(cont_hilos_ejecucion == max_hilos_ejecucion){
-        sem_post(&sem_hilos_terminaron);
-    }
-
     max_hilos_ejecucion--;
 
     if(estaEnColaDeUsuarios(*proc)){
         liberar_recursos(proc);
     }
     
-    sem_post(&sem_ejecucion);
     free(proc);
         
     // Liberar recursos definitivamente
