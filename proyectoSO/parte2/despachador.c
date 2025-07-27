@@ -140,7 +140,7 @@ int main (int argc, char *argv[]) {
 
 
         //  Ejecutar procesos de usuario
-        // Si la cola de tiempo usuario no esta vacia y el proceso en ejecucion no es tiempo real entonces...
+        // Si las colas de tiempo usuario no estan vacia y el proceso en ejecucion no es tiempo real entonces...
         } else if ((!is_empty(&usuario) || !is_empty(&prioridad[0]) || !is_empty(&prioridad[1]) || !is_empty(&prioridad[2])) && hay_proceso_en_ejecucion != 1){
             //printf("UWU3\n");
             
@@ -180,9 +180,9 @@ int main (int argc, char *argv[]) {
                 quantum = 0;
                 esPrimeraVez = 1;
 
-                //LOS PROCESOS PRIORIDAD 3 NUNCA SUSPENDERAN A OTROS PROCESOS
-                //if(lista_procesos[id_actual].prioridad != 3){ 
-                lista_procesos[id_actual].prioridad++;
+                if(lista_procesos[id_actual].prioridad != 3){ 
+                    lista_procesos[id_actual].prioridad++;
+                }
                 agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
 
                 //Actualiza id
