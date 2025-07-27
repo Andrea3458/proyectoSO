@@ -94,19 +94,21 @@ void* ejecutar_proceso(void* arg) {
             free(proc);
         }
 
-        if(cont_hilos_ejecucion == max_hilos_ejecucion){
-            sem_post(&sem_hilos_terminaron);
-        }
-
         if(termino){
             break;
         }
         sem_post(&sem_mutex);
+        if(cont_hilos_ejecucion == max_hilos_ejecucion){
+            sem_post(&sem_hilos_terminaron);
+        }
     }
 
     if(termino){
         sem_post(&sem_mutex);
     } 
+    if(cont_hilos_ejecucion == max_hilos_ejecucion){
+        sem_post(&sem_hilos_terminaron);
+    }
     // Liberar recursos definitivamente
     pthread_exit(NULL);
 }
