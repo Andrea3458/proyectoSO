@@ -85,18 +85,19 @@ void* ejecutar_proceso(void* arg) {
         //Contandor hilos que esperan su tiempo
         cont_hilos_ejecucion++;
 
-        if(cont_hilos_ejecucion == max_hilos_ejecucion){
-            sem_post(&sem_hilos_terminaron);
-        }
-
         if(termino){
             max_hilos_ejecucion--;
+            cont_hilos_ejecucion--;
 
             if(estaEnColaDeUsuarios(*proc)){
                 liberar_recursos(proc);
             }
             
             free(proc);
+        }
+
+        if(cont_hilos_ejecucion == max_hilos_ejecucion){
+            sem_post(&sem_hilos_terminaron);
         }
 
         seg_temp = segundo_actual;
