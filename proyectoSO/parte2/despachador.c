@@ -20,7 +20,7 @@ sem_t sem_ejecucion, sem_hilos_terminaron, sem_mutex;
 int segundo_actual = 0, quantum = 0;
 int max_hilos_ejecucion = 0, cont_hilos_ejecucion = 0;
 int id_actual = -1;
-int hay_proceso_en_ejecucion = 0;
+int hay_proceso_en_ejecucion = 0, esPrimeraVez = 1;
 
 int estaEnColaDeUsuarios(Proceso p){
     return esta_proceso_en_la_cola(&usuario, p);
@@ -136,6 +136,7 @@ int main (int argc, char *argv[]) {
             proc = eliminar_proceso(&tiempo_real);
             id_actual = proc.id;
             quantum = 0;
+            esPrimeraVez = 1;
 
 
         //  Ejecutar procesos de usuario
@@ -187,12 +188,12 @@ int main (int argc, char *argv[]) {
                 id_actual = proc.id;
             }
 
-            switch(proc.prioridad) {
+            /*switch(proc.prioridad) {
                 case 1: quantum = 3; break;
                 case 2: quantum = 2; break;
                 case 3: quantum = 1; break;
                 default: quantum = 0; // Tiempo Real ejecuta completo
-            }
+            }*/
             hay_proceso_en_ejecucion = 2;
         } else if(hay_proceso_en_ejecucion == 0 && is_empty(&tiempo_real) && is_empty(&usuario) && is_empty(&prioridad[0]) && is_empty(&prioridad[1]) && is_empty(&prioridad[2]) && proc_first.tiempo_llegada <= contador_proceso){
             break;
@@ -204,9 +205,13 @@ int main (int argc, char *argv[]) {
         if(hay_proceso_en_ejecucion == 2){
 
             if(quantum == 0){
-                agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
-                proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
-                id_actual = proc.id;
+                if(!esPrimeraVez){
+                    agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
+                    proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
+                    id_actual = proc.id;
+                }
+
+                esPrimeraVez = 0;
 
                 switch(proc.prioridad) {
                     case 1: quantum = 4; break;
