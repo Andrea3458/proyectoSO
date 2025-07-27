@@ -209,7 +209,7 @@ int main (int argc, char *argv[]) {
                 if(!esPrimeraVez){
 
                     if(!is_empty(&prioridad[lista_procesos[id_actual].prioridad-1])){
-                        proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
+                        //proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
 
                         //Se reduce si se puede
                         if(lista_procesos[id_actual].prioridad != 3){ 
@@ -218,9 +218,9 @@ int main (int argc, char *argv[]) {
 
                         agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
 
-                    } /*else {
+                    } else {
                         proc = lista_procesos[id_actual];
-                    }*/
+                    }
                     
                     //printf("Prioridad: %d IDEn: %d TAMANO: %d ",lista_procesos[id_actual].prioridad, id_actual, prioridad[lista_procesos[id_actual].prioridad-1].tamano_actual);
 
