@@ -84,7 +84,8 @@ void* ejecutar_proceso(void* arg) {
             max_hilos_ejecucion--;
             cont_hilos_ejecucion--;
 
-            if(!estaEnColaDeUsuarios(*proc)){
+            //Si no esta en cola de usuarios
+            if(estaEnColaDeUsuarios(*proc) == 0){
                 liberar_recursos(proc);
             }
         }
