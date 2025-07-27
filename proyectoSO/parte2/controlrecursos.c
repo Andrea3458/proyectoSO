@@ -7,7 +7,7 @@ int adquirir_recursos(Proceso* proc) {
         return 0;
     }*/
     // Intentar adquirir impresoras
-    num_impresoras -= proc->num_impresoras;
+    numImpresoras -= proc->num_impresoras;
     
     // Intentar adquirir scanner
     numScanner -= proc->num_scanners;
@@ -25,7 +25,7 @@ int adquirir_recursos(Proceso* proc) {
 void liberar_recursos(Proceso* proc) {
     
     // Liberar impresoras
-    num_impresoras += proc->num_impresoras;
+    numImpresoras += proc->num_impresoras;
     
     // Intentar adquirir scanner
     numScanner += proc->num_scanners;
