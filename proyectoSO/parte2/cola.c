@@ -65,7 +65,8 @@ Proceso eliminar_proceso(Cola *q) {
 }
 
 int esta_proceso_en_la_cola(Cola *q, Proceso p){
-    Cola auxQ = *q;
+    Cola auxQ;
+    auxQ = crear_Cola(&auxQ, 1000);
     
     while(!is_empty(q)){
         Proceso auxP = eliminar_proceso(q);
