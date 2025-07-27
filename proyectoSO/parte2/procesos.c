@@ -87,8 +87,6 @@ void* ejecutar_proceso(void* arg) {
             if(!estaEnColaDeUsuarios(*proc)){
                 liberar_recursos(proc);
             }
-            
-            free(proc);
         }
 
         seg_temp = segundo_actual;
@@ -105,5 +103,6 @@ void* ejecutar_proceso(void* arg) {
     }
 
     // Liberar recursos definitivamente
+    free(proc);
     pthread_exit(NULL);
 }

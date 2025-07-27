@@ -71,7 +71,6 @@ int esta_proceso_en_la_cola(Cola *q, Proceso p){
         Proceso auxP = eliminar_proceso(&auxQ);
 
         if(p.id == auxP.id){
-            printf("ID: %d\n",p.id);
             return 1;
         }
 
