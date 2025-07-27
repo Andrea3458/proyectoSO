@@ -208,20 +208,22 @@ int main (int argc, char *argv[]) {
             if(quantum == 0){
                 if(!esPrimeraVez){
 
-                    proc = lista_procesos[id_actual];
                     if(!is_empty(&prioridad[lista_procesos[id_actual].prioridad-1])){
                         proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
+
+                        //Se reduce si se puede
+                        if(lista_procesos[id_actual].prioridad != 3){ 
+                            lista_procesos[id_actual].prioridad++; 
+                        }
+
+                        agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
+
+                    } else {
+                        proc = lista_procesos[id_actual];
                     }
                     
-                    //Se reduce si se puede
-                    if(lista_procesos[id_actual].prioridad != 3){ 
-                        lista_procesos[id_actual].prioridad++; 
-                    }
-
                     //printf("Prioridad: %d IDEn: %d TAMANO: %d ",lista_procesos[id_actual].prioridad, id_actual, prioridad[lista_procesos[id_actual].prioridad-1].tamano_actual);
 
-                    agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
-                    
                     id_actual = proc.id;
                 }
 
