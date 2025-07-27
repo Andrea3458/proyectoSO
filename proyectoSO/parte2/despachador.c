@@ -138,8 +138,10 @@ int main (int argc, char *argv[]) {
                 proc = eliminar_proceso(&prioridad[0]);
             } else if(!is_empty(&prioridad[1])) {
                 proc = eliminar_proceso(&prioridad[1]);
-            } else {
+            } else if(!is_empty(&prioridad[2])){
                 proc = eliminar_proceso(&prioridad[2]);
+            } else {
+                proc = lista_procesos[id_actual].prioridad;
             }
 
             //Si hay un proceso de usuario y el proceso en cola es inferior al actual entonces decrementa la prioridad
@@ -189,7 +191,7 @@ int main (int argc, char *argv[]) {
             quantum--;
         } 
 
-        printf("TR: %d U: %d, P0: %d P1: %d P2: %d Hay: %d ID: %d\n",is_empty(&tiempo_real), is_empty(&usuario), is_empty(&prioridad[0]), is_empty(&prioridad[1]), is_empty(&prioridad[2]), hay_proceso_en_ejecucion, id_actual);
+        //printf("TR: %d U: %d, P0: %d P1: %d P2: %d Hay: %d ID: %d\n",is_empty(&tiempo_real), is_empty(&usuario), is_empty(&prioridad[0]), is_empty(&prioridad[1]), is_empty(&prioridad[2]), hay_proceso_en_ejecucion, id_actual);
 
         sem_wait(&sem_mutex);
         for(int i = 0; i < max_hilos_ejecucion; i++){
