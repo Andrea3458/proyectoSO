@@ -96,11 +96,12 @@ void* ejecutar_proceso(void* arg) {
             free(proc);
         }
 
+        seg_temp = segundo_actual;
+
         if(cont_hilos_ejecucion == max_hilos_ejecucion){
             sem_post(&sem_hilos_terminaron);
         }
-
-        seg_temp = segundo_actual;
+        
         sem_post(&sem_mutex);
     }
 

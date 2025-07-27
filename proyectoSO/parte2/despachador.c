@@ -199,12 +199,12 @@ int main (int argc, char *argv[]) {
             sem_post(&sem_mutex);
         }
 
-        //sem_wait(&sem_mutex);
+        sem_wait(&sem_mutex);
         cont_hilos_ejecucion = 0;
-        //sem_post(&sem_mutex);
         printf("\n");
 
         segundo_actual++;
+        sem_post(&sem_mutex);
         
     }
 
