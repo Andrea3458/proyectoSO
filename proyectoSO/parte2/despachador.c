@@ -210,6 +210,11 @@ int main (int argc, char *argv[]) {
 
             if(quantum == 0){
                 if(!esPrimeraVez){
+
+                    if(lista_procesos[id_actual].prioridad != 3){ 
+                        lista_procesos[id_actual].prioridad++;
+                    }
+
                     agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
                     proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
                     id_actual = proc.id;
