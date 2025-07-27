@@ -58,9 +58,7 @@ void* ejecutar_proceso(void* arg) {
                 //registrar_mensajes();
                 termino = 1;
                 hay_proceso_en_ejecucion = 0; // Solo si este era el proceso en ejecución
-            }
-
-            if (!empezo) {
+            } else if (!empezo) {
                 // Primer quantum del proceso
                 printf("#%d BEGIN ", proc->id);
                 //registrar_mensajes();
