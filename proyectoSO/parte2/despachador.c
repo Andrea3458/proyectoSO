@@ -209,6 +209,7 @@ int main (int argc, char *argv[]) {
                     agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
                     proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
                     id_actual = proc.id;
+                    printf("ID: %d ",id_actual);
                 }
 
                 esPrimeraVez = 0;
