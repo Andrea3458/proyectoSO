@@ -203,7 +203,20 @@ int main (int argc, char *argv[]) {
         //printf("ID ACTUAL: %d, HAY PROCESO EN EJECUCION: %d, QUANTUM: %d\n",id_actual, hay_proceso_en_ejecucion, quantum);
 
         //Verificar Quantums
-        if(hay_proceso_en_ejecucion == 2){
+        if(hay_proceso_en_ejecucion != 1 && (!is_empty(&prioridad[0]) || !is_empty(&prioridad[1]) || !is_empty(&prioridad[2]))){
+
+            if(hay_proceso_en_ejecucion == 0){
+                if(!is_empty(&prioridad[0])){
+                    proc = eliminar_proceso(&prioridad[0]);
+                } else if(!is_empty(&prioridad[1])) {
+                    proc = eliminar_proceso(&prioridad[1]);
+                } else {
+                    proc = eliminar_proceso(&prioridad[2]);
+                }
+                quantum = 0;
+                esPrimeraVez = 1;
+                hay_proceso_en_ejecucion = 2;
+            }
 
             if(quantum == 0){
                 if(!esPrimeraVez){
