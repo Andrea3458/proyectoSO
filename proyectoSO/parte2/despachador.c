@@ -189,7 +189,7 @@ int main (int argc, char *argv[]) {
             quantum--;
         } 
 
-        printf("TR: %d U: %d, P0: %d P1: %d P2: %d Hay: %d ID: %d\n",is_empty(&tiempo_real), is_empty(&usuario), is_empty(&prioridad[0]), is_empty(&prioridad[1]), is_empty(&prioridad[2]), hay_proceso_en_ejecucion, id_actual)
+        printf("TR: %d U: %d, P0: %d P1: %d P2: %d Hay: %d ID: %d\n",is_empty(&tiempo_real), is_empty(&usuario), is_empty(&prioridad[0]), is_empty(&prioridad[1]), is_empty(&prioridad[2]), hay_proceso_en_ejecucion, id_actual);
 
         sem_wait(&sem_mutex);
         for(int i = 0; i < max_hilos_ejecucion; i++){
