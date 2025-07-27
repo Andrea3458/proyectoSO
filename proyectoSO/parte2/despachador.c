@@ -19,7 +19,7 @@ sem_t sem_ejecucion, sem_hilos_terminaron, sem_mutex;
 
 int segundo_actual = 0, quantum = 0;
 int max_hilos_ejecucion = 0, cont_hilos_ejecucion = 0;
-int id_actual = 0;
+int id_actual = -1;
 int hay_proceso_en_ejecucion = 0;
 
 int estaEnColaDeUsuarios(Proceso p){
@@ -140,7 +140,7 @@ int main (int argc, char *argv[]) {
                 proc = eliminar_proceso(&prioridad[1]);
             } else if(!is_empty(&prioridad[2])){
                 proc = eliminar_proceso(&prioridad[2]);
-            } else {
+            } else if(id_actual != -1){
                 proc = lista_procesos[id_actual];
             }
 
