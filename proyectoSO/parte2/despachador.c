@@ -111,7 +111,7 @@ int main (int argc, char *argv[]) {
 
         //  Ejecutar procesos de usuario
         // Si la cola de tiempo usuario no esta vacia y el proceso en ejecucion no es tiempo real entonces...
-        } else if (!is_empty(&usuario) && hay_proceso_en_ejecucion != 1){
+        } else if ((!is_empty(&usuario) || !is_empty(&prioridad[0]) || !is_empty(&prioridad[1]) || !is_empty(&prioridad[2]))  && hay_proceso_en_ejecucion != 1){
             //printf("UWU3\n");
 
             //ASIGNAR PROCESO A SU COLA DE PRIORIDAD
