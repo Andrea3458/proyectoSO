@@ -18,7 +18,7 @@ int adquirir_recursos(Proceso* proc) {
     // Intentar adquirir lectores DVD
     numLectoresDVD -= proc->num_DVDs;
 
-    printf("PEDIDO ID: %d, nI: %d, nS: %d, nM: %d, nL: %d\n",proc->id,numImpresoras,numScanner,numModem,numLectoresDVD);
+    //printf("PEDIDO ID: %d, nI: %d, nS: %d, nM: %d, nL: %d\n",proc->id,numImpresoras,numScanner,numModem,numLectoresDVD);
     
     return numImpresoras >= 0 && numScanner >= 0 && numModem >= 0 && numLectoresDVD >= 0;
 }
@@ -38,5 +38,5 @@ void liberar_recursos(Proceso* proc) {
     // Intentar adquirir lectores DVD
     numLectoresDVD += proc->num_DVDs;
 
-    printf("LIBERADO ID: %d, nI: %d, nS: %d, nM: %d, nL: %d\n",proc->id,numImpresoras,numScanner,numModem,numLectoresDVD);
+    //printf("LIBERADO ID: %d, nI: %d, nS: %d, nM: %d, nL: %d\n",proc->id,numImpresoras,numScanner,numModem,numLectoresDVD);
 }
