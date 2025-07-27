@@ -44,10 +44,6 @@ void* ejecutar_proceso(void* arg) {
 
         sem_wait(&sem_mutex);
         
-        if(termino){
-            sem_post(&sem_mutex);
-            break;
-        }
         //printf("Hola soy %d ",proc->id);
 
         //Si el proceso está ejecutanto, no es su primera vez en ejecucion y todavia le queda tiempo en CPU entonces el proceso muestra
@@ -101,7 +97,11 @@ void* ejecutar_proceso(void* arg) {
         if(cont_hilos_ejecucion == max_hilos_ejecucion){
             sem_post(&sem_hilos_terminaron);
         }
-        
+        if(termino){
+            sem_post(&sem_mutex);
+            break;
+        }
+
         sem_post(&sem_mutex);
     }
 
