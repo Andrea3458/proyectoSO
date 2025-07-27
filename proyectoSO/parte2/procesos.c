@@ -38,10 +38,6 @@ void* ejecutar_proceso(void* arg) {
 
     for (int i = 0; i < 20; i++) {
 
-        if(termino){
-            break;
-        }
-
         // Evitar que el mismo acapare el momento de otro proceso
         while(seg_temp == segundo_actual) {} //SOLUCIONAR POSIBLE ESPERA ACTIVA
         sem_wait(&sem_ejecucion);
@@ -85,26 +81,32 @@ void* ejecutar_proceso(void* arg) {
         //Contandor hilos que esperan su tiempo
 
         seg_temp = segundo_actual;
+        sem_wait(&sem_mutex);
         cont_hilos_ejecucion++;
+
+        if(termino){
+            max_hilos_ejecucion--;
+
+            if(estaEnColaDeUsuarios(*proc)){
+                liberar_recursos(proc);
+            }
+            
+            free(proc);
+        }
+
         if(cont_hilos_ejecucion == max_hilos_ejecucion){
             sem_post(&sem_hilos_terminaron);
         }
 
-        if(!termino){
-            sem_post(&sem_ejecucion);
+        if(termino){
+            break;
         }
+        sem_post(&sem_mutex);
     }
 
-    max_hilos_ejecucion--;
-
-    if(estaEnColaDeUsuarios(*proc)){
-        liberar_recursos(proc);
-    }
-    
-    free(proc);
-
-    sem_post(&sem_ejecucion);
-        
+    if(termino){
+        sem_post(&sem_mutex);
+    } 
     // Liberar recursos definitivamente
     pthread_exit(NULL);
 }
