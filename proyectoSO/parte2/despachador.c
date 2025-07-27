@@ -154,7 +154,7 @@ int main (int argc, char *argv[]) {
                 if(adquirir_recursos(&proc)) {
                 
                 agregar_proceso(&prioridad[proc.prioridad-1], proc);
-                printf("UWU1\n");
+                printf("UWU1 TAMANO PRIORIDAD: %d\n",prioridad[proc.prioridad-1].tamano_actual);
                 
 
                 } else {
