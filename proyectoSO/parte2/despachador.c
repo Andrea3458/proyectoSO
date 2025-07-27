@@ -150,7 +150,7 @@ int main (int argc, char *argv[]) {
             for(int i = 0; i < tamano_temp; i++){
 
                 proc = eliminar_proceso(&usuario);
-                printf("ID PROCESO A ELIMINAR: %d\n",proc.id);
+                //printf("ID PROCESO A ELIMINAR: %d\n",proc.id);
                 if(adquirir_recursos(&proc)) {
                 
                 agregar_proceso(&prioridad[proc.prioridad-1], proc);
@@ -176,6 +176,9 @@ int main (int argc, char *argv[]) {
             //Si hay un proceso de usuario y el proceso en cola es inferior al actual entonces decrementa la prioridad
             if(hay_proceso_en_ejecucion == 2 && lista_procesos[id_actual].prioridad > proc.prioridad){
                 
+                quantum = 0;
+                esPrimeraVez = 1;
+
                 //Si la prioridad es menor a 3 aumenta
                 if(lista_procesos[id_actual].prioridad != 3){ 
                     lista_procesos[id_actual].prioridad++;
@@ -185,6 +188,8 @@ int main (int argc, char *argv[]) {
                 agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
                 id_actual = proc.id;
             } else if(hay_proceso_en_ejecucion == 0){
+                quantum = 0;
+                esPrimeraVez = 1;
                 id_actual = proc.id;
             }
 
