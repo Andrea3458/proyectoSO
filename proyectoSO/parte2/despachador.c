@@ -208,7 +208,9 @@ int main (int argc, char *argv[]) {
             if(quantum == 0){
                 if(!esPrimeraVez){
 
-                    proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
+                    if(!is_empty(&prioridad[lista_procesos[id_actual].prioridad-1])){
+                        proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
+                    }
                     
                     //Se reduce si se puede
                     if(lista_procesos[id_actual].prioridad != 3){ 
