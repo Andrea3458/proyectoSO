@@ -52,6 +52,14 @@ void* ejecutar_proceso(void* arg) {
 
         //Si el proceso está ejecutanto, no es su primera vez en ejecucion y todavia le queda tiempo en CPU entonces el proceso muestra
         if (id_actual == proc->id) { // Es mi turno de CPU
+
+            if (tiempo_restante == 0) {
+                printf("#%d END ", proc->id);
+                //registrar_mensajes();
+                termino = 1;
+                hay_proceso_en_ejecucion = 0; // Solo si este era el proceso en ejecución
+            }
+
             if (!empezo) {
                 // Primer quantum del proceso
                 printf("#%d BEGIN ", proc->id);
@@ -63,18 +71,18 @@ void* ejecutar_proceso(void* arg) {
             }
             tiempo_restante--;
             suspendido = 1; // Está en ejecución o acaba de ejecutar
-
+        } else if (suspendido == 1) { // No es mi turno, y estuve ejecutando
             if (tiempo_restante == 0) {
                 printf("#%d END ", proc->id);
                 //registrar_mensajes();
                 termino = 1;
                 hay_proceso_en_ejecucion = 0; // Solo si este era el proceso en ejecución
+            } else {
+                printf("#%d SUSPENDED ", proc->id);
+                //registrar_mensajes();
+                suspendido = 0; // Ya no se encuentra en estado de "ejecución actual"
             }
-        } else if (suspendido == 1) { // No es mi turno, y estuve ejecutando
-            printf("#%d SUSPENDED ", proc->id);
-            //registrar_mensajes();
-            suspendido = 0; // Ya no se encuentra en estado de "ejecución actual"
-        }
+        } 
         
         //Contandor hilos que esperan su tiempo
         cont_hilos_ejecucion++;
