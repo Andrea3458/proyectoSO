@@ -209,8 +209,9 @@ int main (int argc, char *argv[]) {
 
         sem_wait(&sem_mutex);
         cont_hilos_ejecucion = 0;
-        printf("\n");
-
+        if(proc_first.tiempo_llegada <= segundo_actual){
+            printf("\n");
+        }
         segundo_actual++;
         sem_post(&sem_mutex);
         
