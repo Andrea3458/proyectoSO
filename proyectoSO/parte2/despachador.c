@@ -193,7 +193,10 @@ int main (int argc, char *argv[]) {
         if(proc_first.tiempo_llegada <= segundo_actual){
             //Registrar mensaje
             printf("Segundo %d: ", segundo_actual);
+            sem_post(&sem_mutex);
             sem_wait(&sem_hilos_terminaron);
+        } else {
+            sem_post(&sem_mutex);
         }
 
         sem_wait(&sem_mutex);
