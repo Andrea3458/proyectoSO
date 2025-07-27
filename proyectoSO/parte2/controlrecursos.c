@@ -3,9 +3,9 @@
 // Función para adquirir recursos
 int adquirir_recursos(Proceso* proc) {
     
-    if(proc->num_impresoras > 2 || proc->num_modems > 1 || proc->num_scanners > 1 || proc->num_DVDs > 2){
+    /*if(proc->num_impresoras > 2 || proc->num_modems > 1 || proc->num_scanners > 1 || proc->num_DVDs > 2){
         return 0;
-    }
+    }*/
     // Intentar adquirir impresoras
     for(int i = 0; i < proc->num_impresoras; i++) {
         numImpresoras--;
