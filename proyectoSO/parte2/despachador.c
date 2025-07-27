@@ -118,14 +118,14 @@ int main (int argc, char *argv[]) {
             //ASIGNAR PROCESO A SU COLA DE PRIORIDAD
             while(!is_empty(&usuario)){
 
-                if(adquirir_recursos(*proc)) {
+                if(adquirir_recursos(&proc)) {
                 
                 proc = eliminar_proceso(&usuario);
                 agregar_proceso(&prioridad[proc.prioridad-1], proc);
 
                 } else {
                     // Si no hay recursos, volver a encolar
-                    liberar_recursos(*proc);
+                    liberar_recursos(&proc);
                     agregar_proceso(&usuario, proc);
                 }
 
