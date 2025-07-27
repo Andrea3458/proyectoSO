@@ -154,7 +154,6 @@ int main (int argc, char *argv[]) {
                 if(adquirir_recursos(&proc)) {
                 
                 agregar_proceso(&prioridad[proc.prioridad-1], proc);
-                printf("UWU1 TAMANO PRIORIDAD: %d\n",prioridad[proc.prioridad-1].tamano_actual);
                 
 
                 } else {
@@ -203,7 +202,7 @@ int main (int argc, char *argv[]) {
             break;
         }
 
-        printf("ID ACTUAL: %d, HAY PROCESO EN EJECUCION: %d\n",id_actual, hay_proceso_en_ejecucion);
+        //printf("ID ACTUAL: %d, HAY PROCESO EN EJECUCION: %d\n",id_actual, hay_proceso_en_ejecucion);
 
         //Verificar Quantums
         if(hay_proceso_en_ejecucion == 2){
