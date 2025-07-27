@@ -23,7 +23,7 @@ int id_actual = 0;
 int hay_proceso_en_ejecucion = 0;
 
 int estaEnColaDeUsuarios(Proceso p){
-    return !esta_proceso_en_la_cola(&usuario, p);
+    return esta_proceso_en_la_cola(&usuario, p);
 }
 
 int main (int argc, char *argv[]) {

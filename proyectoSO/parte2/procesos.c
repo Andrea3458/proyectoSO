@@ -85,8 +85,7 @@ void* ejecutar_proceso(void* arg) {
             cont_hilos_ejecucion--;
 
             //Si no esta en cola de usuarios
-            printf("ESTA: %d \n", estaEnColaDeUsuarios(*proc));
-            if(estaEnColaDeUsuarios(*proc) == 0){
+            if(!estaEnColaDeUsuarios(*proc)){
                 liberar_recursos(proc);
             }
         }
