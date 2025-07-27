@@ -88,6 +88,11 @@ void* ejecutar_proceso(void* arg) {
             if(!estaEnColaDeUsuarios(*proc)){
                 liberar_recursos(proc);
             }
+        } else if(i == 19){
+            max_hilos_ejecucion--;
+            cont_hilos_ejecucion--;
+
+            borrarProcesoDeAcuerdoACola(*proc);
         }
 
         seg_temp = segundo_actual;

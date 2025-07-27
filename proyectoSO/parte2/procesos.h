@@ -19,6 +19,7 @@ typedef struct {
     int tiempo_ejecutado;
 } Proceso;
 
+extern void borrarProcesoDeAcuerdoACola(Proceso p);
 extern int estaEnColaDeUsuarios(Proceso p);
 void registrar_mensajes(int segundo, int id_proceso, const char *estado);
 void* ejecutar_proceso(void* arg);

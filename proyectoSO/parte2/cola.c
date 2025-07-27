@@ -78,3 +78,15 @@ int esta_proceso_en_la_cola(Cola *q, Proceso p){
 
     return 0;
 }
+
+void eliminar_de_cola_proceso_especifico(Cola *q, Proceso p){
+
+    while(!is_empty(&q)){
+        Proceso auxP = eliminar_proceso(q);
+
+        if(p.id != auxP.id){
+            agregar_proceso(q, auxP);
+        }
+    }
+
+}

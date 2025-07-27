@@ -26,6 +26,34 @@ int estaEnColaDeUsuarios(Proceso p){
     return esta_proceso_en_la_cola(&usuario, p);
 }
 
+void borrarProcesoDeAcuerdoACola(Proceso p){
+    
+    if(esta_proceso_en_la_cola(&tiempo_real, p)){
+        eliminar_de_cola_proceso_especifico(&tiempo_real, p);
+        return;
+    }
+
+    if(esta_proceso_en_la_cola(&usuario, p)){
+        eliminar_de_cola_proceso_especifico(&usuario, p);
+        return;
+    }
+
+    if(esta_proceso_en_la_cola(&prioridad[0], p)){
+        eliminar_de_cola_proceso_especifico(&prioridad[0], p);
+        return;
+    }
+
+    if(esta_proceso_en_la_cola(&prioridad[1], p)){
+        eliminar_de_cola_proceso_especifico(&prioridad[1], p);
+        return;
+    }
+
+    if(esta_proceso_en_la_cola(&prioridad[2], p)){
+        eliminar_de_cola_proceso_especifico(&prioridad[2], p);
+        return;
+    }
+}
+
 int main (int argc, char *argv[]) {
 
     crear_Cola(&tiempo_real, 1000);
