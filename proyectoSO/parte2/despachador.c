@@ -154,10 +154,12 @@ int main (int argc, char *argv[]) {
                 if(adquirir_recursos(&proc)) {
                 
                 agregar_proceso(&prioridad[proc.prioridad-1], proc);
+                printf("UWU1\n");
                 
 
                 } else {
                     // Si no hay recursos, volver a encolar
+                    printf("UWU2\n");
                     liberar_recursos(&proc);
                     agregar_proceso(&usuario, proc);
                 }
