@@ -216,6 +216,7 @@ int main (int argc, char *argv[]) {
                 quantum = 0;
                 esPrimeraVez = 1;
                 hay_proceso_en_ejecucion = 2;
+                id_actual = proc.id;
             }
 
             if(quantum == 0){
