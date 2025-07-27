@@ -158,11 +158,9 @@ int main (int argc, char *argv[]) {
 
                 } else {
                     // Si no hay recursos, volver a encolar
-                    printf("UWU2\n");
                     liberar_recursos(&proc);
                     agregar_proceso(&usuario, proc);
                 }
-                printf("ID: %d\n",proc.id);
 
             }
 
