@@ -40,7 +40,7 @@ int is_full(Cola *q) {
 // Añadir un proceso al final de la cola
 void agregar_proceso(Cola *q, Proceso p) {
     if (is_full(q)) {
-        fprintf(stderr, "Error: Cola llena\n");
+        //fprintf(stderr, "Error: Cola llena\n");
         return;
     }
     
