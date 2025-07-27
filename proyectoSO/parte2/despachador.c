@@ -165,6 +165,7 @@ int main (int argc, char *argv[]) {
 
             if(!is_empty(&prioridad[0])){
                 proc = eliminar_proceso(&prioridad[0]);
+                printf("ID_Elimidado %d ",proc.id);
             } else if(!is_empty(&prioridad[1])) {
                 proc = eliminar_proceso(&prioridad[1]);
             } else if(!is_empty(&prioridad[2])){
