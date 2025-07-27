@@ -141,7 +141,7 @@ int main (int argc, char *argv[]) {
             } else if(!is_empty(&prioridad[2])){
                 proc = eliminar_proceso(&prioridad[2]);
             } else {
-                proc = lista_procesos[id_actual].prioridad;
+                proc = lista_procesos[id_actual];
             }
 
             //Si hay un proceso de usuario y el proceso en cola es inferior al actual entonces decrementa la prioridad
