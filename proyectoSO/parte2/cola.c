@@ -65,24 +65,26 @@ Proceso eliminar_proceso(Cola *q) {
 }
 
 int esta_proceso_en_la_cola(Cola *q, Proceso p){
-    Cola auxQ;
-    crear_Cola(&auxQ, 1000);
+    Cola *auxQ;
+    crear_Cola(auxQ, 1000);
     
     while(!is_empty(q)){
         Proceso auxP = eliminar_proceso(q);
-        agregar_proceso(&auxQ, auxP);
+        agregar_proceso(auxQ, auxP);
         agregar_proceso(q, auxP);
     }
 
-    while(!is_empty(&auxQ)){
-        Proceso auxP = eliminar_proceso(&auxQ);
+    while(!is_empty(auxQ)){
+        Proceso auxP = eliminar_proceso(auxQ);
 
         if(p.id == auxP.id){
+            free(auxQ);
             return 1;
         }
 
     }
-
+    
+    free(auxQ);
     return 0;
 }
 
