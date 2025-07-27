@@ -31,7 +31,7 @@ void* ejecutar_proceso(void* arg) {
 
     Proceso *proc = (Proceso*)arg;
     
-    int empezo = 0, suspendido = 0, termino = 0;
+    int empezo = 0, suspendido = 0, termino = 0, seg_temp = -1;
 
     // CALCULAR TIEMPO INICIAL
     int tiempo_restante = proc->tiempo_procesador;
@@ -39,6 +39,7 @@ void* ejecutar_proceso(void* arg) {
     for (int i = 0; i < 20; i++) {
 
         // Evitar que el mismo proceso acapare el momento de otro proceso
+        while(seg_temp == segundo_actual){} //POSIBLE ESPERA ACTIVA
         sem_wait(&sem_ejecucion);
 
         sem_post(&sem_mutex);
@@ -92,6 +93,7 @@ void* ejecutar_proceso(void* arg) {
             sem_post(&sem_hilos_terminaron);
         }
 
+        seg_temp = segundo_actual;
         sem_post(&sem_mutex);
     }
 
