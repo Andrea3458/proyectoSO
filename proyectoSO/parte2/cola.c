@@ -65,17 +65,20 @@ Proceso eliminar_proceso(Cola *q) {
 }
 
 int esta_proceso_en_la_cola(Cola *q, Proceso p){
-    Cola auxQ = *q;
+    Cola *auxQ = malloc(sizeof(Cola));
+    Cola auxQ = q;
 
     while(!is_empty(&auxQ)){
         Proceso auxP = eliminar_proceso(&auxQ);
 
         if(p.id == auxP.id){
+            free(auxQ);
             return 1;
         }
 
     }
 
+    free(auxQ);
     return 0;
 }
 
