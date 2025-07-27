@@ -121,7 +121,6 @@ int main (int argc, char *argv[]) {
             for(int i = 0; i < tamano_temp; i++){
 
                 proc = eliminar_proceso(&usuario);
-                printf("Tamano: %d Capacidad: %d\n", usuario.tamano_actual, usuario.capacidad_max);
                 if(adquirir_recursos(&proc)) {
                 
                 agregar_proceso(&prioridad[proc.prioridad-1], proc);
@@ -167,6 +166,8 @@ int main (int argc, char *argv[]) {
         } else if(hay_proceso_en_ejecucion == 0 && is_empty(&tiempo_real) && is_empty(&usuario) && is_empty(&prioridad[0]) && is_empty(&prioridad[1]) && is_empty(&prioridad[2]) && proc_first.tiempo_llegada <= contador_proceso){
             break;
         }
+
+        printf("%d\n",id_actual);
 
         //Verificar Quantums
         if(hay_proceso_en_ejecucion == 2){
