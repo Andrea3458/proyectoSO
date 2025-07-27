@@ -10,6 +10,7 @@
 
 Cola tiempo_real;
 Cola usuario;
+Cola usuario_temp;
 Cola prioridad[3];
 pthread_t hilos_de_procesos[1000];
 
@@ -30,6 +31,7 @@ int main (int argc, char *argv[]) {
 
     crear_Cola(&tiempo_real, 1000);
     crear_Cola(&usuario, 1000);
+    crear_Cola(&usuario_temp, 1000);
     for(int i = 0; i < 3; i++) {
         crear_Cola(&prioridad[i], 1000);
     }
@@ -119,7 +121,7 @@ int main (int argc, char *argv[]) {
             while(!is_empty(&usuario)){
 
                 proc = eliminar_proceso(&usuario);
-                printf("ID: %d PRIORIDAD: %d\n",proc.id, proc.prioridad);
+                //printf("ID: %d PRIORIDAD: %d\n",proc.id, proc.prioridad);
                 if(adquirir_recursos(&proc)) {
                 
                 agregar_proceso(&prioridad[proc.prioridad-1], proc);
@@ -127,10 +129,11 @@ int main (int argc, char *argv[]) {
                 } else {
                     // Si no hay recursos, volver a encolar
                     liberar_recursos(&proc);
-                    agregar_proceso(&usuario, proc);
+                    agregar_proceso(&usuario_temp, proc);
                 }
 
             }
+            usuario = usuario_temp;
 
             if(!is_empty(&prioridad[0])){
                 proc = eliminar_proceso(&prioridad[0]);
