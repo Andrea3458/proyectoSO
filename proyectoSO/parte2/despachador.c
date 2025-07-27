@@ -200,7 +200,7 @@ int main (int argc, char *argv[]) {
             break;
         }
 
-        printf("ID ACTUAL: %d, HAY PROCESO EN EJECUCION: %d, QUANTUM: %d\n",id_actual, hay_proceso_en_ejecucion, quantum);
+        //printf("ID ACTUAL: %d, HAY PROCESO EN EJECUCION: %d, QUANTUM: %d\n",id_actual, hay_proceso_en_ejecucion, quantum);
 
         //Verificar Quantums
         if(hay_proceso_en_ejecucion == 2){
@@ -211,10 +211,12 @@ int main (int argc, char *argv[]) {
                     if(lista_procesos[id_actual].prioridad != 3){ 
                         lista_procesos[id_actual].prioridad++;
                     }
+                    printf("Prioridad: %d IDEn: %d TAMANO: %d ",lista_procesos[id_actual].prioridad, id_actual, prioridad[lista_procesos[id_actual].prioridad-1].tamano_actual);
 
                     agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
                     proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
                     id_actual = proc.id;
+                    printf("IDMOD: %d\n",id_actual);
                 }
 
                 esPrimeraVez = 0;
