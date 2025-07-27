@@ -39,10 +39,10 @@ int is_full(Cola *q) {
 
 // Añadir un proceso al final de la cola
 void agregar_proceso(Cola *q, Proceso p) {
-    if (is_full(q)) {
+    /*if (is_full(q)) {
         //fprintf(stderr, "Error: Cola llena\n");
         return;
-    }
+    }*/
     
     q->final = (q->final + 1) % q->capacidad_max;
     q->procesos[q->final] = p;
