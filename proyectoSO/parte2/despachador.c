@@ -188,7 +188,7 @@ int main (int argc, char *argv[]) {
                 id_actual = proc.id;
             }
 
-            printf("ID: %d\n",id_actual);
+            printf("ID: %d HAY: %d\n",id_actual, hay_proceso_en_ejecucion);
             hay_proceso_en_ejecucion = 2;
         } else if(hay_proceso_en_ejecucion == 0 && is_empty(&tiempo_real) && is_empty(&usuario) && is_empty(&prioridad[0]) && is_empty(&prioridad[1]) && is_empty(&prioridad[2]) && proc_first.tiempo_llegada <= contador_proceso){
             break;
