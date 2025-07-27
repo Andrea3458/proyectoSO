@@ -167,7 +167,7 @@ int main (int argc, char *argv[]) {
             break;
         }
 
-        printf("%d\n",id_actual);
+        printf("ID ACTUAL: %d, HAY PROCESO EN EJECUCION: %d\n",id_actual, hay_proceso_en_ejecucion);
 
         //Verificar Quantums
         if(hay_proceso_en_ejecucion == 2){
