@@ -39,12 +39,13 @@ void* ejecutar_proceso(void* arg) {
     for (int i = 0; i < 20; i++) {
 
         // Evitar que el mismo proceso acapare el momento de otro proceso
-        while(seg_temp == segundo_actual){} //POSIBLE ESPERA ACTIVA
+
+        //while(seg_temp == segundo_actual){} //POSIBLE ESPERA ACTIVA
         sem_wait(&sem_ejecucion);
 
         sem_wait(&sem_mutex);
         
-        //printf("Hola soy %d ",proc->id);
+        printf("Hola soy %d ",proc->id);
 
         //Si el proceso está ejecutanto, no es su primera vez en ejecucion y todavia le queda tiempo en CPU entonces el proceso muestra
         if (id_actual == proc->id) { // Es mi turno de CPU
