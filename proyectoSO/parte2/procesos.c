@@ -94,6 +94,8 @@ void* ejecutar_proceso(void* arg) {
 
             borrarProcesoDeAcuerdoACola(*proc);
 
+            printf("#%d END ", proc->id);
+
             if(suspendido){
                 hay_proceso_en_ejecucion = 0;
             }
