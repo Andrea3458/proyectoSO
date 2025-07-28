@@ -255,9 +255,8 @@ int main (int argc, char *argv[]) {
         } 
 
         sem_wait(&sem_mutex);
-        for(int i = 0; i < max_hilos_ejecucion; i++){
-            sem_post(&sem_ejecucion);
-        }
+        sem_post(&sem_ejecucion);
+        
 
         if(proc_first.tiempo_llegada <= segundo_actual){
             //Registrar mensaje
