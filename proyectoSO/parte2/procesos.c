@@ -47,7 +47,6 @@ void* ejecutar_proceso(void* arg) {
             sem_post(&sem_hilos_terminaron);
         }
 
-        //while(seg_temp == segundo_actual){} //POSIBLE ESPERA ACTIVA
         sem_post(&sem_mutex2);
 
         sem_wait(&sem_ejecucion);
@@ -89,27 +88,25 @@ void* ejecutar_proceso(void* arg) {
 
         cont_hilos_ejecucion++;
 
-        if(termino){
+        if(termino || i == 19){
             max_hilos_ejecucion--;
             cont_hilos_ejecucion--;
 
             //Si no esta en cola de usuarios
-            if(!estaEnColaDeUsuarios(*proc)){
+            if(!esta_en_cola_de_usuarios(*proc)){
                 liberar_recursos(proc);
             }
-        } else if(i == 19){
-            max_hilos_ejecucion--;
-            cont_hilos_ejecucion--;
 
-            borrarProcesoDeAcuerdoACola(*proc);
-
-            printf("#%d END ", proc->id);
-
-            if(suspendido){
-                hay_proceso_en_ejecucion = 0;
+            if(i == 19){
+                borrar_proceso_de_acuerdo_a_cola(*proc);
+                
+                printf("#%d END ", proc->id);
+                if(suspendido){
+                    hay_proceso_en_ejecucion = 0;
+                }
+                termino = 1;
             }
 
-            termino = 1;
         }
 
         if(cont_hilos_ejecucion == max_hilos_ejecucion){

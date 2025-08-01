@@ -5,7 +5,7 @@
 #include <semaphore.h>
 #include "cola.h"
 #include "leerarchivoentrada.h"
-#include "controlrecursos.h"
+#include "control.h"
 #include <unistd.h>
 
 Cola tiempo_real;
@@ -21,38 +21,6 @@ int segundo_actual = 0, quantum = 0;
 int max_hilos_ejecucion = 0, cont_hilos_ejecucion = 0;
 int id_actual = -1;
 int hay_proceso_en_ejecucion = 0, esPrimeraVez = 1;
-
-int estaEnColaDeUsuarios(Proceso p){
-    return esta_proceso_en_la_cola(&usuario, p);
-}
-
-void borrarProcesoDeAcuerdoACola(Proceso p){
-    
-    if(esta_proceso_en_la_cola(&tiempo_real, p)){
-        eliminar_de_cola_proceso_especifico(&tiempo_real, p);
-        return;
-    }
-
-    if(esta_proceso_en_la_cola(&usuario, p)){
-        eliminar_de_cola_proceso_especifico(&usuario, p);
-        return;
-    }
-
-    if(esta_proceso_en_la_cola(&prioridad[0], p)){
-        eliminar_de_cola_proceso_especifico(&prioridad[0], p);
-        return;
-    }
-
-    if(esta_proceso_en_la_cola(&prioridad[1], p)){
-        eliminar_de_cola_proceso_especifico(&prioridad[1], p);
-        return;
-    }
-
-    if(esta_proceso_en_la_cola(&prioridad[2], p)){
-        eliminar_de_cola_proceso_especifico(&prioridad[2], p);
-        return;
-    }
-}
 
 int main (int argc, char *argv[]) {
 
@@ -116,7 +84,7 @@ int main (int argc, char *argv[]) {
         //hay proceso en ejecucion = 2 HAY, PERO ES USUARIO
 
         // Ejecutar procesos en tiempo real
-        Proceso proc; // Asignar memoria para el proceso
+        Proceso proc;
         // Si la cola de tiempo real no esta vacia y el proceso en ejecucion no es tiempo real entonces...
         if(!is_empty(&tiempo_real) && hay_proceso_en_ejecucion != 1){
             //printf("UWU2\n");
@@ -141,8 +109,8 @@ int main (int argc, char *argv[]) {
 
 
         //  Ejecutar procesos de usuario
-        // Si las colas de tiempo usuario no estan vacia y el proceso en ejecucion no es tiempo real entonces...
-        } else if (!is_empty(&usuario)  && hay_proceso_en_ejecucion != 1){
+        // Si las colas de tiempo usuario no estan vacias y el proceso en ejecucion no es tiempo real entonces...
+        } else if (!is_empty(&usuario) && hay_proceso_en_ejecucion != 1){
             //printf("UWU3\n");
             
             int tamano_temp = usuario.tamano_actual;
@@ -233,11 +201,7 @@ int main (int argc, char *argv[]) {
 
                         agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
 
-                    } /*else {
-                        proc = lista_procesos[id_actual];
-                    }*/
-                    
-                    //printf("Prioridad: %d IDEn: %d TAMANO: %d ",lista_procesos[id_actual].prioridad, id_actual, prioridad[lista_procesos[id_actual].prioridad-1].tamano_actual);
+                    }
 
                     id_actual = proc.id;
                 }
@@ -253,39 +217,9 @@ int main (int argc, char *argv[]) {
             }
 
             quantum--;
-        } 
-
-        sem_post(&sem_mutex2);
-        //Espera a que los hilos entren al for
-        if(proc_first.tiempo_llegada <= segundo_actual){
-            sem_wait(&sem_hilos_terminaron);
         }
 
-        cont_hilos_ejecucion = 0;
-
-        sem_wait(&sem_mutex);
-        for(int i = 0; i < max_hilos_ejecucion; i++){
-            sem_post(&sem_ejecucion);
-        }
-
-        sem_wait(&sem_mutex2);
-        if(proc_first.tiempo_llegada <= segundo_actual){
-            //Registrar mensaje
-            printf("Segundo %d: ", segundo_actual);
-            sem_post(&sem_mutex);
-            sem_wait(&sem_hilos_terminaron);
-        } else {
-            sem_post(&sem_mutex);
-        }
-
-        sem_wait(&sem_mutex);
-        cont_hilos_ejecucion = 0;
-
-        if(proc_first.tiempo_llegada <= segundo_actual){
-            printf("\n");
-        }
-        segundo_actual++;
-        sem_post(&sem_mutex);
+        control_semaforos();
 
         //printf("TR: %d U: %d, P0: %d P1: %d P2: %d Hay: %d ID: %d\n",is_empty(&tiempo_real), is_empty(&usuario), is_empty(&prioridad[0]), is_empty(&prioridad[1]), is_empty(&prioridad[2]), hay_proceso_en_ejecucion, id_actual);
         
