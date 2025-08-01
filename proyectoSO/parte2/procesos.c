@@ -87,8 +87,11 @@ void* ejecutar_proceso(void* arg) {
             }
         } 
 
+        cont_hilos_ejecucion++;
+
         if(termino){
             max_hilos_ejecucion--;
+            cont_hilos_ejecucion--;
 
             //Si no esta en cola de usuarios
             if(!estaEnColaDeUsuarios(*proc)){
@@ -96,6 +99,7 @@ void* ejecutar_proceso(void* arg) {
             }
         } else if(i == 19){
             max_hilos_ejecucion--;
+            cont_hilos_ejecucion--;
 
             borrarProcesoDeAcuerdoACola(*proc);
 
@@ -108,6 +112,9 @@ void* ejecutar_proceso(void* arg) {
 
         seg_temp = segundo_actual;
 
+        if(cont_hilos_ejecucion == max_hilos_ejecucion){
+            sem_post(&sem_hilos_terminaron);
+        }
         
         if(termino){
             sem_post(&sem_mutex);
