@@ -257,7 +257,9 @@ int main (int argc, char *argv[]) {
 
         sem_post(&sem_mutex2);
         //Espera a que los hilos entren al for
-        sem_wait(&sem_hilos_terminaron);
+        if(proc_first.tiempo_llegada <= segundo_actual){
+            sem_wait(&sem_hilos_terminaron);
+        }
 
         cont_hilos_ejecucion = 0;
 
