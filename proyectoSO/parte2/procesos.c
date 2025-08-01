@@ -97,6 +97,9 @@ void* ejecutar_proceso(void* arg) {
             if(!estaEnColaDeUsuarios(*proc)){
                 liberar_recursos(proc);
             }
+
+            sem_post(&sem_mutex);
+            break;
         } else if(i == 19){
             max_hilos_ejecucion--;
             cont_hilos_ejecucion--;
@@ -116,11 +119,6 @@ void* ejecutar_proceso(void* arg) {
             sem_post(&sem_hilos_terminaron);
         }
         
-        if(termino){
-            sem_post(&sem_mutex);
-            break;
-        }
-
         sem_post(&sem_mutex);
     }
 
