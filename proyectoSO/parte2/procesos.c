@@ -31,7 +31,7 @@ void* ejecutar_proceso(void* arg) {
 
     Proceso *proc = (Proceso*)arg;
     
-    int empezo = 0, suspendido = 0, termino = 0, seg_temp = -1;
+    int empezo = 0, suspendido = 0, termino = 0;
 
     // CALCULAR TIEMPO INICIAL
     int tiempo_restante = proc->tiempo_procesador;
@@ -111,8 +111,6 @@ void* ejecutar_proceso(void* arg) {
 
             termino = 1;
         }
-
-        seg_temp = segundo_actual;
 
         if(cont_hilos_ejecucion == max_hilos_ejecucion){
             sem_post(&sem_hilos_terminaron);

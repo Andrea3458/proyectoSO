@@ -296,11 +296,11 @@ int main (int argc, char *argv[]) {
     sem_destroy(&sem_hilos_terminaron);
     sem_destroy(&sem_mutex);
     sem_destroy(&sem_mutex2);
-    destruir_Cola(&tiempo_real);
+    /*destruir_Cola(&tiempo_real);
     destruir_Cola(&usuario);
     for(int i = 0; i < 3; i++) {
         destruir_Cola(&prioridad[i]);
-    }
+    }*/
 
     return 0;
 }
