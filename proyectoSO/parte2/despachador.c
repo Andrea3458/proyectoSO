@@ -14,7 +14,7 @@ Cola prioridad[3];
 pthread_t hilos_de_procesos[1000];
 
 int numImpresoras = 2, numScanner = 1, numModem = 1, numLectoresDVD = 2;
-//sem_t impresora, scanner, modem, lectoresDVD;
+Proceso proc_first;
 sem_t sem_ejecucion, sem_hilos_terminaron, sem_mutex, sem_mutex2;
 
 int segundo_actual = 0, quantum = 0;
@@ -48,7 +48,7 @@ int main (int argc, char *argv[]) {
     //Crea la lista de Procesos
     int cap = leer_archivo_ini(lista_procesos_nombre);
     Proceso proc_sig = lista_procesos[0];
-    Proceso proc_first = lista_procesos[0];
+    proc_first = lista_procesos[0];
     //segundo_actual = proc_sig.tiempo_llegada;
     sem_wait(&sem_mutex2);
 
