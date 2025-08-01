@@ -89,7 +89,6 @@ void* ejecutar_proceso(void* arg) {
 
         if(termino){
             max_hilos_ejecucion--;
-            cont_hilos_ejecucion--;
 
             //Si no esta en cola de usuarios
             if(!estaEnColaDeUsuarios(*proc)){
@@ -97,7 +96,6 @@ void* ejecutar_proceso(void* arg) {
             }
         } else if(i == 19){
             max_hilos_ejecucion--;
-            cont_hilos_ejecucion--;
 
             borrarProcesoDeAcuerdoACola(*proc);
 
