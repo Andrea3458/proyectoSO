@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
-#include "controlrecursos.h"
+#include "control.h"
 #include "cola.h"
 
 extern Cola prioridad[3];
