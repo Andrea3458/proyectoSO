@@ -9,7 +9,7 @@
 
 extern sem_t sem_mutex, sem_mutex2, sem_hilos_terminaron, sem_ejecucion; 
 extern int numImpresoras, numScanner, numModem, numLectoresDVD, cont_hilos_ejecucion, max_hilos_ejecucion, segundo_actual, hay_proceso_en_ejecucion;
-extern Cola tiempo_real, usuario, prioridad[0], prioridad[1], prioridad[2];
+extern Cola tiempo_real, usuario, prioridad[3];
 extern Proceso proc_first;
 
 int adquirir_recursos(Proceso* proc);
