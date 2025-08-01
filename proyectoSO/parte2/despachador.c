@@ -15,7 +15,7 @@ pthread_t hilos_de_procesos[1000];
 
 int numImpresoras = 2, numScanner = 1, numModem = 1, numLectoresDVD = 2;
 //sem_t impresora, scanner, modem, lectoresDVD;
-sem_t sem_ejecucion, sem_hilos_terminaron, sem_mutex;
+sem_t sem_ejecucion, sem_hilos_terminaron, sem_mutex, sem_mutex2;
 
 int segundo_actual = 0, quantum = 0;
 int max_hilos_ejecucion = 0, cont_hilos_ejecucion = 0;
@@ -74,6 +74,7 @@ int main (int argc, char *argv[]) {
     sem_init(&sem_ejecucion, 0, 0);
     sem_init(&sem_hilos_terminaron, 0, 0);
     sem_init(&sem_mutex, 0, 1);
+    sem_init(&sem_mutex2, 0, 1);
     int contador_proceso = 0;
 
     //Crea la lista de Procesos
@@ -85,7 +86,7 @@ int main (int argc, char *argv[]) {
     while(1) {
 
         //printf("UWUUUU\n");
-
+        sem_wait(sem_mutex2);
         //Recibir procesos en el segundo que corresponde y meterlos a sus colas respectivas
         while(proc_sig.tiempo_llegada == segundo_actual) {
             //printf("UWU1\n");
@@ -254,6 +255,12 @@ int main (int argc, char *argv[]) {
             quantum--;
         } 
 
+        sem_post(&sem_mutex2);
+        //Espera a que los hilos entren al for
+        sem_wait(&sem_hilos_terminaron);
+
+        cont_hilos_ejecucion = 0;
+
         sem_wait(&sem_mutex);
         for(int i = 0; i < max_hilos_ejecucion; i++){
             sem_post(&sem_ejecucion);
@@ -284,6 +291,12 @@ int main (int argc, char *argv[]) {
     sem_destroy(&sem_ejecucion);
     sem_destroy(&sem_hilos_terminaron);
     sem_destroy(&sem_mutex);
+    sem_destroy(&sem_mutex2);
+    destruir_Cola(&tiempo_real);
+    destruir_Cola(&usuario);
+    for(int i = 0; i < 3; i++) {
+        destruir_Cola(&prioridad[i]);
+    }
 
     return 0;
 }

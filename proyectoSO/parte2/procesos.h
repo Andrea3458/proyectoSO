@@ -5,7 +5,7 @@
 #include <semaphore.h>
 
 extern int segundo_actual, id_actual, cont_hilos_ejecucion, max_hilos_ejecucion, hay_proceso_en_ejecucion;
-extern sem_t sem_ejecucion, sem_hilos_terminaron, sem_mutex;
+extern sem_t sem_ejecucion, sem_hilos_terminaron, sem_mutex, sem_mutex2;
 
 typedef struct {
     int id;
