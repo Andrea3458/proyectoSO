@@ -111,12 +111,18 @@ void* ejecutar_proceso(void* arg) {
             if(suspendido){
                 hay_proceso_en_ejecucion = 0;
             }
+
+            termino = 1;
         }
 
         seg_temp = segundo_actual;
 
         if(cont_hilos_ejecucion == max_hilos_ejecucion){
             sem_post(&sem_hilos_terminaron);
+        }
+        if(termino){
+            sem_post(&sem_mutex);
+            break;
         }
         
         sem_post(&sem_mutex);
