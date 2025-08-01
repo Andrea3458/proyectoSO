@@ -86,7 +86,7 @@ int main (int argc, char *argv[]) {
     while(1) {
 
         //printf("UWUUUU\n");
-        sem_wait(sem_mutex2);
+        sem_wait(&sem_mutex2);
         //Recibir procesos en el segundo que corresponde y meterlos a sus colas respectivas
         while(proc_sig.tiempo_llegada == segundo_actual) {
             //printf("UWU1\n");
@@ -269,7 +269,7 @@ int main (int argc, char *argv[]) {
         if(proc_first.tiempo_llegada <= segundo_actual){
             //Registrar mensaje
             printf("Segundo %d: ", segundo_actual);
-            sem_wait(sem_mutex2);
+            sem_wait(&sem_mutex2);
             sem_post(&sem_mutex);
             sem_wait(&sem_hilos_terminaron);
         } else {
@@ -279,7 +279,7 @@ int main (int argc, char *argv[]) {
         sem_wait(&sem_mutex);
         cont_hilos_ejecucion = 0;
         sem_post(&sem_mutex2);
-        
+
         if(proc_first.tiempo_llegada <= segundo_actual){
             printf("\n");
         }

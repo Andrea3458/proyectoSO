@@ -39,7 +39,7 @@ void* ejecutar_proceso(void* arg) {
     for (int i = 0; i < 20; i++) {
 
         //Contandor hilos que esperan su tiempo
-        sem_wait(sem_mutex2);
+        sem_wait(&sem_mutex2);
         cont_hilos_ejecucion++;
 
         // Evitar que el mismo proceso acapare el momento de otro proceso
