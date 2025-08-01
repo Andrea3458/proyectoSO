@@ -8,22 +8,29 @@
 #include "cola.h"
 
 extern Cola prioridad[3];
+int segundo_anterior = -1;
 
-void registrar_mensajes (int segundo, int id_proceso, const char *estado) {
-
+void registrar_mensajes (const char *mensaje) {
+    char mensaje_log[256];
     FILE *archivo = fopen("30371074_31532714_31462340.txt","a+");
 
     if(archivo == NULL){
         perror("Error al abrir archivo de log");
         return;
     }
-
-    char mensaje[256];
-    snprintf(mensaje, sizeof(mensaje), "Segundo %d: #%d %s\n", segundo, id_proceso, estado);
-
-    printf("%s", mensaje);
-
-    fprintf(archivo, "%s", mensaje);
+    if(segundo_anterior < 0){
+        fprintf(archivo, "Segundo %d: ", segundo_actual);
+        fputs(mensaje, archivo);
+    }
+    else if(segundo_actual != segundo_anterior && segundo_anterior >= 0){
+        fputs("\n", archivo);
+        fprintf(archivo, "Segundo %d: ", segundo_actual);
+        fputs(mensaje, archivo);
+    }
+    else fputs(mensaje, archivo);
+    
+    segundo_anterior = segundo_actual;
+    
     fclose(archivo);
 }
 
@@ -32,6 +39,7 @@ void* ejecutar_proceso(void* arg) {
     Proceso *proc = (Proceso*)arg;
     
     int empezo = 0, suspendido = 0, termino = 0;
+    char mensaje_log[256];
 
     // CALCULAR TIEMPO INICIAL
     int tiempo_restante = proc->tiempo_procesador;
@@ -60,28 +68,33 @@ void* ejecutar_proceso(void* arg) {
 
             if (tiempo_restante == 0) {
                 printf("#%d END ", proc->id);
-                //registrar_mensajes();
+                snprintf(mensaje_log, sizeof(mensaje_log), "#%d END ", proc->id);
+                registrar_mensajes(mensaje_log);
                 termino = 1;
                 hay_proceso_en_ejecucion = 0; // Solo si este era el proceso en ejecución
             } else if (!empezo) {
                 printf("#%d BEGIN ", proc->id);
-                //registrar_mensajes();
+                snprintf(mensaje_log, sizeof(mensaje_log), "#%d BEGIN ", proc->id);
+                registrar_mensajes(mensaje_log);
                 empezo = 1;
             } else {
                 printf("#%d EXECUTION ", proc->id);
-                //registrar_mensajes();
+                snprintf(mensaje_log, sizeof(mensaje_log), "#%d EXECUTION ", proc->id);
+                registrar_mensajes(mensaje_log);
             }
             tiempo_restante--;
             suspendido = 1; // Está en ejecución o acaba de ejecutar
         } else if (suspendido == 1) { // No es mi turno, y estuve ejecutando
             if (tiempo_restante == 0) {
                 printf("#%d END ", proc->id);
-                //registrar_mensajes();
+                snprintf(mensaje_log, sizeof(mensaje_log), "#%d END ", proc->id);
+                registrar_mensajes(mensaje_log);
                 termino = 1;
                 hay_proceso_en_ejecucion = 0; // Solo si este era el proceso en ejecución
             } else {
                 printf("#%d SUSPENDED ", proc->id);
-                //registrar_mensajes();
+                snprintf(mensaje_log, sizeof(mensaje_log), "#%d SUSPENDED ", proc->id);
+                registrar_mensajes(mensaje_log);
                 suspendido = 0; // Ya no se encuentra en estado de "ejecución actual"
             }
         } 
@@ -101,6 +114,8 @@ void* ejecutar_proceso(void* arg) {
                 borrar_proceso_de_acuerdo_a_cola(*proc);
                 
                 printf("#%d END ", proc->id);
+                snprintf(mensaje_log, sizeof(mensaje_log), "#%d END ", proc->id);
+                registrar_mensajes(mensaje_log);
                 if(suspendido){
                     hay_proceso_en_ejecucion = 0;
                 }

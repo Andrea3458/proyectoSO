@@ -21,7 +21,7 @@ typedef struct {
 
 extern void borrarProcesoDeAcuerdoACola(Proceso p);
 extern int estaEnColaDeUsuarios(Proceso p);
-void registrar_mensajes(int segundo, int id_proceso, const char *estado);
+void registrar_mensajes(const char *estado);
 void* ejecutar_proceso(void* arg);
 
 #endif
