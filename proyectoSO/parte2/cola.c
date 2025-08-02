@@ -64,6 +64,7 @@ Proceso eliminar_proceso(Cola *q) {
     return p;
 }
 
+// Verifica si un proceso esta cola de acuerdo al id
 int esta_proceso_en_la_cola(Cola *q, Proceso p){
     
     if(is_empty(q)){
@@ -80,6 +81,7 @@ int esta_proceso_en_la_cola(Cola *q, Proceso p){
     return 0;
 }
 
+// Elimina proceso de acuerdo a id
 void eliminar_de_cola_proceso_especifico(Cola *q, Proceso p){
 
     if(is_empty(q)){

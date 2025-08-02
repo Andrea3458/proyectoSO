@@ -46,22 +46,25 @@ void* ejecutar_proceso(void* arg) {
 
     for (int i = 0; i < 20; i++) {
 
-        //Contandor hilos que esperan su tiempo
+        //Espera al despachador
         sem_wait(&sem_mutex2);
+        //Contandor hilos que esperan su tiempo
         cont_hilos_ejecucion++;
 
-        // Evitar que el mismo proceso acapare el momento de otro proceso
+        // Si es el último proceso entonces...
         if(cont_hilos_ejecucion == max_hilos_ejecucion){
+            //Liberar al despachador
             sem_post(&sem_hilos_terminaron);
         }
 
         sem_post(&sem_mutex2);
 
+        // Evitar que el mismo proceso acapare el momento de otro proceso
         sem_wait(&sem_ejecucion);
 
         sem_wait(&sem_mutex);
         
-        //printf("Hola soy %d ",proc->id);
+        //printf("ID: %d ",proc->id);
 
         //Si el proceso está ejecutanto, no es su primera vez en ejecucion y todavia le queda tiempo en CPU entonces el proceso muestra
         if (id_actual == proc->id) { // Es mi turno de CPU
@@ -99,8 +102,10 @@ void* ejecutar_proceso(void* arg) {
             }
         } 
 
+        //Contandor hilos que esperan su tiempo
         cont_hilos_ejecucion++;
 
+        //Si termino por el despachador o excedió su tiempo
         if(termino || i == 19){
             max_hilos_ejecucion--;
             cont_hilos_ejecucion--;
@@ -110,12 +115,15 @@ void* ejecutar_proceso(void* arg) {
                 liberar_recursos(proc);
             }
 
+            //Si excedió su tiempo...
             if(i == 19){
                 borrar_proceso_de_acuerdo_a_cola(*proc);
                 
                 printf("#%d END ", proc->id);
                 snprintf(mensaje_log, sizeof(mensaje_log), "#%d END ", proc->id);
                 registrar_mensajes(mensaje_log);
+
+                //Si se encontraba en ejecución
                 if(suspendido){
                     hay_proceso_en_ejecucion = 0;
                 }
@@ -124,9 +132,12 @@ void* ejecutar_proceso(void* arg) {
 
         }
 
+        // Si es el último proceso entonces...
         if(cont_hilos_ejecucion == max_hilos_ejecucion){
+            //Libera el despachador
             sem_post(&sem_hilos_terminaron);
         }
+        
         if(termino){
             sem_post(&sem_mutex);
             break;

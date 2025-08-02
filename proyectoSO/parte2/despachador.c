@@ -49,15 +49,12 @@ int main (int argc, char *argv[]) {
     int cap = leer_archivo_ini(lista_procesos_nombre);
     Proceso proc_sig = lista_procesos[0];
     proc_first = lista_procesos[0];
-    //segundo_actual = proc_sig.tiempo_llegada;
     sem_wait(&sem_mutex2);
 
     while(1) {
 
-        //printf("UWUUUU\n");
         //Recibir procesos en el segundo que corresponde y meterlos a sus colas respectivas
         while(proc_sig.tiempo_llegada == segundo_actual) {
-            //printf("UWU1\n");
 
             Proceso *proc_temp = malloc(sizeof(Proceso));
             *proc_temp = proc_sig;
@@ -72,7 +69,6 @@ int main (int argc, char *argv[]) {
 
             //Crear Proceso || Contador en tiempo del proceso en SO
             pthread_create(&hilos_de_procesos[proc_temp->id], NULL, ejecutar_proceso, proc_temp);
-            //pthread_detach(hilos_de_procesos[proc_temp->id]);
             
             contador_proceso++;
             max_hilos_ejecucion++;
@@ -87,7 +83,6 @@ int main (int argc, char *argv[]) {
         Proceso proc;
         // Si la cola de tiempo real no esta vacia y el proceso en ejecucion no es tiempo real entonces...
         if(!is_empty(&tiempo_real) && hay_proceso_en_ejecucion != 1){
-            //printf("UWU2\n");
 
             //Si hay un proceso de usuario
             if(hay_proceso_en_ejecucion == 2){
@@ -111,7 +106,6 @@ int main (int argc, char *argv[]) {
         //  Ejecutar procesos de usuario
         // Si las colas de tiempo usuario no estan vacias y el proceso en ejecucion no es tiempo real entonces...
         } else if (!is_empty(&usuario) && hay_proceso_en_ejecucion != 1){
-            //printf("UWU3\n");
             
             int tamano_temp = usuario.tamano_actual;
 
@@ -119,11 +113,10 @@ int main (int argc, char *argv[]) {
             for(int i = 0; i < tamano_temp; i++){
 
                 proc = eliminar_proceso(&usuario);
-                //printf("ID PROCESO A ELIMINAR: %d\n",proc.id);
+                //Verifica Recursos
                 if(adquirir_recursos(&proc)) {
                 
                 agregar_proceso(&prioridad[proc.prioridad-1], proc);
-                
 
                 } else {
                     // Si no hay recursos, volver a encolar
@@ -133,6 +126,7 @@ int main (int argc, char *argv[]) {
 
             }
 
+            //Elegir el de cola de prioridad màs alta
             if(!is_empty(&prioridad[0])){
                 proc = eliminar_proceso(&prioridad[0]);
             } else if(!is_empty(&prioridad[1])) {
@@ -155,25 +149,26 @@ int main (int argc, char *argv[]) {
                 agregar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1], lista_procesos[id_actual]);
 
                 //Actualiza id
-                
                 id_actual = proc.id;
+
+            //Si no hay proceso en ejecución actualmente
             } else if(hay_proceso_en_ejecucion == 0){
                 quantum = 0;
                 esPrimeraVez = 1;
                 id_actual = proc.id;
             }
 
-            //printf("ID: %d HAY: %d\n",id_actual, hay_proceso_en_ejecucion);
             hay_proceso_en_ejecucion = 2;
+
+        //Si no hay proceso en ejecucion, todas las colas están vacías y el primer proceso ya llegó al sistema entonces...
         } else if(hay_proceso_en_ejecucion == 0 && is_empty(&tiempo_real) && is_empty(&usuario) && is_empty(&prioridad[0]) && is_empty(&prioridad[1]) && is_empty(&prioridad[2]) && proc_first.tiempo_llegada <= contador_proceso){
             break;
         }
 
-        //printf("ID ACTUAL: %d, HAY PROCESO EN EJECUCION: %d, QUANTUM: %d\n",id_actual, hay_proceso_en_ejecucion, quantum);
-
-        //Verificar Quantums
+        //Verificar Quantums y supervisar colas de usuario
         if(hay_proceso_en_ejecucion != 1 && (!is_empty(&prioridad[0]) || !is_empty(&prioridad[1]) || !is_empty(&prioridad[2]))){
 
+            //Si no hay proceso actual en ejecución...
             if(hay_proceso_en_ejecucion == 0){
                 if(!is_empty(&prioridad[0])){
                     proc = eliminar_proceso(&prioridad[0]);
@@ -188,13 +183,15 @@ int main (int argc, char *argv[]) {
                 id_actual = proc.id;
             }
 
+            //Lógica del quantum
             if(quantum == 0){
                 if(!esPrimeraVez){
 
+                    //Si la cola actual no está vacia entonces...
                     if(!is_empty(&prioridad[lista_procesos[id_actual].prioridad-1])){
                         proc = eliminar_proceso(&prioridad[lista_procesos[id_actual].prioridad-1]);
 
-                        //Se reduce si se puede
+                        //Se reduce si se puede...
                         if(lista_procesos[id_actual].prioridad != 3){ 
                             lista_procesos[id_actual].prioridad++; 
                         }
@@ -208,6 +205,7 @@ int main (int argc, char *argv[]) {
 
                 esPrimeraVez = 0;
 
+                //Selecciona de acuerdo a prioridad
                 switch(proc.prioridad) {
                     case 1: quantum = 4; break;
                     case 2: quantum = 3; break;
@@ -219,10 +217,10 @@ int main (int argc, char *argv[]) {
             quantum--;
         }
 
+        //Lógica semáforos
         control_semaforos();
-        sleep(1);
-
-        //printf("TR: %d U: %d, P0: %d P1: %d P2: %d Hay: %d ID: %d\n",is_empty(&tiempo_real), is_empty(&usuario), is_empty(&prioridad[0]), is_empty(&prioridad[1]), is_empty(&prioridad[2]), hay_proceso_en_ejecucion, id_actual);
+        //SIMULACIÓN DE LOS SEGUNDOS
+        sleep(1); /**/
         
     }
 
@@ -231,11 +229,6 @@ int main (int argc, char *argv[]) {
     sem_destroy(&sem_hilos_terminaron);
     sem_destroy(&sem_mutex);
     sem_destroy(&sem_mutex2);
-    /*destruir_Cola(&tiempo_real);
-    destruir_Cola(&usuario);
-    for(int i = 0; i < 3; i++) {
-        destruir_Cola(&prioridad[i]);
-    }*/
 
     return 0;
 }

@@ -70,36 +70,50 @@ void borrar_proceso_de_acuerdo_a_cola(Proceso p){
     }
 }
 
+// Lógica semáforos
 void control_semaforos(){
+    //Libera mutex2 para que los procesos avisen si llegaron entraron al for
     sem_post(&sem_mutex2);
-    //Espera a que los hilos entren al for
+
+    //EVITAR INTERBLOQUEO SI NO EXISTEN PROCESOS
     if(proc_first.tiempo_llegada <= segundo_actual){
+        //Espera a que los procesos entren al for
         sem_wait(&sem_hilos_terminaron);
     }
 
     cont_hilos_ejecucion = 0;
 
+    //Pide el mutex antes que los procesos
     sem_wait(&sem_mutex);
+    //Libera cada proceso bloqueado
     for(int i = 0; i < max_hilos_ejecucion; i++){
         sem_post(&sem_ejecucion);
     }
 
+    //Pide el mutex2 antes que los procesos, para evitar que un proceso acapare el tiempo de otro
     sem_wait(&sem_mutex2);
+
+    //EVITAR INTERBLOQUEO SI NO EXISTEN PROCESOS
     if(proc_first.tiempo_llegada <= segundo_actual){
-        //Registrar mensaje
         printf("Segundo %d: ", segundo_actual);
+
+        //Libera mutex ahora sí
         sem_post(&sem_mutex);
+        //Se bloquea para esperar a todos los procesos
         sem_wait(&sem_hilos_terminaron);
     } else {
         sem_post(&sem_mutex);
     }
 
+    //Pide mutex
     sem_wait(&sem_mutex);
     cont_hilos_ejecucion = 0;
 
     if(proc_first.tiempo_llegada <= segundo_actual){
         printf("\n");
     }
+    //Actualiza seg actual
     segundo_actual++;
+    //Libera mutex
     sem_post(&sem_mutex);
 }
