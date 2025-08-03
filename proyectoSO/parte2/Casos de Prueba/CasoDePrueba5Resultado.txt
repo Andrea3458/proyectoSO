@@ -17,13 +17,4 @@ Segundo 16: #4 END
 Segundo 17: #0 EXECUTION 
 Segundo 18: #0 EXECUTION 
 Segundo 19: #0 END 
-Segundo 20: #2 END #1 EXECUTION #1 END Segundo 0: #0 BEGIN 
-Segundo 1: #0 EXECUTION 
-Segundo 2: #0 EXECUTION 
-Segundo 3: #0 EXECUTION 
-Segundo 4: #0 END 
-Segundo 5: #1 BEGIN 
-Segundo 6: #1 EXECUTION 
-Segundo 7: #1 EXECUTION 
-Segundo 8: #1 EXECUTION 
-Segundo 9: #1 END 
+Segundo 20: #2 END #1 EXECUTION #1 END 

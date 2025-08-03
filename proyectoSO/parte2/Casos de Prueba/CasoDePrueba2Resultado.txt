@@ -1,0 +1,12 @@
+Segundo 1: #0 BEGIN 
+Segundo 2: #0 EXECUTION 
+Segundo 3: #0 EXECUTION 
+Segundo 4: #0 EXECUTION 
+Segundo 5: #0 SUSPENDED #1 BEGIN 
+Segundo 6: #1 EXECUTION 
+Segundo 7: #1 EXECUTION 
+Segundo 8: #1 EXECUTION 
+Segundo 9: #1 EXECUTION 
+Segundo 10: #1 END 
+Segundo 11: #0 EXECUTION 
+Segundo 12: #0 END 
