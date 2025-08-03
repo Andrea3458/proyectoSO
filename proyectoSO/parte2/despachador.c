@@ -172,7 +172,7 @@ int main (int argc, char *argv[]) {
         if(hay_proceso_en_ejecucion != 1 && (!is_empty(&prioridad[0]) || !is_empty(&prioridad[1]) || !is_empty(&prioridad[2]))){
 
             //Si no hay proceso actual en ejecución...
-            if(!seleccionado_antes && quantum == 0 && !esPrimeraVez){
+            if(hay_proceso_en_ejecucion == 0){
                 if(!is_empty(&prioridad[0])){
                     proc = eliminar_proceso(&prioridad[0]);
                 } else if(!is_empty(&prioridad[1])) {
