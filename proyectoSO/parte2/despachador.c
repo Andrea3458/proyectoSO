@@ -20,7 +20,7 @@ sem_t sem_ejecucion, sem_hilos_terminaron, sem_mutex, sem_mutex2;
 int segundo_actual = 0, quantum = 0;
 int max_hilos_ejecucion = 0, cont_hilos_ejecucion = 0;
 int id_actual = -1;
-int hay_proceso_en_ejecucion = 0, esPrimeraVez = 1, seleccionado_antes = 0;
+int hay_proceso_en_ejecucion = 0, esPrimeraVez = 1;
 
 int main (int argc, char *argv[]) {
 
@@ -161,7 +161,6 @@ int main (int argc, char *argv[]) {
             }
 
             hay_proceso_en_ejecucion = 2;
-            seleccionado_antes = 1;
 
         //Si no hay proceso en ejecucion, todas las colas están vacías y el primer proceso ya llegó al sistema entonces...
         } else if(hay_proceso_en_ejecucion == 0 && is_empty(&tiempo_real) && is_empty(&usuario) && is_empty(&prioridad[0]) && is_empty(&prioridad[1]) && is_empty(&prioridad[2]) && proc_first.tiempo_llegada <= contador_proceso){
@@ -219,8 +218,7 @@ int main (int argc, char *argv[]) {
 
             quantum--;
         }
-        seleccionado_antes = 0;
-        printf("CantidadPri2: %d, CantidadUsuario: %d, HAY: %d, id: %d\n",prioridad[2].tamano_actual, usuario.tamano_actual, hay_proceso_en_ejecucion, id_actual);
+        //printf("CantidadPri2: %d, CantidadUsuario: %d, HAY: %d, id: %d\n",prioridad[2].tamano_actual, usuario.tamano_actual, hay_proceso_en_ejecucion, id_actual);
 
         //Lógica semáforos
         control_semaforos();
