@@ -1,12 +1,49 @@
 Segundo 1: #0 BEGIN 
-Segundo 2: #0 EXECUTION 
-Segundo 3: #0 EXECUTION 
-Segundo 4: #0 EXECUTION 
-Segundo 5: #0 EXECUTION 
-Segundo 6: #0 END 
-Segundo 7: #1 BEGIN 
-Segundo 8: #1 EXECUTION 
-Segundo 9: #1 EXECUTION 
-Segundo 10: #1 EXECUTION 
-Segundo 11: #1 EXECUTION 
-Segundo 12: #1 END 
+Segundo 2: #0 END 
+Segundo 3: #1 BEGIN 
+Segundo 4: #1 EXECUTION 
+Segundo 5: #1 END 
+Segundo 6: #7 BEGIN 
+Segundo 7: #7 END 
+Segundo 8: #12 BEGIN 
+Segundo 9: #12 END 
+Segundo 10: #18 BEGIN 
+Segundo 11: #18 EXECUTION 
+Segundo 12: #18 EXECUTION 
+Segundo 13: #18 END 
+Segundo 14: #2 BEGIN 
+Segundo 15: #2 EXECUTION 
+Segundo 16: #2 EXECUTION 
+Segundo 17: #2 EXECUTION 
+Segundo 18: #5 BEGIN #2 SUSPENDED 
+Segundo 19: #5 EXECUTION 
+Segundo 20: #3 END #4 END #2 END #5 END 
+Segundo 21: #10 BEGIN #6 END 
+Segundo 22: #10 EXECUTION #8 END 
+Segundo 23: #10 END #10 END #9 END #11 END 
+Segundo 24: #13 END #14 END #23 BEGIN 
+Segundo 25: #15 END #16 END #23 EXECUTION #17 END 
+Segundo 26: #19 END #23 END 
+Segundo 27: #21 END #22 END #26 BEGIN #20 END 
+Segundo 28: #24 END #26 EXECUTION 
+Segundo 29: #25 END #28 END #27 END #26 EXECUTION #26 END 
+Segundo 30: #30 END #34 BEGIN #29 END 
+Segundo 31: #33 END #34 EXECUTION #32 END #31 END 
+Segundo 32: #35 END #34 EXECUTION #34 END 
+Segundo 33: #39 BEGIN #37 END #36 END 
+Segundo 34: #38 END #39 EXECUTION 
+Segundo 35: #40 END #39 EXECUTION #39 END 
+Segundo 36: #41 END #42 BEGIN 
+Segundo 37: #43 END #42 EXECUTION #42 END 
+Segundo 38: #48 BEGIN #44 END 
+Segundo 39: #45 END #48 EXECUTION 
+Segundo 40: #46 BEGIN #48 SUSPENDED 
+Segundo 41: #46 EXECUTION #46 END 
+Segundo 42: #50 BEGIN 
+Segundo 43: #47 END #50 EXECUTION 
+Segundo 44: #50 SUSPENDED #49 BEGIN 
+Segundo 45: #49 EXECUTION #48 END 
+Segundo 46: #49 SUSPENDED #50 EXECUTION 
+Segundo 47: #50 EXECUTION #49 END 
+Segundo 48: #50 EXECUTION 
+Segundo 49: #50 EXECUTION #50 END 
