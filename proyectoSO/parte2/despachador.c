@@ -126,15 +126,17 @@ int main (int argc, char *argv[]) {
 
             }
 
-            //Elegir el de cola de prioridad màs alta
-            if(!is_empty(&prioridad[0])){
-                proc = eliminar_proceso(&prioridad[0]);
-            } else if(!is_empty(&prioridad[1])) {
-                proc = eliminar_proceso(&prioridad[1]);
-            } else if(!is_empty(&prioridad[2])){
-                proc = eliminar_proceso(&prioridad[2]);
-            } else if(id_actual != -1){
-                proc = lista_procesos[id_actual];
+            //Elegir el de cola de prioridad más alta
+            if(hay_proceso_en_ejecucion == 0 || (hay_proceso_en_ejecucion == 2 && lista_procesos[id_actual].prioridad > proc.prioridad)){
+                if(!is_empty(&prioridad[0])){
+                    proc = eliminar_proceso(&prioridad[0]);
+                } else if(!is_empty(&prioridad[1])) {
+                    proc = eliminar_proceso(&prioridad[1]);
+                } else if(!is_empty(&prioridad[2])){
+                    proc = eliminar_proceso(&prioridad[2]);
+                } else if(id_actual != -1){
+                    proc = lista_procesos[id_actual];
+                }
             }
 
             //Si hay un proceso de usuario y el proceso en cola es inferior al actual entonces decrementa la prioridad
