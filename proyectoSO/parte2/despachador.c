@@ -218,7 +218,7 @@ int main (int argc, char *argv[]) {
             quantum--;
         }
         seleccionado_antes = 0;
-        printf("Cantidad: %d\n",prioridad[2].tamano_actual);
+        printf("Cantidad: %d, HAY: %d\n",prioridad[2].tamano_actual, hay_proceso_en_ejecucion);
 
         //Lógica semáforos
         control_semaforos();
