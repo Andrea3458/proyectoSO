@@ -16,7 +16,6 @@ typedef struct {
     int num_scanners;
     int num_modems;
     int num_DVDs;
-    int tiempo_ejecutado;
 } Proceso;
 
 extern void borrarProcesoDeAcuerdoACola(Proceso p);
